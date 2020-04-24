@@ -1,6 +1,6 @@
 <?php
 
-use App\Database\Migrations\Migration;
+use App\Support\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreateUsersTable extends Migration

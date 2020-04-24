@@ -1,6 +1,6 @@
 <?php
 
-use App\Database\Migrations\Migration;
+use App\Support\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class CreatePermissionsTable extends Migration
@@ -14,7 +14,7 @@ class CreatePermissionsTable extends Migration
         });
 
         $this->connection->statement("
-            INSERT INTO `permissions` (`id`, `description`, `module`) VALUES
+            INSERT INTO permissions (id, description, module) VALUES
                 ('systems.show', 'View systems', 'Systems'),
                 ('systems.create', 'Create systems', 'Systems'),
                 ('systems.edit', 'Edit systems', 'Systems'),

@@ -33,7 +33,7 @@ return [
         'seeds' => __DIR__ . '/database/seeds',
     ],
 
-    'migration_base_class' => App\Database\Migrations\Migration::class,
+    'migration_base_class' => App\Support\Database\Migrations\Migration::class,
 
     'templates' => [
         'file' => __DIR__ . '/app/Database/Migrations/Migration.stub'

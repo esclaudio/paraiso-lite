@@ -117,6 +117,15 @@ $container['pdo'] = function ($c) {
         );
     }
 
+    if ($settings['driver'] === 'pgsql') {
+        return new PDO('pgsql:host=' . $settings['host'] . ';dbname=' . $settings['database'],
+            $settings['username'],
+            $settings['password'], [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            ]
+        );
+    }
+
     return null;
 };
 
