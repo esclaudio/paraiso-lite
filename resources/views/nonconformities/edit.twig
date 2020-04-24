@@ -3,7 +3,8 @@
 {% block js %}
     <script>
         $(function() {
-            App.initForm();
+            $('#form').ajaxForm();
+            $('#form').find('.input-group.date').datepicker();
         });
     </script>
 {% endblock %}

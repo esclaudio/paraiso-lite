@@ -70,22 +70,6 @@
     // Moment
 
     moment.locale(App.settings.lang);
-
-    // Daterangepicker
-
-    $.fn.daterangepicker.defaultOptions = {
-        applyButtonClasses: 'btn-primary',
-        cancelClass: 'btn-secondary',
-        locale: {
-            format: 'DD/MM/YYYY',
-            separator: ' - ',
-            applyLabel: 'Aplicar',
-            cancelLabel: 'Cancelar',
-            fromLabel: 'Desde',
-            toLabel: 'Hasta',
-            customRangeLabel: 'Personalizado',
-        },
-    };
 </script>
 
 <script src="{{ base_url() }}/js/app.{{ constant('APP_VERSION') }}.min.js"></script>
