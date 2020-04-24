@@ -1,0 +1,74 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('#table').DataTable({
+                ajax: '{{ path_for('processes.datatable') }}',
+                serverSide: true,
+                order: [[ 0, "asc"]],
+                columns: [
+                    { 
+                        data: 'name',
+                        name: 'processes.name',
+                    },
+                    { 
+                        data: 'is_active',
+                        name: 'processes.is_active',
+                        className: 'text-center',
+                        render: function (data, type, row, meta) {
+                            if (type == 'display') {
+                                if (data == '1') {
+                                    return '<div class="badge badge-success">{{ __('Active') }}</div>';
+                                }
+
+                                return '<div class="badge badge-secondary">{{ __('Inactive') }}</div>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'id',
+                        name: 'processes.id',
+                        className: 'text-right',
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                return '<a href="' + row.show_url + '" class="btn btn-secondary">{{ __('Show') }}</a>';
+                            }
+
+                            return data;
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Processes') }}
+            <div>
+                {% if auth.user.can('processes.create') %}
+                    <a href="{{ path_for('processes.create') }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        {{ __('Create') }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="table" class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Status') }}</th>
+                        <th width="20px" class="text-right"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endblock %}

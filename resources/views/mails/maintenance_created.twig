@@ -1,0 +1,20 @@
+<p>
+    ¡Hola {{ maintenance.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignada una nueva orden de mantenimiento:
+</p>
+
+<ul>
+    <li>Número: {{ maintenance.code }}</li>
+    <li>Equipo: {{ maintenance.equipment.full_description }}</li>
+    <li>Tarea: {{ maintenance.description }}</li>
+    <li>Vencimiento: {{ maintenance.due_date|date() }}</li>
+    <li>Creó: {{ maintenance.createdBy.name }}</li>
+    <li>Observaciones: {{ maintenance.observations|nl2br ?: '-' }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('maintenance.view', {maintenance: maintenance.id}) }}">
+    Mostrar
+</a>

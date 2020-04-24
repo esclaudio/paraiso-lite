@@ -1,0 +1,122 @@
+<div class="form-group">
+    <label for="system_id">
+        {{ __('System') }}
+    </label>
+    <select id="system_id" name="system_id" class="custom-select" required autofocus>
+        <option disabled {{ not indicator ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in systems %}
+            <option value="{{ k }}" {{ indicator.system_id == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="process_id">
+        {{ __('Process') }}
+    </label>
+    <select id="process_id" name="process_id" class="custom-select" required autofocus>
+        <option disabled {{ not indicator ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in processes %}
+            <option value="{{ k }}" {{ indicator.process_id == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="name">
+        {{ __('Name') }}
+    </label>
+    <input type="text" id="name" name="name" value="{{ indicator.name }}" class="form-control" required>
+</div>
+
+<div class="form-group">
+    <label for="responsible_id">
+        {{ __('Responsible') }}
+    </label>
+    <select id="responsible_id" name="responsible_id" class="custom-select" required>
+        <option disabled {{ not indicator ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in users %}
+            <option value="{{ k }}" {{ indicator.responsible_id == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="frequency">
+        {{ __('Frequency') }}
+    </label>
+    <div class="input-group">
+        <input type="text" id="frequency" name="frequency" value="{{ indicator.frequency }}" class="form-control text-right" required>
+        <div class="input-group-append">
+            <span class="input-group-text">
+                {{ __('Month(s)') }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="decimals">
+        {{ __('Decimals') }}
+    </label>
+    <select id="decimals" name="decimals" class="custom-select" required>
+        <option disabled {{ not indicator ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in decimals %}
+            <option value="{{ k }}" {{ indicator.decimals == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="unit">
+        {{ __('Unit') }}
+    </label>
+    <input type="text" id="unit" name="unit" value="{{ indicator.unit }}" class="form-control" required>
+</div>
+
+{% if not indicator.id %}
+    <div class="form-group">
+        <label for="start_date">
+            {{ __('Start date') }}
+        </label>
+        <div class="input-group date">
+            <input type="text" name="start_date" class="form-control" required>
+            <div class="input-group-append input-group-addon">
+                <div class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ indicator.id ? __('Update') : __('Save') }}
+</button>
+
+{% if indicator.id %}
+    <a href="{{ path_for('indicators.show', {indicator: indicator.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('indicators.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

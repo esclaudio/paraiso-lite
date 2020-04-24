@@ -1,0 +1,23 @@
+<!-- Static navbar -->
+<nav class="navbar navbar-expand-md navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path_for('home') }}">
+            <img src="{{ base_url() }}/storage/logo.png" height="30" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% if auth.check %}
+                <ul class="navbar-nav mr-auto">
+                    {% include 'layouts/partials/menu_left.twig' with {menu: menu} only %}
+                </ul>
+
+                <ul class="navbar-nav">
+                    {% include 'layouts/partials/menu_right.twig'%}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>

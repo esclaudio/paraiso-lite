@@ -1,0 +1,59 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('#table').DataTable({
+                ajax: '{{ path_for('nonconformities.datatable') }}',
+                serverSide: true,
+                order: [[ 0, "asc"]],
+                columns: [
+                    { 
+                        data: 'description',
+                        name: 'nonconformities.description',
+                    },
+                    {
+                        data: 'id',
+                        name: 'nonconformities.id',
+                        className: 'text-right',
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                return '<a href="' + row.show_url + '" class="btn btn-secondary">{{ __('Show') }}</a>';
+                            }
+
+                            return data;
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Non Conformities') }}
+            <div>
+                {% if auth.user.can('nonconformities.create') %}
+                    <a href="{{ path_for('nonconformities.create') }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        {{ __('Create') }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="table" class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>{{ __('Description') }}</th>
+                        <th width="20px" class="text-right"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endblock %}

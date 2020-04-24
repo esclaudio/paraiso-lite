@@ -1,0 +1,16 @@
+<p>
+    ¡Hola {{ version.document.responsible.firstname }}!
+</p>
+
+<p>
+    Se publicó una nueva versión del documento:
+</p>
+
+<ul>
+    <li>Documento: {{ version.document.full_title }}</li>
+    <li>Versión: {{ version.version }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('document.view', {document: version.document.id}) }}">
+    Ir al documento
+</a>

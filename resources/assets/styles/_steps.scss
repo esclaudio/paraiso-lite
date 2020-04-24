@@ -1,0 +1,109 @@
+$step-complete: $success;
+$step-active:   $primary;
+$step-danger:   $danger;
+$step-mute:     $gray-300;
+
+.steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    color: darken($step-mute, 33%);
+
+    > li {
+        position: relative;
+        display: table-cell;
+        text-align: center;
+        font-size: 0.8em;
+
+        &:before {
+            font-family: FontAwesome;
+            content: '\00a0';
+            display: block;
+            margin: 0 auto;
+            background: $step-mute;
+            width: 2.5em;
+            height: 2.5em;
+            text-align: center; //IE8 doesn't inherit this style
+            margin-bottom: 0.25em;
+            line-height: 2.5em;
+            border-radius: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            display: block;
+            background: $step-mute;
+            width: 100%;
+            height: 0.25em;
+            top: 1.3em;
+            left: 50%;
+            z-index: 0;
+        }
+
+        &:last-child:after {
+            display: none;
+        }
+
+        &.step-complete {
+            color: $step-active;
+
+            &:after {
+                background: $step-active;
+            }
+
+            &:before {
+                content: '\f00c';
+                color: #fff;
+                background: $step-active;
+            }
+        }
+
+        &.step-active {
+            color: $step-active;
+
+            &:before {
+                content: '\f041';
+                color: $step-active;
+                background: #fff;
+                border: 2px solid $step-active;
+            }
+        }
+
+        &.step-danger {
+            color: $step-danger;
+
+            &:before {
+                content: '\f12a';
+                color: $step-danger;
+                background: #fff;
+                border: 2px solid $step-danger;
+            }
+        }
+
+        &.step-ok {
+            color: $step-complete;
+
+            &:before {
+                content: '\f164';
+                color: #fff;
+                background: $step-complete;
+            }
+        }
+
+        &.step-notok {
+            color: $step-danger;
+
+            &:before {
+                content: '\f165';
+                color: #fff;
+                background: $step-danger;
+            }
+        }
+    }
+}

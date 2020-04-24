@@ -1,0 +1,41 @@
+<strong>{{ __('Name') }}</strong><br>
+<p>{{ user.name }}</p>
+
+<strong>{{ __('Username') }}</strong><br>
+<p>{{ user.username }}</p>
+
+<strong>{{ __('Email') }}</strong><br>
+<p>{{ user.email ?: '-' }}</p>
+
+<strong>{{ __('Language') }}</strong><br>
+<p>{{ user.language }}</p>
+
+<strong>{{ __('Roles') }}</strong><br>
+<p>
+    {% if user.is_admin %}
+        <span class="badge badge-danger">{{ __('Administrator') }}</span>
+    {% endif %}
+
+    {% if not user.roles is empty %}
+        {{ user.roles.implode('name', ', ') }}
+    {% endif %}
+</p>
+
+<strong>{{ __('Status') }}</strong><br>
+<p>
+    {% if user.is_active %}
+        <span class="badge badge-success">
+            {{ __('Active') }}
+        </span>
+    {% else %}
+        <div class="badge badge-secondary">
+            {{ __('Inactive') }}
+        </div>
+    {% endif %}
+</p>
+
+<strong>{{ __('Created') }}</strong><br>
+<p>{{ model.created_at|date() }}</p>
+
+<strong>{{ __('Updated') }}</strong><br>
+<p>{{ model.updated_at|date() }}</p>

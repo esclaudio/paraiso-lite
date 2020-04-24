@@ -1,0 +1,64 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('#table').DataTable({
+                ajax: '{{ path_for('products.datatable') }}',
+                serverSide: true,
+                order: [[ 0, "asc"]],
+                columns: [
+                    { 
+                        data: 'code',
+                        name: 'products.description',
+                    },
+                    { 
+                        data: 'description',
+                        name: 'products.description',
+                    },
+                    {
+                        data: 'id',
+                        name: 'products.id',
+                        className: 'text-right',
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                return '<a href="' + row.show_url + '" class="btn btn-secondary">{{ __('Show') }}</a>';
+                            }
+
+                            return data;
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Products/Services') }}
+            <div>
+                {% if auth.user.can('products.create') %}
+                    <a href="{{ path_for('products.create') }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        {{ __('Create') }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="table" class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>{{ __('Code') }}</th>
+                        <th>{{ __('Description') }}</th>
+                        <th width="20px" class="text-right"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endblock %}

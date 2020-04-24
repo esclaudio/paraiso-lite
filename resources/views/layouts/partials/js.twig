@@ -1,0 +1,91 @@
+<!-- Vendor -->
+<script src="{{ base_url() }}/js/vendor.{{ constant('APP_VERSION') }}.min.js"></script>
+
+<!-- TinyMCE -->
+<script src="{{ base_url() }}/vendor/tinymce/tinymce.min.js"></script>
+
+<!-- Application -->
+<script>
+    var App = App || {};
+
+    // Language
+
+    var lang = 'en';
+
+    switch ("{{ auth.user.language }}") {
+        case 'es':
+        case 'es_AR':
+            lang = 'es';
+            break;
+        case 'pt':
+        case 'pt_BR':
+            lang = 'pt';
+            break;
+        default:
+            lang = 'en';
+    }
+
+    // App
+
+    App = {
+        basePath: '{{ base_url() }}',
+        settings: {
+            minAnswers: {{ constant('MIN_ANSWERS') }},
+            lang: lang,
+        },
+        csrf: {
+            '{{ csrf.tokenNameKey }}': '{{ csrf.tokenName }}',
+            '{{ csrf.tokenValueKey }}': '{{ csrf.tokenValue }}',
+        },
+    };
+
+    // Datatables
+
+    $.extend($.fn.dataTable.defaults, {
+        language: {
+            url: '{{ base_url() }}/vendor/datatables/lang/' + App.settings.lang + '.json'
+        },
+        lengthMenu: [ 10, 50, 100 ],
+        pageLength: 10,
+        processing: true,
+        autoWidth: false,
+        dom: '<"row"<"col-sm-12"f>>tr<"row"<"col-sm-12"p>>',
+    });
+
+    // Datepicker
+
+    $.extend($.fn.datepicker.defaults, {
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayBtn: "linked",
+        todayHighlight: true,
+        language: App.settings.lang,
+        assumeNearbyYear: true,
+    });
+
+    // Dropzone
+
+    Dropzone.autoDiscover = false;
+
+    // Moment
+
+    moment.locale(App.settings.lang);
+
+    // Daterangepicker
+
+    $.fn.daterangepicker.defaultOptions = {
+        applyButtonClasses: 'btn-primary',
+        cancelClass: 'btn-secondary',
+        locale: {
+            format: 'DD/MM/YYYY',
+            separator: ' - ',
+            applyLabel: 'Aplicar',
+            cancelLabel: 'Cancelar',
+            fromLabel: 'Desde',
+            toLabel: 'Hasta',
+            customRangeLabel: 'Personalizado',
+        },
+    };
+</script>
+
+<script src="{{ base_url() }}/js/app.{{ constant('APP_VERSION') }}.min.js"></script>

@@ -1,0 +1,59 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('#table').DataTable({
+                ajax: '{{ path_for('systems.datatable') }}',
+                serverSide: true,
+                order: [[ 0, "asc"]],
+                columns: [
+                    { 
+                        data: 'name',
+                        name: 'systems.name',
+                    },
+                    {
+                        data: 'id',
+                        name: 'systems.id',
+                        className: 'text-right',
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                return '<a href="' + row.show_url + '" class="btn btn-secondary">{{ __('Show') }}</a>';
+                            }
+
+                            return data;
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Systems') }}
+            <div>
+                {% if auth.user.can('systems.create') %}
+                    <a href="{{ path_for('systems.create') }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i>
+                        {{ __('Create') }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="table" class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>{{ __('Name') }}</th>
+                        <th width="20px" class="text-right"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endblock %}

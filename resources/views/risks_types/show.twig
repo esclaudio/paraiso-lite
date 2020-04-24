@@ -1,0 +1,40 @@
+{% extends 'layouts/app.twig' %}
+
+{% set can_delete = auth.user.can('delete', risk_type) %}
+{% set can_edit = auth.user.can('edit', risk_type) %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Showing Risks Type') }}
+            <div>
+                <a href="{{ path_for('risks_types.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-table"></i>
+                    {{ __('All Risks Types') }}
+                </a>
+
+                {% if can_edit %}
+                    <a href="{{ path_for('risks_types.edit', {risk_type: risk_type.id}) }}" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                        {{ __('Edit') }}
+                    </a>
+                {% endif %}
+                
+                {% if can_delete %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
+                        <i class="fa fa-trash"></i>
+                        {{ __('Delete') }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% include 'risks_types/partials/details.twig' %}
+            {% include 'layouts/helpers/audit.twig' with {model: risk_type} %}
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    {% if can_delete %}
+        {% include 'risks_types/partials/modal_delete.twig' %}
+    {% endif %}
+{% endblock %}

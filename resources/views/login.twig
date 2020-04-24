@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ app_name }}</title>
+        {% include 'layouts/partials/js.twig' %}
+        {% include 'layouts/partials/css.twig' %}
+        <style>
+            .login,
+            .image {
+                min-height: 100vh;
+            }
+
+            .bg-image {
+                background-image: url('https://source.unsplash.com/LsPVs1ho8qw');
+                background-size: cover;
+                background-position: center;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                box-sizing: border-box;
+                height: auto;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .form-signin .form-control:focus {
+                z-index: 2;
+            }
+
+            .form-signin input[name="username"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[name="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="d-none d-md-flex col-md-4 col-lg-7 bg-image"></div>
+                <div class="col-md-8 col-lg-5">
+                    <div class="login d-flex align-items-center py-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-9 col-lg-8 mx-auto text-center">
+                                    <div class="mb-4">
+                                        <img alt="Logo" src="{{ base_url() }}/storage/logo.png">
+                                    </div>
+                                    
+                                    {% include 'layouts/partials/flash.twig' %}
+
+                                    <form action="{{ path_for('login') }}" method="post" class="form-signin">
+                                        {{ csrf_field() }}
+
+                                        <label class="sr-only" for="username">
+                                            {{ __('Username') }}
+                                        </label>
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="{{ __('Username') }}" required autofocus>
+                                    
+                                        <label class="sr-only" for="password">
+                                            {{ __('Password') }}
+                                        </label>
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="{{ __('Password') }}" required>
+                                        
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="remember" name="remember" value="1">
+                                                <label class="custom-control-label" for="remember">
+                                                    {{ __('Remember Me') }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">
+                                            {{ __('Login') }}
+                                        </button>
+                                    </form>
+
+                                    <p class="mt-5 mb-3 text-muted">
+                                        {{ app_name|upper }} &copy; {{ 'now'|date('Y') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

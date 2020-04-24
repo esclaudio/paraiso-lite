@@ -1,0 +1,28 @@
+<div class="form-group">
+    <label for="code">
+        {{ __('Code') }}
+    </label>
+    <input type="text" id="code" name="code" value="{{ product.code }}" class="form-control" required autofocus>
+</div>
+
+<div class="form-group">
+    <label for="name">
+        {{ __('Description') }}
+    </label>
+    <input type="text" id="description" name="description" value="{{ product.description }}" class="form-control" required autofocus>
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ product.id ? __('Update') : __('Save') }}
+</button>
+
+{% if product.id %}
+    <a href="{{ path_for('products.show', {product: product.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('products.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

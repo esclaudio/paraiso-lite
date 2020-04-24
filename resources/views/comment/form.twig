@@ -1,0 +1,28 @@
+<form
+    id="comments-form"
+    action="{{ path_for('comment.store', {model_type: model_type, model_id: model_id}) }}"
+    method="post"
+    autocomplete="off">
+
+    {{ csrf_field() }}
+
+    <div class="form-group">
+        <label class="sr-only">{{ __('Message') }}</label>
+        <div class="input-group">
+            <input
+                type="text"
+                name="message"
+                id="comment-message"
+                class="form-control"
+                placeholder="{{ __('Write your message here') }}"
+                required>
+
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-send"></i>
+                    {{ __('Send') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

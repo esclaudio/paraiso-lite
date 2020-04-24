@@ -1,0 +1,93 @@
+{% extends 'layouts/app_title_toolbar.twig' %}
+
+{% block js %}
+    <script>
+        $(function () {
+            $overlay = $("#custom-overlay");
+
+            $('#form').submit(function (e) {
+                e.preventDefault();
+
+                var $buttons = $(this).find(':submit');
+                $buttons.prop('disabled', true);
+
+                $('body').loading({
+                    overlay: $overlay,
+                    zIndex: 2000,
+                });
+
+                this.submit();
+            });
+
+            $overlay.hide();
+        });
+    </script>
+{% endblock %}
+{% block title %}
+    {{ __('Importing') }}
+    {{ __(title) }}
+{% endblock %}
+
+{% block toolbar_left %}
+    <a href="{{ path_for('import.create', {model: model_id}) }}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i>
+        {{ __('Back') }}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h3>{{ __('Map fields') }}</h3>
+            <p>{{ __('The best match to each field on the selected file have been auto-selected.') }}</p>
+
+            <form id="form" action="{{ path_for('import.import', {model: model_id, filename: filename}) }}" method="post">
+                {{ csrf_field() }}
+                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            {% for heading in headings %}
+                                <th>{{ heading }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for heading in headings %}
+                                <td>
+                                    <select name="mapping[{{ heading }}]" id="{{ heading }}" class="custom-select">
+                                        <option value="">{{ __('Ignore') }}</option>
+                                        {% for field_key, field in fields %}
+                                            <option value="{{ field_key }}" {{ (field.title|lower) == (heading|lower) ? 'selected' }}>
+                                                {{ field.title }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            {% endfor %}    
+                        </tr>
+                        
+                        {% for row in rows %}
+                            <tr>
+                                {% for data in row %}
+                                    <td>{{ data }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <button type="submit" class="btn btn-success">
+                    {{ __('Import file') }}
+                </button>
+            </form>
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    <div id="custom-overlay" style="background-color: #000; opacity: 0.7; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <div class="loading-spinner">
+            {{ __('Importing') }}...
+        </div>
+    </div>
+{% endblock %}

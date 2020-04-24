@@ -1,0 +1,17 @@
+<p>
+    ¡Hola {{ task.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignada una nueva tarea:
+</p>
+
+<ul>
+    <li>Acción: {{ task.action.code }}</li>
+    <li>Medida: {{ task.number }}</li>
+    <li>Descripción: {{ task.description }}</li>
+    <li>Vencimiento: {{ task.expiration_date|date() }}</li>
+    <li>Creó: {{ task.createdBy.name }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('action_task.view', {action: task.action_id, task: task.id}) }}">Mostrar medida</a>

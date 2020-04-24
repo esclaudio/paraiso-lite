@@ -1,0 +1,26 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            App.initForm();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {{ __('Modifying System') }}
+        </div>
+        <div class="card-body">
+            <form id="form" action="{{ path_for('systems.update', {system: system.id}) }}" method="post" autocomplete="off">
+                {{ csrf_field() }}
+                
+                <input type="hidden" name="_METHOD" value="PUT">
+
+                {% include 'systems/partials/form.twig' %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

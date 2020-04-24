@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ app_name }}</title>
+        {% include 'layouts/partials/css.twig' %}
+        {% block css %} {% endblock %}
+        {% include 'layouts/partials/js.twig' %}
+        {% block scripts %}{% endblock %}
+    </head>
+    <body class="bg-light">
+        {% include 'layouts/partials/navbar.twig' %}
+
+        <div class="container my-3">
+            {% include 'layouts/partials/flash.twig' %}
+            {% block content %}{% endblock %}
+        </div>
+
+        {% block js %} {% endblock %}
+        
+        {% include 'layouts/partials/alerts.twig' %}
+    </body>
+</html>

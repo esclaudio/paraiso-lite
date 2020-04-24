@@ -1,0 +1,12 @@
+{% for message_type in ['success', 'error', 'info', 'warning'] %}
+    {% set message_class = message_type == 'error' ? 'danger' : message_type %}
+
+    {% for message in flash.getMessage(message_type) %}
+        <div class="alert alert-{{ message_class }} alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message|raw }}
+        </div>
+    {% endfor %}
+{% endfor %}

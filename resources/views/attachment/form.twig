@@ -1,0 +1,13 @@
+<form
+    id="attachments-form"
+    action="{{ path_for('attachment.store', {model_type: model_type, model_id: model_id}) }}"
+    class="dropzone"
+    method="post">
+
+    {{ csrf_field() }}
+
+    <div class="dz-message needsclick">
+        <i class="fa fa-cloud-upload fa-5x"></i><br>
+        {{ __('Drop files here') }}
+    </div>
+</form>

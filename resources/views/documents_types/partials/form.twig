@@ -1,0 +1,35 @@
+<div class="form-group">
+    <label for="name">
+        {{ __('Name') }}
+    </label>
+    <input type="text" id="name" name="name" value="{{ document_type.name }}" class="form-control" required autofocus>
+</div>
+
+<div class="form-group">
+    <label for="prefix">
+        {{ __('Prefix') }}
+    </label>
+    <input type="text" id="prefix" name="prefix" value="{{ document_type.prefix }}" class="form-control">
+</div>
+
+<div class="form-group">
+    <label for="prefix">
+        {{ __('Next number') }}
+    </label>
+    <input type="text" id="next_number" name="next_number" value="{{ document_type.next_number }}" class="form-control">
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ document_type.id ? __('Update') : __('Save') }}
+</button>
+
+{% if document_type.id %}
+    <a href="{{ path_for('documents_types.show', {document_type: document_type.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('documents_types.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

@@ -1,0 +1,40 @@
+{% extends 'layouts/app.twig' %}
+
+{% set can_delete = auth.user.can('delete', system) %}
+{% set can_edit = auth.user.can('edit', system) %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Showing System') }}
+            <div>
+                <a href="{{ path_for('systems.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-table"></i>
+                    {{ __('All Systems') }}
+                </a>
+
+                {% if can_edit %}
+                    <a href="{{ path_for('systems.edit', {system: system.id}) }}" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                        {{ __('Edit') }}
+                    </a>
+                {% endif %}
+                
+                {% if can_delete %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
+                        <i class="fa fa-trash"></i>
+                        {{ __('Delete') }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% include 'systems/partials/details.twig' %}
+            {% include 'layouts/helpers/audit.twig' with {model: system} %}
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    {% if can_delete %}
+        {% include 'systems/partials/modal_delete.twig' %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+<p>
+    ¡Hola {{ maintenance.responsible.firstname }}!
+</p>
+
+<p>
+    Se reabrío la siguiente orden de mantenimiento:
+</p>
+
+<ul>
+    <li>Número: {{ maintenance.code }}</li>
+    <li>Equipo: {{ maintenance.equipment.full_description }}</li>
+    <li>Tarea: {{ maintenance.description }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('maintenance.view', {maintenance: maintenance.id}) }}">
+    Mostrar
+</a>

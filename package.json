@@ -1,0 +1,46 @@
+{
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.4.5",
+    "del": "latest",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-cli": "^1.3.0",
+    "gulp-concat": "latest",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "latest",
+    "gulp-watch": "latest",
+    "merge-stream": "^1.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "bootstrap-datepicker": "^1.8.0",
+    "bootstrap-select": "^1.13.12",
+    "chart.js": "^2.7.3",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs4": "^1.10.19",
+    "daterangepicker": "^3.0.3",
+    "del": "latest",
+    "dropzone": "^5.5.1",
+    "fullcalendar": "^3.9.0",
+    "jquery": "^3.3.1",
+    "jquery-easy-loading": "^1.3.0",
+    "layout-grid": "^2.2.0",
+    "moment": "^2.24.0",
+    "pdfjs-dist": "^2.0.943",
+    "popper.js": "^1.14.6",
+    "print-js": "^1.0.53",
+    "selectize": "^0.12.6",
+    "sortablejs": "^1.8.3",
+    "tinymce": "^5.2.0"
+  }
+}

@@ -1,0 +1,7 @@
+<strong>{{ __('Created') }}</strong><br>
+<p>{{ model.createdBy.name }} @ {{ model.created_at|date(constant('DATETIME_FORMAT')) }}</p>
+
+{% if model.updated_by %}
+    <strong>{{ __('Updated') }}</strong><br>
+    <p>{{ model.updatedBy.name }} @ {{ model.updated_at|date(constant('DATETIME_FORMAT')) }}</p>
+{% endif %}

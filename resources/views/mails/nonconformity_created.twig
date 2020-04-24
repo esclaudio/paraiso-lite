@@ -1,0 +1,17 @@
+<p>
+    ¡Hola {{ nonconformity.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignada un nueva salida no conforme:
+</p>
+
+<ul>
+    <li>Salida no conforme: {{ nonconformity.id }}</li>
+    <li>Descripción: {{ nonconformity.description|nl2br }}</li>
+    <li>Producto: {{ nonconformity.product.full_description }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('nonconformity.view', {nonconformity: nonconformity.id}) }}">
+    Mostrar salida no conforme
+</a>

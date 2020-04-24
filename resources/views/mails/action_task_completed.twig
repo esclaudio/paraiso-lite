@@ -1,0 +1,16 @@
+<p>
+    ¡Hola {{ task.action.responsible.firstname }}!
+</p>
+
+<p>
+    Se completó la medida que le asignaste a {{ task.responsible.name }}:
+</p>
+
+<ul>
+    <li>Acción: {{ task.action.code }}</li>
+    <li>Medida: {{ task.number }}</li>
+    <li>Descripción: {{ task.description }}</li>
+    <li>Vencimiento: {{ task.expiration_date|date() }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('action_task.view', {action: task.action_id, task: task.id}) }}">Mostrar medida</a>

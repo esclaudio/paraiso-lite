@@ -1,0 +1,11 @@
+<p>
+    ¡Hola {{ verification.responsible.firstname }}!
+</p>
+
+<p>
+    {{ verification.updatedBy.name }} eliminó la planificación de la verificación de la acción {{ verification.action.code }} para el {{ verification.expiration_date|date() }}.
+</p>
+
+<a href="{{ base_url() }}{{ path_for('action.view', {action: verification.action_id}) }}">
+    Mostrar acción
+</a>

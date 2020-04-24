@@ -1,0 +1,18 @@
+<p>
+    ¡Hola {{ action.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignada una nueva acción:
+</p>
+
+<ul>
+    <li>Acción: {{ action.code }}</li>
+    <li>Medida: {{ action.title }}</li>
+    <li>Descripción: {{ action.description }}</li>
+    <li>Creó: {{ action.createdBy.name }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('action.view', {action: action.id}) }}">
+    Mostrar acción
+</a>

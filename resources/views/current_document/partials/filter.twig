@@ -1,0 +1,79 @@
+<form id="filter-form">
+    <div class="form-group">
+        <label for="filter-code">
+            {{ __('Code') }}
+        </label>
+        <input type="text" id="filter-code" name="code" value="{{ params.code }}" class="form-control" autofocus>
+    </div>
+
+    <div class="form-group">
+        <label for="filter-title">
+            {{ __('Title') }}
+        </label>
+        <input type="text" id="filter-title" name="title" value="{{ params.title }}" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="filter-system_id">
+            {{ __('System') }}
+        </label>
+        <select id="filter-system_id" name="system_id" class="custom-select">
+            <option {{ not params.system_id ? 'selected' }} value=""></option>
+            {% for k, v in systems %}
+                <option value="{{ k }}" {{ params.system_id and params.system_id == k? 'selected' }}>
+                    {{ v }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="filter-process_id">
+            {{ __('Process') }}
+        </label>
+        <select id="filter-process_id" name="process_id" class="custom-select">
+            <option {{ not params.process_id ? 'selected' }} value=""></option>
+            {% for k, v in processes %}
+                <option value="{{ k }}" {{ params.process_id and params.process_id == k? 'selected' }}>
+                    {{ v }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="filter-document_type_id">
+            {{ __('Type') }}
+        </label>
+        <select id="filter-document_type_id" name="document_type_id" class="custom-select">
+            <option {{ not params.document_type_id ? 'selected' }} value=""></option>
+            {% for k, v in types %}
+                <option value="{{ k }}" {{ params.document_type_id and params.document_type_id == k? 'selected' }}>
+                    {{ v }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" name="only_new" id="filter-only_new" value="1" {{ params.only_new ? 'checked' }}>
+            <label class="custom-control-label" for="filter-only_new">
+                {{ __('Only new') }}
+            </label>
+        </div>
+    </div>
+
+    <div class="row text-right">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-secondary" id="btn-clear">
+                {{ __('Clear') }}
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+                {{ __('Search') }}
+            </button>
+        </div>
+    </div>
+</form>

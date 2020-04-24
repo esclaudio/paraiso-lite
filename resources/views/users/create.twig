@@ -1,0 +1,29 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {  
+            var $roles = $('#roles').selectize({
+                plugins: ['remove_button'],
+                closeOnSelect: true,
+            });
+                      
+            App.initForm();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {{ __('Creating User') }}
+        </div>
+        <div class="card-body">
+            <form id="form" action="{{ path_for('users.store') }}" method="post" autocomplete="off">
+                {{ csrf_field() }}
+                
+                {% include 'users/partials/form.twig' %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

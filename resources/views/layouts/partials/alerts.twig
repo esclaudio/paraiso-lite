@@ -1,0 +1,36 @@
+<script>
+    $(function () {
+        $.ajax({
+            url: '{{ path_for('alerts') }}',
+            type: 'post',
+            data: App.csrf,
+            success: function (response) {
+                if (response.length > 0) {
+                    $('#alerts-count').html(response.length);
+
+                    var alerts = [];
+                    var today = moment().format('YYYY-MM-DD');
+
+                    for(var i = 0; response.length > i; i++) {
+                        var alert = response[i];
+
+                        if (i > 0) {
+                            alerts.push('<div class="dropdown-divider"></div>');
+                        }
+
+                        alerts.push(
+                            '<a class="dropdown-item" href="' + alert.url + '">\
+                                <div>\
+                                    <div>' + alert.title + '</div>\
+                                    <div class="small text-muted">' + moment(alert.due_date).from(today) + '</div>\
+                                </div>\
+                            </a>'
+                        );
+                    }
+
+                    $('#alerts-items').html(alerts.join(''));
+                }
+            },
+        });
+    });
+</script>

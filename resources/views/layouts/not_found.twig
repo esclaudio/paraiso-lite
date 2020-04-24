@@ -1,0 +1,8 @@
+{% extends 'layouts/app_blank.twig' %}
+
+{% block content %}
+    <h2>{{ __('Sorry, the page you are looking for could not be found.') }}</h2>
+    <a href="{{ path_for('home') }}">
+        {{ __('Go home') }}
+    </a>
+{% endblock %}

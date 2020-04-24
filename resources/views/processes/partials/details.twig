@@ -1,0 +1,15 @@
+<strong>{{ __('Name') }}</strong><br>
+<p>{{ process.name }}</p>
+
+<strong>{{ __('Status') }}</strong><br>
+<p>
+    {% if process.is_active %}
+        <span class="badge badge-success">
+            {{ __('Active') }}
+        </span>
+    {% else %}
+        <span class="badge badge-secondary">
+            {{ __('Inactive') }}
+        </span>
+    {% endif %}
+</p>

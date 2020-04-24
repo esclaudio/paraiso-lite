@@ -1,0 +1,16 @@
+<p>
+    ¡Hola {{ task.risk.responsible.firstname }}!
+</p>
+
+<p>
+    Se completó la acción que le asignaste a {{ task.responsible.name }}:
+</p>
+
+<ul>
+    <li>{{ task.risk.code }}</li>
+    <li>Número: {{ task.number }}</li>
+    <li>Descripción: {{ task.description }}</li>
+    <li>Vencimiento: {{ task.due_date|date() }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('risk.view', {risk: task.risk_id}) }}">Mostrar</a>

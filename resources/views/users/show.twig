@@ -1,0 +1,95 @@
+{% extends 'layouts/app.twig' %}
+
+{% set can_delete = auth.user.can('delete', user) %}
+{% set can_edit = auth.user.can('edit', user) %}
+
+{% block js %}
+    <script>
+        $(function(){
+            $('#change-avatar').click(function(e){
+                e.preventDefault();
+                $('#file').focus().trigger("click");
+            });
+
+            $('#delete-avatar').click(function(e){
+                e.preventDefault();
+                
+                var data = $.extend(App.csrf, {'_METHOD': 'DELETE'});
+
+                $.ajax({
+                    url: '{{ path_for('users.delete_avatar', {user: user.id}) }}',
+                    type: 'post',
+                    data: data,
+                    dataType: 'json', 
+                    success: function(response) {
+                        $('#user-avatar').attr("src", response.url);
+                    }
+                });
+            });
+
+            $('#file').change(function(){
+                var formData = new FormData();
+                var file = $('#file')[0].files[0];
+
+                for(var field in App.csrf) {
+                    formData.append(field, App.csrf[field]);
+                }
+
+                formData.append('_METHOD', 'PUT');
+                formData.append('file', file);
+                
+                $.ajax({
+                    url: '{{ path_for('users.change_avatar', {user: user.id}) }}',
+                    type: 'post',
+                    data: formData,
+                    dataType: 'json', 
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#user-avatar').attr("src", response.url);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Showing User') }}
+            <div>
+                <a href="{{ path_for('users.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-table"></i>
+                    {{ __('All Users') }}
+                </a>
+
+                {% if can_edit %}
+                    <a href="{{ path_for('users.edit', {user: user.id}) }}" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                        {{ __('Edit') }}
+                    </a>
+                {% endif %}
+                
+                {% if can_delete %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
+                        <i class="fa fa-trash"></i>
+                        {{ __('Delete') }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% include 'users/partials/details.twig' %}
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    {% if can_delete %}
+        {% include 'systems/partials/modal_delete.twig' %}
+    {% endif %}
+
+    <form style="display: none;">
+        <input type="file" id="file" name="file" accept="image/*">
+    </form>
+{% endblock %}

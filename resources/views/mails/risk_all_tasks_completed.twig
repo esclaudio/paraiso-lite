@@ -1,0 +1,11 @@
+<p>
+    ¡Hola {{ risk.responsible.firstname }}!
+</p>
+
+<p>
+    Se completaron todas las tareas del riesgo/oportunidad {{ risk.code }} - {{ risk.description }}.
+</p>
+
+<a href="{{ base_url() }}{{ path_for('risk.view', {risk: risk.id}) }}">
+    Mostrar riesgo/oportunidad
+</a>

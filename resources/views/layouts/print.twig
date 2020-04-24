@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        
+        <link href="{{ base_url() }}/css/font-awesome.min.css" rel="stylesheet">
+        
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font: normal 10px Verdana, sans-serif;
+            }
+
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+            table th, td {
+                padding: 4px;
+            }
+
+            td.label {
+                font-weight: bold;
+            }
+
+            table.basic-table {
+                width: 100%;
+            }
+
+            table.basic-table th {
+                background: #bebebe;
+                border: solid 1px #000000;
+                font-weight: bold;
+                text-align: left;
+            }
+
+            table.basic-table td {
+                border: solid 1px #000000;
+                text-align: left;
+            }
+
+            table.basic-table td.title {
+                background: #bebebe;
+                font-weight: bold;
+            }
+
+            .no-wrap {
+                white-space: nowrap;
+            }
+
+            .text-right {
+                text-align: right !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+
+            .w100 {
+                width: 100%;
+            }
+
+            .pagebreak {
+                page-break-after: always;
+            }
+
+            @media print {
+                full-width-print {
+                    max-width: 100% !important;
+                }
+            }
+        </style>
+        {% block css %} {% endblock %}
+        {% block js %} {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div><!-- containter -->
+    </body>
+</html>

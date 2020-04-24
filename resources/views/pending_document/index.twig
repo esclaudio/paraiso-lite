@@ -1,0 +1,58 @@
+{% extends 'layouts/app_title.twig' %}
+
+{% block title %}
+    {{ __('Pending documents') }}
+{% endblock %}
+
+{% block content %}
+    {% if versions|length %}
+        <div class="table-responsive">
+            <table class="table table-hover bg-white border">
+                <thead class="thead-light">
+                    <tr>
+                        <th>{{ __('Document') }}</th>
+                        <th class="text-right">{{ __('New version') }}</th>
+                        <th>{{ __('Changes') }}</th>
+                        <th>{{ __('Last transition') }}</th>
+                        <th class="text-right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for version in versions %}
+                        {% set document = version.document %}
+                        {% set last_transition = version.lastTransition().first() %}
+                        <tr>
+                            <td>{{ document.full_title }}</td>
+                            <td class="text-right">{{ version.version }}</td>
+                            <td>
+                                {{ version['changes'] is null? '-': version['changes']|nl2br }}
+                            </td>
+                            <td>
+                                {% if last_transition %}
+                                    {{ last_transition.transition_description }}
+                                    por
+                                    {{ last_transition.createdBy.name }}
+                                    el
+                                    {{ last_transition.created_at|date() }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-secondary" href="{{ path_for('document.view', {document: document.id}) }}" target="_blank">
+                                    {{ __('View') }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="card">
+            <div class="card-body text-center">
+                {{ __('There are no pending documents.') }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

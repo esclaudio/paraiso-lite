@@ -1,0 +1,84 @@
+<div class="form-group">
+    <label for="name">
+        {{ __('Name') }}
+    </label>
+    <input type="text" id="name" name="name" value="{{ user.name }}" class="form-control" required autofocus>
+</div>
+
+<div class="form-group">
+    <label for="username">
+        {{ __('Username') }}
+    </label>
+    <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" required>
+</div>
+
+<div class="form-group">
+    <label for="email">
+        {{ __('Email') }}
+    </label>
+    <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control">
+</div>
+
+<div class="form-group">
+    <label for="language">
+        {{ __('Language') }}
+    </label>
+    <select id="language" name="language" class="custom-select" required>
+        <option disabled {{ not user ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in languages %}
+            <option value="{{ k }}" {{ user.language == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="rol_id">
+        {{ __('Roles') }}
+    </label>
+    <select id="roles" name="roles[]" class="form-control selectize" multiple>
+        {% for k, v in roles %}
+            <option value="{{ k }}" {{ k in user_roles ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="is_admin" name="is_admin" value="1" {{ user.is_admin ? 'checked' }}>
+        <label class="custom-control-label" for="is_admin">
+            {{ __('Administrator') }}
+        </label>
+    </div>
+</div>
+
+{% if user %}
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ user.is_active ? 'checked' }}>
+            <label class="custom-control-label" for="is_active">
+                {{ __('Active') }}
+            </label>
+        </div>
+    </div>
+{% endif %}
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ user.id ? __('Update') : __('Save') }}
+</button>
+
+{% if user.id %}
+    <a href="{{ path_for('users.show', {user: user.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('users.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

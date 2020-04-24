@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label for="system_id">
+        {{ __('System') }}
+    </label>
+    <select id="system_id" name="system_id" class="custom-select" required autofocus>
+        <option disabled {{ not document ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in systems %}
+            <option value="{{ k }}" {{ document and document.system_id == k? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>

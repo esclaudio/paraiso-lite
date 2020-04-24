@@ -1,0 +1,15 @@
+<p>
+    ¡Hola {{ complaint.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignado un nuevo reclamo:
+</p>
+
+<ul>
+    <li>Reclamo: {{ complaint.id }}</li>
+    <li>Descripción: {{ complaint.description|nl2br }}</li>
+    <li>Cliente: {{ complaint.customer.name }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('complaint.view', {complaint: complaint.id}) }}">Mostrar reclamo</a>

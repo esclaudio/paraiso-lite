@@ -1,0 +1,11 @@
+<p>
+    ¡Hola {{ action.responsible.firstname }}!
+</p>
+
+<p>
+    La acción {{ action.code }} - {{ action.title }} fue analizada por {{ action.analysis.createdBy.name }}.
+</p>
+
+<a href="{{ base_url() }}{{ path_for('action.view', {action: action.id}) }}">
+    Mostrar acción
+</a>

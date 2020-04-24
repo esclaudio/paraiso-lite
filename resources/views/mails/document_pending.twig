@@ -1,0 +1,16 @@
+<p>
+    ¡Hola {{ version.responsible.firstname }}!
+</p>
+
+<p>
+    Tenés un nuevo documento pendiente:
+</p>
+
+<ul>
+    <li>Documento: {{ version.document.full_title }}</li>
+    <li>Estado: {{ version.status_description }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('pending_document.index') }}">
+    Ir a mis documentos pendientes
+</a>

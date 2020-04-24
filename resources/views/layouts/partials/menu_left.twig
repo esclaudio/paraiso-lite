@@ -1,0 +1,20 @@
+{% for title, groups in menu %}
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{ __(title) }}
+        </a>
+        <div class="dropdown-menu">
+            {% for group in groups %}
+                {% for item in group %}
+                    <a class="dropdown-item" href="{{ path_for(item.route) }}">
+                        {{ __(item.title) }}
+                    </a>
+                {% endfor %}
+
+                {% if not loop.last %}
+                    <div class="dropdown-divider"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </li>
+{% endfor %}

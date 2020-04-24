@@ -1,0 +1,21 @@
+<div class="form-group">
+    <label for="name">
+        {{ __('Name') }}
+    </label>
+    <input type="text" id="name" name="name" value="{{ risk_type.name }}" class="form-control" required autofocus>
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ risk_type.id ? __('Update') : __('Save') }}
+</button>
+
+{% if risk_type.id %}
+    <a href="{{ path_for('risks_types.show', {risk_type: risk_type.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('risks_types.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

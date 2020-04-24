@@ -1,0 +1,11 @@
+<p>
+    ¡Hola {{ action.responsible.firstname }}!
+</p>
+
+<p>
+    Se completaron todas las tareas de la acción {{ action.code }} - {{ action.title }}.
+</p>
+
+<a href="{{ base_url() }}{{ path_for('action.view', {action: action.id}) }}">
+    Mostrar acción
+</a>

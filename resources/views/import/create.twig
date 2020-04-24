@@ -1,0 +1,39 @@
+{% extends 'layouts/app_title_toolbar.twig' %}
+
+{% block title %}
+    {{ __('Importing') }}
+    {{ __(title) }}
+{% endblock %}
+
+{% block toolbar_left %}
+    <a href="{{ redirect }}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i>
+        {{ __('Back') }}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h3>{{ __('Select file') }}</h3>
+
+            <p>{{ __('Download a <a href="%s">sample file</a> and compare it to your import file to ensure you have the file perfect to import.')|format(path_for('import.download', {model: model_id}))|raw }}</p>
+            
+            <form action="{{ path_for('import.store', {model: model_id}) }}" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                
+                <div class="form-group">
+                    <label for="file" class="sr-only">
+                        {{ __('Select file') }}
+                    </label>
+
+                    <input id="file" type="file" name="file" required accept=".xlxs, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </div>
+                
+                <button type="submit" class="btn btn-success">
+                    {{ __('Next') }}
+                </button>
+            </form>
+        </div><!-- card-body -->
+    </div><!-- card -->
+{% endblock %}

@@ -1,0 +1,26 @@
+<strong>{{ __('System') }}</strong><br>
+<p>{{ nonconformity.system.name }}</p>
+
+<strong>{{ __('Process') }}</strong><br>
+<p>{{ nonconformity.process.name }}</p>
+
+<strong>{{ __('Code') }}</strong><br>
+<p>{{ nonconformity.code }}</p>
+
+<strong>{{ __('Description') }}</strong><br>
+<p>{{ nonconformity.description|nl2br ?: '-' }}</p>
+
+<strong>{{ __('Occurrence date') }}</strong><br>
+<p>{{ nonconformity.occurrence_date|date() }}</p>
+
+<strong>{{ __('Customer') }}</strong><br>
+<p>{{ nonconformity.customer.name ?: '-' }}</p>
+
+<strong>{{ __('Product') }}</strong><br>
+<p>
+    {% if nonconformity.product_id %}
+        {{ nonconformity.product.description }} x {{ nonconformity.quantity }}
+    {% else %}
+        -
+    {% endif %}
+</p>

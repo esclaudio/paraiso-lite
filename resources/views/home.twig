@@ -1,0 +1,52 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function () {
+            var $calendar = $('#calendar');
+
+            $calendar.fullCalendar({
+                locale: App.settings.lang,
+                header: {
+    				left: 'prev,next today',
+    				center: 'title',
+    				right: 'month,basicWeek,basicDay'
+			    },
+                eventLimit: true,
+                events: {
+                    url: '{{ path_for('calendar.index') }}',
+                    type: 'post',
+                    data: App.csrf,
+                },
+                eventClick: function(event) {
+                    if (event.url) {
+                        window.open(event.url);
+                        return false;
+                    }
+                },
+                editable: false,
+                eventRender: function(event, element) {
+                    $(element).popover({
+                        title: event.title,
+                        content: event.description || '-',
+                        html:true,
+                        container: 'body',
+                        trigger: 'hover',
+                    });
+                },
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    {% if auth.check %}
+        <div class="row">
+            <div class="offset-2 col-sm-8">
+                <div class="card mb-3">
+                    <div class="card-body" id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

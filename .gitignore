@@ -1,0 +1,13 @@
+/vendor
+/node_modules
+/public/storage
+/public/js/*.js
+/public/css/*.css
+!/public/js/*.min.js
+!/public/css/*.min.css
+/resources/lang/*.mo
+.vscode
+.DS_Store
+.env
+.idea
+version

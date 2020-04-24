@@ -1,0 +1,40 @@
+{% extends 'layouts/app.twig' %}
+
+{% set can_delete = auth.user.can('delete', customer) %}
+{% set can_edit = auth.user.can('edit', customer) %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ __('Showing Customer') }}
+            <div>
+                <a href="{{ path_for('customers.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-table"></i>
+                    {{ __('All Customers') }}
+                </a>
+
+                {% if can_edit %}
+                    <a href="{{ path_for('customers.edit', {customer: customer.id}) }}" class="btn btn-primary">
+                        <i class="fa fa-pencil"></i>
+                        {{ __('Edit') }}
+                    </a>
+                {% endif %}
+                
+                {% if can_delete %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
+                        <i class="fa fa-trash"></i>
+                        {{ __('Delete') }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            {% include 'customers/partials/details.twig' %}
+            {% include 'layouts/helpers/audit.twig' with {model: customer} %}
+        </div><!-- card-body -->
+    </div><!-- card -->
+
+    {% if can_delete %}
+        {% include 'customers/partials/modal_delete.twig' %}
+    {% endif %}
+{% endblock %}

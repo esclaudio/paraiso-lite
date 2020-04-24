@@ -1,0 +1,24 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            App.initForm();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {{ __('Creating Customer') }}
+        </div>
+        <div class="card-body">
+            <form id="form" action="{{ path_for('customers.store') }}" method="post" autocomplete="off">
+                {{ csrf_field() }}
+                
+                {% include 'customers/partials/form.twig' %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

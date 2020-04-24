@@ -1,0 +1,69 @@
+<div class="form-group">
+    <label for="system_id">
+        {{ __('System') }}
+    </label>
+    <select id="system_id" name="system_id" class="custom-select" required autofocus>
+        <option disabled {{ not nonconformity ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in systems %}
+            <option value="{{ k }}" {{ nonconformity.system_id == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="process_id">
+        {{ __('Process') }}
+    </label>
+    <select id="process_id" name="process_id" class="custom-select" required>
+        <option disabled {{ not nonconformity ? 'selected' }}>
+            {{ __('Select an option') }}
+        </option>
+        {% for k, v in processes %}
+            <option value="{{ k }}" {{ nonconformity.process_id == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="description">
+        {{ __('Description') }}
+    </label>
+    <textarea name="description" rows="4" class="form-control" required>{{ nonconformity.description }}</textarea>
+</div>
+
+{% set occurrence_date = nonconformity ? nonconformity.occurrence_date|date() : null %}
+
+<div class="form-group">
+    <label for="occurrence_date">
+        {{ __('Occurrence date') }}
+    </label>
+    <div class="input-group date">
+        <input type="text" name="occurrence_date" value="{{ occurrence_date }}" class="form-control" required>
+        <div class="input-group-append input-group-addon">
+            <div class="input-group-text">
+                <i class="fa fa-calendar"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ nonconformity.id ? __('Update') : __('Save') }}
+</button>
+
+{% if nonconformity.id %}
+    <a href="{{ path_for('nonconformities.show', {nonconformity: nonconformity.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('nonconformities.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}

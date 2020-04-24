@@ -1,0 +1,16 @@
+<p>
+    ¡Hola {{ change.responsible.firstname }}!
+</p>
+
+<p>
+    Te fue asignada una nueva gestión de cambios:
+</p>
+
+<ul>
+    <li>Gestión de cambio: {{ change.id }}</li>
+    <li>Título: {{ change.title }}</li>
+</ul>
+
+<a href="{{ base_url() }}{{ path_for('change_management.view', {change_management: change.id}) }}">
+    Mostrar gestión de cambio
+</a>

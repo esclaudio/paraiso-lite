@@ -1,0 +1,21 @@
+<div class="form-group">
+    <label for="name">
+        {{ __('Name') }}
+    </label>
+    <input type="text" id="name" name="name" value="{{ system.name }}" class="form-control" required autofocus>
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-check"></i>
+    {{ system.id ? __('Update') : __('Save') }}
+</button>
+
+{% if system.id %}
+    <a href="{{ path_for('systems.show', {system: system.id}) }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% else %}
+    <a href="{{ path_for('systems.index') }}" class="btn btn-link">
+        {{ __('Cancel') }}
+    </a>
+{% endif %}
