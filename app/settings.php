@@ -27,8 +27,8 @@ return [
         'database'  => env('DB_DATABASE'),
         'username'  => env('DB_USERNAME'),
         'password'  => env('DB_PASSWORD'),
-        'charset'   => env('DB_CHARSET', 'utf8'),
-        'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+        'charset'   => env('DB_CHARSET'),
+        'collation' => env('DB_COLLATION'),
         'prefix'    => env('DB_PREFIX'),
     ],
 
