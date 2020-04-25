@@ -4,7 +4,8 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "gulp default"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.5",
