@@ -1,7 +1,7 @@
 (function ( $ ) {
+    "use strict";
+    
     $.fn.ajaxForm = function (options) {
-        "use strict";
-
         var defaults = {
             container: false,
             beforeSend: false,

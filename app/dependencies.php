@@ -20,6 +20,9 @@ $container['view'] = function ($c) {
     $view->addExtension(new App\TwigExtensions\CsrfExtension(
         $c->get('csrf')
     ));
+    $view->addExtension(new App\TwigExtensions\VersionExtension(
+        ROOT . '/public/manifest.json'
+    ));
     $view->addExtension(new App\TwigExtensions\DebugExtension);
     $view->addExtension(new App\TwigExtensions\TranslationExtension($c->get('translator')));
     

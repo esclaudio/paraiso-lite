@@ -1,8 +1,5 @@
 <!-- Vendor -->
-<script src="{{ base_url() }}/js/vendor.{{ constant('APP_VERSION') }}.min.js"></script>
-
-<!-- TinyMCE -->
-<script src="{{ base_url() }}/vendor/tinymce/tinymce.min.js"></script>
+<script src="{{ base_url() }}/js/{{ version('vendor.min.js') }}"></script>
 
 <!-- Application -->
 <script>
@@ -30,7 +27,6 @@
     App = {
         basePath: '{{ base_url() }}',
         settings: {
-            minAnswers: {{ constant('MIN_ANSWERS') }},
             lang: lang,
         },
         csrf: {
@@ -55,6 +51,7 @@
     // Datepicker
 
     $.extend($.fn.datepicker.defaults, {
+        //TODO: Language format
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayBtn: "linked",
@@ -72,4 +69,4 @@
     moment.locale(App.settings.lang);
 </script>
 
-<script src="{{ base_url() }}/js/app.{{ constant('APP_VERSION') }}.min.js"></script>
+<script src="{{ base_url() }}/js/{{ version('app.min.js') }}"></script>

@@ -9,7 +9,8 @@ const postcss      = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const merge        = require('merge-stream');
 const cleanCSS     = require('gulp-clean-css');
-    
+const rev          = require('gulp-rev');
+
 let paths = {
     'assets'    : './resources/assets',
     'public'    : './public',
@@ -41,7 +42,13 @@ function css() {
 
     return merge(sassStream, cssStream)
         .pipe(concat('app.min.css'))
-        .pipe(dest('./public/css'));
+        .pipe(rev())
+        .pipe(dest(paths.public + '/css'))
+        .pipe(rev.manifest(paths.public + '/manifest.json', {
+            base: paths.public,
+            merge: true,
+        }))
+        .pipe(dest(paths.public));
 }
 
 function vendors() {
@@ -62,35 +69,41 @@ function vendors() {
         paths.components + '/chart.js/dist/Chart.js',
         paths.components + '/print-js/dist/print.js',
         paths.components + '/selectize/dist/js/standalone/selectize.js',
-        paths.components + '/sortablejs/Sortable.js',
     ])
     // .pipe(sourcemaps.init())
     .pipe(concat('vendor.js'))
-    .pipe(dest('./public/js'))
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
-    // .pipe(sourcemaps.write('.'))
-    .pipe(dest('./public/js'));
+    .pipe(rev())
+    .pipe(dest(paths.public + '/js'))
+    .pipe(rev.manifest(paths.public + '/manifest.json', {
+        base: paths.public,
+        merge: true,
+    }))
+    .pipe(dest(paths.public));
 };
 
 function js() {
     return src([
         paths.assets + '/scripts/*.js',
     ])
-    .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
-    .pipe(dest('./public/js'))
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
-    // .pipe(sourcemaps.write())
-    .pipe(dest('./public/js'));
+    .pipe(rev())
+    .pipe(dest(paths.public + '/js'))
+    .pipe(rev.manifest(paths.public + '/manifest.json', {
+        base: paths.public,
+        merge: true,
+    }))
+    .pipe(dest(paths.public));
 }
 
 function clean() {
     return del([
-        paths.public + '/js/app.js',
-        paths.public + '/js/vendor.js',
-        paths.public + '/css/app.css',
+        paths.public + '/js/**',
+        paths.public + '/css/**',
+        '!' + paths.public + '/css/font-awesome.min.css'
     ]);
 }
 
@@ -103,4 +116,4 @@ exports.js = js;
 exports.css = css;
 exports.clean = clean;
 exports.watch = watchFiles;
-exports.default = series(parallel(css, js, vendors), clean);
+exports.default = series(css, js, vendors);
