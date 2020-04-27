@@ -19,6 +19,10 @@ require __DIR__ . '/../vendor/autoload.php';
 defined('DS') ?: define('DS', DIRECTORY_SEPARATOR);
 defined('ROOT') ?: define('ROOT', dirname(__DIR__));
 
+// Constants
+
+require __DIR__ . '/constants.php';
+
 // Settings
 
 if (file_exists(ROOT . '/cache/settings.php')) {
@@ -44,10 +48,6 @@ $sessionName = strtolower($sessionName);
 session_name($sessionName);
 session_cache_limiter(false); // NO delete
 session_start();
-
-// Constants
-
-require __DIR__ . '/constants.php';
 
 // Instantiate the app
 

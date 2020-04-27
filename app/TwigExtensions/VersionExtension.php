@@ -2,7 +2,10 @@
 
 namespace App\TwigExtensions;
 
-class VersionExtension extends \Twig_Extension
+use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
+
+class VersionExtension extends AbstractExtension
 {
     /** @var string */
     private $manifestPath;
@@ -16,7 +19,7 @@ class VersionExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('version', [$this, 'version']),
+            new TwigFunction('version', [$this, 'version']),
         ];
     }
 

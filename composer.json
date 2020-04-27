@@ -15,7 +15,7 @@
         "doctrine/dbal": "^2.5",
         "slim/csrf": "^0.8.2",
         "symfony/validator": "^3.4",
-        "vlucas/phpdotenv": "^2.4",
+        "vlucas/phpdotenv": "^4.1",
         "symfony/property-access": "^3.4",
         "symfony/yaml": "^3.4",
         "dflydev/fig-cookies": "^1.0",
@@ -25,7 +25,10 @@
         "symfony/translation": "^4.1",
         "league/csv": "^9.0",
         "phpoffice/phpspreadsheet": "^1.5",
-        "eluceo/ical": "^0.15.0"
+        "eluceo/ical": "^0.15.0",
+        "symfony/dotenv": "^5.0",
+        "league/flysystem": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "autoload": {
         "psr-4": {

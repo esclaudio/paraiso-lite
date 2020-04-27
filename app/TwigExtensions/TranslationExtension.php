@@ -2,15 +2,14 @@
 
 namespace App\TwigExtensions;
 
-use Twig_Extension;
-use Twig_SimpleFilter;
-use Twig_SimpleFunction;
+use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
 use Symfony\Component\Translation\Translator;
 
 /**
  * Class TranslationExtension
  */
-class TranslationExtension extends Twig_Extension
+class TranslationExtension extends AbstractExtension
 {
 
     /**
@@ -37,7 +36,7 @@ class TranslationExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
-            new Twig_SimpleFunction('__', [$this, 'trans']),
+            new TwigFunction('__', [$this, 'trans']),
         ];
     }
 

@@ -12,9 +12,8 @@ class CreateDocumentsVersionsTable extends Migration
             $table->unsignedBigInteger('document_id');
             $table->string('version');
             $table->text('changes');
-            $table->string('file_extension')->nullable();
-            $table->string('file_mimetype')->nullable();
-            $table->unsignedInteger('file_size')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('preview_path')->nullable();
             $table->enum('status', ['draft', 'toreview', 'toapprove', 'published', 'rejected', 'archived'])->default('draft');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

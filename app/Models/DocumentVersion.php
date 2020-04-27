@@ -13,6 +13,7 @@ use App\Models\Traits\HasUuid;
 use App\Models\Traits\HasHistories;
 use App\Models\Traits\HasAudit;
 use App\Models\DocumentTransition;
+use App\Facades\Storage;
 
 class DocumentVersion extends Model implements StatefulContract
 {
@@ -70,7 +71,12 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getFilePathAttribute(): string
     {
-        return storage_path(sprintf('%s/%s', self::DOCUMENTS_PATH, $this->id));
+        return sprintf('%s/%s', self::DOCUMENTS_PATH, $this->id);
+    }
+
+    public function getFileUrlAttribute(): string
+    {
+        return Storage::url($this->file_path);
     }
 
     /**
@@ -78,7 +84,7 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getHasFileAttribute(): bool
     {
-        return file_exists($this->file_path);
+        return Storage::exists($this->file_path);
     }
 
     /**
@@ -86,7 +92,7 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getPreviewPathAttribute(): string
     {
-        return storage_path(sprintf('%s/%s__preview.pdf', self::DOCUMENTS_PATH, $this->id));
+        return sprintf('%s/%s__preview.pdf', self::DOCUMENTS_PATH, $this->id);
     }
 
     /**
@@ -94,7 +100,12 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getHasPreviewAttribute(): bool
     {
-        return file_exists($this->preview_path);
+        return Storage::exists($this->preview_path);
+    }
+
+    public function getPreviewUrlAttribute(): string
+    {
+        return Storage::url($this->preview_path);
     }
 
     /**
@@ -196,16 +207,19 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function uploadFile(UploadedFile $upload)
     {
-        if ( ! storage_make(self::DOCUMENTS_PATH)) {
-            throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
-        }
+        // if ( ! storage_make(self::DOCUMENTS_PATH)) {
+        //     throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
+        // }
 
         $this->id = Uuid::uuid4()->toString();
         $this->file_extension = pathinfo($upload->getClientFilename())['extension'] ?? null;
         $this->file_mimetype = $upload->getClientMediaType();
         $this->file_size = $upload->getSize();
 
-        $upload->moveTo($this->file_path);
+        // $upload->moveTo($this->file_path);
+        $stream = fopen($upload->file, 'r+');
+        Storage::writeStream($this->file_path, $stream);
+        dd($this->has_file, $this->file_url);
     }
 
     /**
@@ -213,15 +227,17 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function uploadPreview(UploadedFile $upload)
     {
-        if ( ! storage_make(self::DOCUMENTS_PATH)) {
-            throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
-        }
+        // if ( ! storage_make(self::DOCUMENTS_PATH)) {
+        //     throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
+        // }
 
         if ($upload->getClientMediaType() !== 'application/pdf') {
             throw new \Exception('Preview file must be a PDF file');
         }
 
-        $upload->moveTo($this->preview_path);
+        // $upload->moveTo($this->preview_path);
+        $stream = fopen($upload->file, 'r+');
+        Storage::writeStream($this->preview_path, $stream);
     }
 
     /**

@@ -2,12 +2,15 @@
 
 namespace App\TwigExtensions;
 
-class DebugExtension extends \Twig_Extension
+use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
+
+class DebugExtension extends AbstractExtension
 {
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('dump', [$this, 'dump'])
+            new TwigFunction('dump', [$this, 'dump'])
         ];
     }
 

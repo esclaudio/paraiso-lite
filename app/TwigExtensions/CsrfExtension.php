@@ -2,9 +2,11 @@
 
 namespace App\TwigExtensions;
 
+use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
 use Slim\Csrf\Guard;
 
-class CsrfExtension extends \Twig_Extension
+class CsrfExtension extends AbstractExtension
 {
     /**
      * @var Slim\Csrf\Guard
@@ -20,7 +22,7 @@ class CsrfExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('csrf_field', [$this, 'csrfField'], ['is_safe' => ['html']]),
+            new TwigFunction('csrf_field', [$this, 'csrfField'], ['is_safe' => ['html']]),
         ];
     }
 

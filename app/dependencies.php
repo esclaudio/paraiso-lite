@@ -30,7 +30,7 @@ $container['view'] = function ($c) {
 
     $env = $view->getEnvironment();
     
-    $env->getExtension('Twig_Extension_Core')->setDateFormat(DATE_FORMAT, '%d days');
+    $env->getExtension(\Twig\Extension\CoreExtension::class)->setDateFormat(DATE_FORMAT, '%d days');
 
     $env->addGlobal('app_name', $settings['app_name']);
     $env->addGlobal('help_url', $settings['help_url']);
@@ -255,8 +255,9 @@ $container['errorHandler'] = function ($c) {
 
 // Translator
 $container['translator'] = function ($c) {
+    /** @var \App\Auth\Auth */
     $auth = $c->get('auth');
-    $locale = $auth->check()? $auth->user()->language: App\Models\Language::EN;
+    $locale = $auth->user()->language ?? App\Models\Language::EN;
 
     $translator = new Symfony\Component\Translation\Translator($locale);
     $translator->setFallbackLocales([App\Models\Language::EN]);
@@ -288,6 +289,54 @@ $container['queue'] = function ($c) {
         'port' => $settings['port'],
         'password' => $settings['password'],
     ]);
+};
+
+// Storage
+$container['storage'] = function ($c) {
+    $settings = $c['settings']['disks'];
+    $disks = [];
+
+    foreach ($settings as $disk => $properties) {
+        if ($properties['driver'] == 'local') {
+            $adapter = new League\Flysystem\Adapter\Local($properties['root']);
+        }
+
+        if ($properties['driver'] == 's3') {
+            $client = new Aws\S3\S3Client([
+                'credentials' => [
+                    'key'    => $properties['key'],
+                    'secret' => $properties['secret'],
+                ],
+                'region' => $properties['region'],
+                'version' => 'latest',
+            ]);
+
+            $adapter = new League\Flysystem\AwsS3v3\AwsS3Adapter($client, $properties['bucket']);
+        }
+
+        $disks[$disk] = new App\Support\Filesystem\Filesystem($adapter);
+    }
+
+    return new class($disks) {
+        private $disks;
+        private $defaultDisk;
+
+        public function __construct($disks, $defaultDisk = 'local')
+        {
+            $this->disks = $disks;
+            $this->defaultDisk = $defaultDisk;
+        }
+
+        public function disk(string $name): App\Support\Filesystem\Filesystem
+        {
+            return $this->disks[$name];
+        }
+
+        public function __call($method, $args)
+        {
+            return $this->disks[$this->defaultDisk]->$method(...$args);
+        }
+    };
 };
 
 $container->register(new \App\Services\EloquentServiceProvider);

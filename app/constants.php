@@ -13,7 +13,3 @@ define('DOCUMENT_NEW_DAYS', 5);
 define('PASSWORD_DURATION', 60); // Months
 define('DEFAULT_PASSWORD', '123456');
 define('ITEMS_PER_PAGE', 10);
-
-$versionFile =  ROOT . '/version';
-
-define('APP_VERSION', file_exists($versionFile) ? file_get_contents($versionFile) : date('YmdHis'));

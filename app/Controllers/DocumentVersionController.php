@@ -8,6 +8,7 @@ use App\Validators\DocumentVersionValidator;
 use App\Models\DocumentVersion;
 use App\Models\DocumentStatus;
 use App\Models\Document;
+use App\Facades\Storage;
 
 class DocumentVersionController extends Controller
 {
@@ -53,6 +54,7 @@ class DocumentVersionController extends Controller
         
         if (isset($uploads['file'])) {
             $version->uploadFile($uploads['file']);
+            dd('ok');
         }
 
         if (isset($uploads['preview'])) {
