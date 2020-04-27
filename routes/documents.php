@@ -94,9 +94,8 @@ $app->group('/documents', function () {
             $this->post('', DocumentVersionController::class . ':store')
                 ->setName('documents_versions.store');
             
-            $this->group('/{version:[0-9]+}', function (){
-                // View
-
+            $this->group('/{version}', function (){
+                // Show
                 $this->get('/', DocumentVersionController::class . ':show')
                     ->setName('documents_versions.show');
                     

@@ -120,9 +120,9 @@ class User extends Model
             $permissions = Permission::whereExists(
                 function ($query) use ($roles) {
                     return $query->select($query->raw(1))
-                        ->from('role_permission')
-                        ->whereRaw('`role_permission`.`permission_id` = `permission`.`id`')
-                        ->whereIn('role_permission.role_id', $roles)
+                        ->from('roles_permissions')
+                        ->whereRaw('`roles_permissions`.`permission_id` = `permissions`.`id`')
+                        ->whereIn('roles_permissions.role_id', $roles)
                     ;
                 }
             )->pluck('id')->toArray();

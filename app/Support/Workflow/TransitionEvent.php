@@ -15,22 +15,22 @@ class TransitionEvent
         $this->subject    = $subject;
     }
 
-    public function isBlocked() : bool
+    public function isBlocked(): bool
     {
         return $this->blocked;
     }
 
-    public function setBlocked($blocked)
+    public function setBlocked($blocked): void
     {
         $this->blocked = $blocked;
     }
 
-    public function getSubject() : Contracts\StatefulContract
+    public function getSubject(): Contracts\StatefulContract
     {
         return $this->subject;
     }
 
-    public function getTransition() : Transition
+    public function getTransition(): Transition
     {
         return $this->transition;
     }

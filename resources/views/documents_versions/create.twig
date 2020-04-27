@@ -1,0 +1,77 @@
+{% extends 'layouts/app.twig' %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('#form').ajaxForm();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {{ __('New Version Of %s')|format(document.full_name) }}
+        </div>
+        <div class="card-body">
+            <form id="form" action="{{ path_for('documents_versions.store', {document: document.id}) }}" method="post" autocomplete="off" enctype="multipart/form-data">
+                {{ csrf_field() }}
+
+                {% if current_version %}
+                    <div class="form-group">
+                        <strong>{{ __('Current Version') }}</strong><br>
+                        {% if current_version.has_file %}
+                            <a class="btn btn-secondary" href="{{ path_for('documents_versions.download', {document: document.id, version: current_version.id}) }}">
+                                <i class="fa fa-download"></i>
+                                {{ current_version.version }}
+                            </a>
+                        {% else %}
+                            <p>{{ current_version.version }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="version">
+                        {{ __('New Version') }}
+                    </label>
+                    <input type="text" id="version" name="version" value="{{ next_version }}" class="form-control" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="file">
+                        {{ __('File') }}
+                    </label>
+                    <input type="file" id="file" name="file" class="form-control-file">
+                </div>
+
+                <div class="form-group">
+                    <label for="preview">
+                        {{ __('Preview file') }}
+                    </label>
+                    <input type="file" id="preview" name="preview" accept="application/pdf" class="form-control-file">
+                </div>
+
+                {% if current_version %}
+                    <div class="form-group">
+                        <label for="changes">
+                            {{ __('Changes') }}
+                        </label>
+                        <textarea id="changes" name="changes" class="form-control" cols="30" rows="4" required></textarea>
+                    </div>
+                {% else %}
+                    <input type="hidden" name="changes" value="{{ __('First version') }}">
+                {% endif %}
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-check"></i>
+                    {{ __('Save') }}
+                </button>
+
+                <a href="{{ path_for('documents.show', {document: document.id}) }}" class="btn btn-link">
+                    {{ __('Cancel') }}
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

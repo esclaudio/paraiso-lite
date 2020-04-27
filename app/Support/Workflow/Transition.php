@@ -17,22 +17,22 @@ class Transition
         $this->properties = $properties;
     }
 
-    public function getFrom() : State
+    public function getFrom(): State
     {
         return $this->from;
     }
 
-    public function getTo() : State
+    public function getTo(): State
     {
         return $this->to;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -48,6 +48,6 @@ class Transition
 
     public function __toString()
     {
-        return $name;
+        return $this->name;
     }
 }

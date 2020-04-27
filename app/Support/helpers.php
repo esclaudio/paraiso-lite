@@ -162,13 +162,13 @@ if ( ! function_exists('trans')) {
 
 if ( ! function_exists('uploads')) {
     /**
-     * Uploads
+     * Filter uploads
      *
      * @param  \Slim\Http\Request $request
      * 
      * @return array
      */
-    function uploads(\Slim\Http\Request $request): array
+    function filterUploads(\Slim\Http\Request $request): array
     {
         $files = [];
 

@@ -31,9 +31,23 @@ class DocumentController extends Controller
     {
         $this->authorize('documents.show');
 
+        /** @var \App\Models\Document */
         $document = Document::findOrFail($args['document']);
 
-        return $this->render($response, 'documents.show', compact('document'));
+        /** @var \App\Support\Workflow\Workflow */
+        $workflow = $this->get('document.workflow');
+
+        $latestVersion = $document->getLatestVersion();
+        
+        return $this->render(
+            $response,
+            'documents.show',
+            [
+                'document'       => $document,
+                'latest_version' => $document->getLatestVersion(),
+                'workflow'       => $workflow,
+            ]
+        );
     }
 
     /**

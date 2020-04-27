@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\DocumentVersion;
+use App\Models\DocumentStatus;
 
 class DocumentVersionPolicy extends Policy
 {

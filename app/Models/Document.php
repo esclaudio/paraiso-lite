@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Traits\HasResponsible;
 use App\Models\Traits\HasHistories;
 use App\Models\Traits\HasAudit;
-use App\Filters\DocumentFilter;
 
 class Document extends Model
 {
@@ -29,46 +32,82 @@ class Document extends Model
         'is_active',
     ];
     
-    // Relationships
-
-    public function system()
+    /**
+     * System
+     */
+    public function system(): BelongsTo
     {
         return $this->belongsTo(System::class, 'system_id');
     }
 
-    public function process()
+    /**
+     * Process
+     */
+    public function process(): BelongsTo
     {
         return $this->belongsTo(Process::class, 'process_id');
     }
 
-    public function documentType()
+    /**
+     * Document type
+     */
+    public function documentType(): BelongsTo
     {
         return $this->belongsTo(DocumentType::class, 'document_type_id');
     }
 
-    public function reviewer()
+    /**
+     * Reviewer
+     */
+    public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewer_id');
     }
 
-    public function approver()
+    /**
+     * Approver
+     */
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approver_id');
     }
 
-    public function involvedProcesses()
+    /**
+     * Involved procesess
+     */
+    public function involvedProcesses(): BelongsToMany
     {
         return $this->belongsToMany(Process::class, 'documents_processes', 'document_id', 'process_id');
     }
 
-    public function versions()
+    /**
+     * Versions
+     */
+    public function versions(): HasMany
     {
         return $this->hasMany(DocumentVersion::class, 'document_id');
     }
 
-    // Attributes
+    /**
+     * Scope locked
+     */
+    public function scopeLocked(Builder $query): void
+    {
+        $query->where('is_locked', true);
+    }
 
-    public function getFullNameAttribute()
+    /**
+     * Scope unlocked
+     */
+    public function scopeUnlocked(Builder $query): void
+    {
+        $query->where('is_locked', false);
+    }
+
+    /**
+     * Get full name
+     */
+    public function getFullNameAttribute(): string
     {
         if ($this->code) {
             return $this->code . ' - ' . $this->name;
@@ -82,14 +121,22 @@ class Document extends Model
         return FrequencyType::description(FrequencyType::MONTH, $this->review_frequency);
     }
 
-    public function getLatestVersionAttribute()
+    /**
+     * Get last version
+     *
+     * @return void
+     */
+    public function getLatestVersion(): ?DocumentVersion
     {
         return $this->versions()
             ->latest()
             ->first();
     }
 
-    public function getPublishedVersionAttribute()
+    /**
+     * Get current version
+     */
+    public function getCurrentVersion(): ?DocumentVersion
     {
         return $this->versions()
             ->published()
@@ -97,7 +144,7 @@ class Document extends Model
             ->first();
     }
 
-    public function getNextVersionAttribute()
+    public function getNextVersion(): int
     {
         $lastVersion = $this->versions()
             ->latest()

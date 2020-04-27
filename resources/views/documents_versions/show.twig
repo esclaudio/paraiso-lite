@@ -29,25 +29,8 @@
             </div>
         </div>
         <div class="card-body">
-            {% if latest_version %}
-                {{ __('Version %s')|format(latest_version.version) }}
-                {{ latest_version.status_html|raw }}
-                
-                {% if latest_version.has_preview %}
-                    <embed src="{{ path_for('documents_versions.preview', {document: document.id, version: latest_version.id}) }}" type="application/pdf" width="100%" height="600px">
-                {% endif %}
+            {% if current_version %}
 
-                {% for transition in workflow.allowedTransitions(latest_version) %}
-                    <form action="{{ path_for('documents_versions.transition', {document: document.id, version: latest_version.id}) }}" class="d-inline" method="post">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="transition" value="{{ transition.name }}">
-
-                        <button type="submit" class="btn btn-{{ transition.properties.class }}">
-                            {{ transition.properties.title }}
-                        </button>
-                    </form>
-                {% endfor %}
             {% else %}
                 <a href="{{ path_for('documents_versions.create', {document: document.id}) }}" class="btn btn-success">
                     {{ __('Create first version') }}

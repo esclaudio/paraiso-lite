@@ -5,8 +5,8 @@ namespace App\Models;
 abstract class DocumentStatus
 {
     const DRAFT      = 'draft';
-    const TO_REVIEW  = 'to_review';
-    const TO_APPROVE = 'to_approve';
+    const TO_REVIEW  = 'toreview';
+    const TO_APPROVE = 'toapprove';
     const PUBLISHED  = 'published';
     const ARCHIVED   = 'archived';
     const REJECTED   = 'rejected';
@@ -14,55 +14,43 @@ abstract class DocumentStatus
     public static function all(): array
     {
         return [
-            self::DRAFT      => 'draft',
-            self::TO_REVIEW  => 'to_review',
-            self::TO_APPROVE => 'to_approve',
-            self::PUBLISHED  => 'published',
-            self::ARCHIVED   => 'archived',
-            self::REJECTED   => 'rejected',
+            self::DRAFT      => trans('Draft'),
+            self::TO_REVIEW  => trans('To Review'),
+            self::TO_APPROVE => trans('To Approve'),
+            self::PUBLISHED  => trans('Published'),
+            self::ARCHIVED   => trans('Archived'),
+            self::REJECTED   => trans('Rejected'),
         ];
     }
 
-    public static function description(string $key)
-    {
-        switch($key) {
-            case self::DRAFT:
-                return MSG_WORKFLOW_DRAFT;
-            case self::TO_REVIEW:
-                return MSG_WORKFLOW_TO_REVIEW;
-            case self::TO_APPROVE:
-                return MSG_WORKFLOW_TO_APPROVE;
-            case self::PUBLISHED:
-                return MSG_WORKFLOW_PUBLISHED;
-            case self::ARCHIVED:
-                return MSG_WORKFLOW_ARCHIVED;
-            case self::REJECTED:
-                return MSG_WORKFLOW_REJECTED;
-        }
-
-        return null;
-    }
-
-    public static function colors()
+    public static function keys(): array
     {
         return [
-            self::DRAFT      => 'secondary',
-            self::TO_REVIEW  => 'warning',
-            self::TO_APPROVE => 'warning',
-            self::PUBLISHED  => 'success',
-            self::ARCHIVED   => 'secondary',
-            self::REJECTED   => 'danger',
+            self::DRAFT,
+            self::TO_REVIEW,
+            self::TO_APPROVE,
+            self::PUBLISHED,
+            self::ARCHIVED,
+            self::REJECTED,
         ];
     }
 
-    public static function color(string $key)
+    public static function description(string $status): string
     {
-        $colors = self::colors();
+        return self::all()[$status] ?? $status;
+    }
 
-        if (array_key_exists($key, $colors)) {
-            return $colors[$key];
-        }
+    public static function html(string $status): string
+    {
+        $html = [
+            self::DRAFT      => '<span class="badge badge-info">%s</span>',
+            self::TO_REVIEW  => '<span class="badge badge-warning">%s</span>',
+            self::TO_APPROVE => '<span class="badge badge-warning">%s</span>',
+            self::PUBLISHED  => '<span class="badge badge-success">%s</span>',
+            self::ARCHIVED   => '<span class="badge badge-secondary">%s</span>',
+            self::REJECTED   => '<span class="badge badge-danger">%s</span>',
+        ];
 
-        return 'secondary';
+        return sprintf($html[$status] ?? '%s', self::description($status));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Support\Workflow;
 
-use App\Workflow\Contracts\StatefulContract;
+use App\Support\Workflow\Contracts\StatefulContract;
 
 class Workflow
 {
@@ -12,44 +12,30 @@ class Workflow
 
     /**
      * Add a new state
-     * @param string $name       Name
-     * @param string $type       Type
-     * @param array  $properties Properties
      */
-    public function addState(string $name, string $type, array $properties = [])
+    public function addState(string $name,array $properties = []): void
     {
-        $this->states[$name] = new State($name, $type, $properties);
+        $this->states[$name] = new State($name, $properties);
     }
 
     /**
      * Add a new transition
-     * @param string $name          Name
-     * @param string $fromStateName From state name
-     * @param string $toStateName   To state name
-     * @param array  $properties    Properties
      */
-    public function addTransition(string $name, string $fromStateName, string $toStateName, array $properties = [])
+    public function addTransition(string $name, string $fromState, string $toState, array $properties = []): void
     {
-        $fromState = $this->getState($fromStateName);
-        $toState   = $this->getState($toStateName);
-
-        $this->transitions[$name] = new Transition($name, $fromState, $toState, $properties);
+        $this->transitions[$name] = new Transition($name, $this->getState($fromState), $this->getState($toState), $properties);
     }
 
     /**
      * Listen
-     * @param string   $eventName Event name
-     * @param callable $callback  Callback
      */
-    public function listen(string $eventName, callable $callback) {
+    public function listen(string $eventName, callable $callback): void
+    {
         $this->events[$eventName] = $callback;
     }
 
     /**
      * Return if an subject can perform a transition
-     * @param  StatefulContract $subject        Subject
-     * @param  string           $transitionName Transition
-     * @return bool
      */
     public function can(StatefulContract $subject, string $transitionName): bool
     {
@@ -58,11 +44,8 @@ class Workflow
 
     /**
      * Apply a transition to a subject
-     * @param  StatefulContract $subject        Subject
-     * @param  string           $transitionName Transition
-     * @return void
      */
-    public function apply(StatefulContract $subject, string $transitionName)
+    public function apply(StatefulContract $subject, string $transitionName): void
     {
         $transition = $this->getTransition($transitionName);
 
@@ -76,8 +59,6 @@ class Workflow
 
     /**
      * Get an array of allowed transition for a subject
-     * @param  StatefulContract $subject Subject
-     * @return array
      */
     public function getAllowedTransitions(StatefulContract $subject): array
     {
@@ -94,10 +75,6 @@ class Workflow
 
     /**
      * Do can
-     * @param  StatefulContract $subject    Subject
-     * @param  Transition       $transition Transition
-     * @param  array            $context    Context
-     * @return bool
      */
     protected function doCan(StatefulContract $subject, Transition $transition): bool
     {
@@ -107,12 +84,8 @@ class Workflow
 
     /**
      * Do event
-     * @param  string           $eventName  Event name
-     * @param  Transition       $transition Transition
-     * @param  StatefulContract $subject    Subject
-     * @return
      */
-    protected function doEvent(string $eventName, Transition $transition, StatefulContract $subject)
+    protected function doEvent(string $eventName, Transition $transition, StatefulContract $subject): bool
     {
         if (!isset($this->events[$eventName])) {
             return true;
@@ -128,10 +101,8 @@ class Workflow
 
     /**
      * Get a state
-     * @param  string $stateName State name
-     * @return State
      */
-    public function getState(string $stateName) : State
+    public function getState(string $stateName): State
     {
         if (isset($this->states[$stateName])) {
             return $this->states[$stateName];
@@ -142,10 +113,8 @@ class Workflow
 
     /**
      * Get a transition
-     * @param  string $transitionName Transition name
-     * @return Transition
      */
-    public function getTransition(string $transitionName) : Transition
+    public function getTransition(string $transitionName): Transition
     {
         if (isset($this->transitions[$transitionName])) {
             return $this->transitions[$transitionName];

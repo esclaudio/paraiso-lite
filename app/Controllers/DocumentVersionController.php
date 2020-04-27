@@ -12,51 +12,12 @@ use App\Models\Document;
 class DocumentVersionController extends Controller
 {
     /**
-     * View
-     *
-     * @param \Slim\Http\Request  $request  Request
-     * @param \Slim\Http\Response $response Response
-     * @param array               $args     Arguments
-     *
-     * @return \Slim\Http\Response
-     */
-    public function view(Request $request, Response $response, array $args): Response
-    {
-        $this->authorize('document.view');
-
-        $version = DocumentVersion::where([
-            ['id', $args['version']],
-            ['document_id', $args['document']],
-        ])->firstOrFail();
-
-        $transitions = $version->transitions()
-            ->with('createdBy')
-            ->orderByDesc('created_at')
-            ->get();
-        
-        return $this->render(
-            $response,
-            "document_version/view.twig",
-            [
-                'document'    => $version->document,
-                'version'     => $version,
-                'transitions' => $transitions,
-            ]
-        );
-    }
-
-    /**
      * Create
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function create(Request $request, Response $response, array $args): Response
     {
-        $document = Document::where('is_locked', false)
+        /** @var \App\Models\Document */
+        $document = Document::unlocked()
             ->where('id', $args['document'])
             ->firstOrFail();
 
@@ -64,58 +25,43 @@ class DocumentVersionController extends Controller
 
         return $this->render(
             $response,
-            'document_version/create.twig',
+            'documents_versions.create',
             [
-                'document'          => $document,
-                'published_version' => $document->published_version,
-                'next_version'      => $document->next_version,
+                'document'        => $document,
+                'current_version' => $document->getCurrentVersion(),
+                'next_version'    => $document->getNextVersion(),
             ]
         );
     }
 
     /**
      * Store
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function store(Request $request, Response $response, array $args): Response
     {
-        $document = Document::where('id', $args['document'])
-            ->where('is_locked', false)
+        $document = Document::unlocked()
+            ->where('id', $args['document'])
             ->firstOrFail();
 
         $this->authorize('edit', $document);
 
-        $attributes = DocumentVersionValidator::validate($request);
+        $version = new DocumentVersion(
+            DocumentVersionValidator::validate($request)
+        );
         
-        $uploads = uploads($request);
+        $uploads = filterUploads($request);
         
-        if ($document->type->require_file && ! isset($uploads['file'])) {
-            return $response->withJson([
-                'error' => trans('File is required.')
-            ]);
-        }
-
-        $version = new DocumentVersion;
-        $version->fill($attributes);
-
         if (isset($uploads['file'])) {
             $version->uploadFile($uploads['file']);
+        }
 
-            if (isset($uploads['preview'])) {
-                $version->uploadPreview($uploads['preview']);
-            } else {
-                $version->makePreview($this->get('unoconv'));
-            }
+        if (isset($uploads['preview'])) {
+            $version->uploadPreview($uploads['preview']);
         }
 
         $document->versions()->save($version);
 
-        return $this->redirect($request, $response, 'document.view', ['document' => $document->id]);
+        return $this->redirect($request, $response, 'documents.show', ['document' => $document->id]);
     }
 
     /**
@@ -252,36 +198,16 @@ class DocumentVersionController extends Controller
      */
     public function preview(Request $request, Response $response, array $args): Response
     {
+        /** @var \App\Models\DocumentVersion */
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
             ->firstOrFail();
         
-        $filename = $version->preview_path;
-
-        if ( ! file_exists($filename)) {
+        if ( ! $version->has_preview) {
             return $this->notFound($request, $response);
         }
 
-        // If param info is set, return information of the preview
-
-        if ($info = $request->getParam('info')) {
-            $data = [
-                'name'      => basename($filename),
-                'mimetype'  => mime_content_type($filename),
-                'size'      => filesize($filename),
-                'can_print' => false,
-            ];
-            
-            if (array_key_exists($info, $data)) {
-                return $response->withJson([$info => $data[$info]]);
-            }
-
-            return $response->withJson($data);
-        }
-
-        // Otherwise, download the preview
-        
-        return $this->responseInline($request, $response, $filename);
+        return $this->responseInline($request, $response, $version->preview_path);
     }
 
     /**

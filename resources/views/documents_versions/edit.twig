@@ -3,14 +3,6 @@
 {% block js %}
     <script>
         $(function() {
-            var $code = $('#code');
-
-            $('#document_type_id').change(function (e) {
-                var selectedOption = this.options[this.selectedIndex];
-                console.log(selectedOption);
-                $code.val(selectedOption.dataset.nextCode);
-            });
-
             $('#form').ajaxForm();
         });
     </script>
@@ -19,12 +11,14 @@
 {% block content %}
     <div class="card">
         <div class="card-header">
-            {{ __('Creating Document') }}
+            {{ __('Modifying Document') }}
         </div>
         <div class="card-body">
-            <form id="form" action="{{ path_for('documents.store') }}" method="post" autocomplete="off">
+            <form id="form" action="{{ path_for('documents.update', {document: document.id}) }}" method="post" autocomplete="off">
                 {{ csrf_field() }}
                 
+                <input type="hidden" name="_METHOD" value="PUT">
+
                 {% include 'documents/partials/form.twig' %}
             </form>
         </div>

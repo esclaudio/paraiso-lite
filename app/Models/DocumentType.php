@@ -23,6 +23,6 @@ class DocumentType extends Model
     
     public function getNextCodeAttribute(): string
     {
-        return sprintf('%s-%s', $this->prefix, $this->next_number);
+        return $this->prefix? sprintf('%s-%04d', $this->prefix, $this->next_number): '';
     }
 }
