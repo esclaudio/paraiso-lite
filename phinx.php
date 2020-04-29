@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+defined('ROOT') ?: define('ROOT', __DIR__);
+
 if (file_exists(__DIR__ . '/cache/settings.php')) {
     // Use cache settings
     $settings = require __DIR__ . '/cache/settings.php';

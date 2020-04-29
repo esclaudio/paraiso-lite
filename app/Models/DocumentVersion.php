@@ -22,6 +22,7 @@ class DocumentVersion extends Model implements StatefulContract
         HasUuid;
 
     const DOCUMENTS_PATH = 'documents';
+    const PREVIEWS_PATH = 'documents_previews';
 
     protected $table = 'documents_versions';
 
@@ -67,13 +68,8 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * File path
+     * File URL
      */
-    public function getFilePathAttribute(): string
-    {
-        return sprintf('%s/%s', self::DOCUMENTS_PATH, $this->id);
-    }
-
     public function getFileUrlAttribute(): string
     {
         return Storage::url($this->file_path);
@@ -84,15 +80,15 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getHasFileAttribute(): bool
     {
-        return Storage::exists($this->file_path);
+        return $this->file_path !== null;
     }
 
     /**
-     * Preview file path
+     * Preview URL
      */
-    public function getPreviewPathAttribute(): string
+    public function getPreviewUrlAttribute(): string
     {
-        return sprintf('%s/%s__preview.pdf', self::DOCUMENTS_PATH, $this->id);
+        return Storage::url($this->preview_path);
     }
 
     /**
@@ -100,12 +96,7 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getHasPreviewAttribute(): bool
     {
-        return Storage::exists($this->preview_path);
-    }
-
-    public function getPreviewUrlAttribute(): string
-    {
-        return Storage::url($this->preview_path);
+        return $this->preview_path !== null;
     }
 
     /**
@@ -116,20 +107,6 @@ class DocumentVersion extends Model implements StatefulContract
     public function getStatusHtmlAttribute()
     {
         return DocumentStatus::html($this->status);
-    }
-
-
-
-    
-
-    public function getStatusColorAttribute()
-    {
-        return DocumentStatus::color($this->status);
-    }
-
-    public function getOnInitialStateAttribute()
-    {
-        return in_array($this->status, [DocumentStatus::DRAFT, DocumentStatus::REJECTED]);
     }
 
     public function getPublishedDaysAttribute()
@@ -207,19 +184,16 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function uploadFile(UploadedFile $upload)
     {
-        // if ( ! storage_make(self::DOCUMENTS_PATH)) {
-        //     throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
-        // }
+        if ( ! $this->id) {
+            $this->id = Uuid::uuid4();
+        }
 
-        $this->id = Uuid::uuid4()->toString();
-        $this->file_extension = pathinfo($upload->getClientFilename())['extension'] ?? null;
-        $this->file_mimetype = $upload->getClientMediaType();
-        $this->file_size = $upload->getSize();
+        $extension = pathinfo($upload->getClientFilename(), PATHINFO_EXTENSION);
+        $path = sprintf('%s/%s.%s', self::DOCUMENTS_PATH, $this->id, $extension);
 
-        // $upload->moveTo($this->file_path);
-        $stream = fopen($upload->file, 'r+');
-        Storage::writeStream($this->file_path, $stream);
-        dd($this->has_file, $this->file_url);
+        if (Storage::writeStream($path, fopen($upload->file, 'r+'))) {
+            $this->file_path = $path;
+        }
     }
 
     /**
@@ -227,17 +201,19 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function uploadPreview(UploadedFile $upload)
     {
-        // if ( ! storage_make(self::DOCUMENTS_PATH)) {
-        //     throw new \Exception('Can not create ' . self::DOCUMENTS_PATH . ' folder');
-        // }
-
         if ($upload->getClientMediaType() !== 'application/pdf') {
             throw new \Exception('Preview file must be a PDF file');
         }
 
-        // $upload->moveTo($this->preview_path);
-        $stream = fopen($upload->file, 'r+');
-        Storage::writeStream($this->preview_path, $stream);
+        if ( ! $this->id) {
+            $this->id = Uuid::uuid4();
+        }
+
+        $path = sprintf('%s/%s.pdf', self::PREVIEWS_PATH, $this->id);
+
+        if (Storage::writeStream($path, fopen($upload->file, 'r+'))) {
+            $this->preview_path = $path;
+        }
     }
 
     /**

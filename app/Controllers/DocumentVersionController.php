@@ -54,7 +54,6 @@ class DocumentVersionController extends Controller
         
         if (isset($uploads['file'])) {
             $version->uploadFile($uploads['file']);
-            dd('ok');
         }
 
         if (isset($uploads['preview'])) {

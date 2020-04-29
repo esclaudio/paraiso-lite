@@ -8,7 +8,7 @@ class CreateDocumentsVersionsTable extends Migration
     public function up()
     {
         $this->schema->create('documents_versions', function (Blueprint $table) {
-            $table->char('id', 36)->primary();
+            $table->uuid('id');
             $table->unsignedBigInteger('document_id');
             $table->string('version');
             $table->text('changes');
