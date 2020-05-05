@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Process;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 use App\Excel\Importer\ModelImporter;
 
 class UserImporter extends ModelImporter

@@ -6,7 +6,7 @@ use Slim\Http\Response;
 use Slim\Http\Request;
 use App\Validators\RoleValidator;
 use App\Models\Role;
-use App\Facades\Cache;
+use App\Support\Facades\Cache;
 use App\Support\Datatable\Datatable;
 
 class RoleController extends Controller

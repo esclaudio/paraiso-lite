@@ -306,4 +306,4 @@ $container['storage'] = function ($c) {
 $container->register(new \App\Services\EloquentServiceProvider);
 $container->register(new \App\Services\CacheServiceProvider);
 
-App\Facades\Facade::setFacadeContainer($container);
+App\Support\Facades\Facade::setFacadeContainer($container);

@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 use App\Excel\Importer\ModelImporter;
 
 class ProductImporter extends ModelImporter

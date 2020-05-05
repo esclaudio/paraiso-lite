@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Facades;
+namespace App\Support\Facades;
 
-class Cache extends Facade
+class Mail extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'cache';
+        return 'mailer';
     }
 }

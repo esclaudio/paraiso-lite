@@ -5,7 +5,7 @@ namespace App\Middleware;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use Slim\Container;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 
 class LocaleMiddleware
 {

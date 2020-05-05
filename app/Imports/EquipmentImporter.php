@@ -6,7 +6,7 @@ use App\Models\MaintenancePlan;
 use App\Models\EquipmentType;
 use App\Models\EquipmentLocation;
 use App\Models\Equipment;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 use App\Excel\Importer\ModelImporter;
 
 class EquipmentImporter extends ModelImporter

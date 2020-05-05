@@ -9,8 +9,8 @@ use App\Policies\PolicyResolver;
 use App\Models\Traits\HasOperations;
 use App\Models\Traits\HasHistories;
 use App\Mailer\Contracts\MailableContract;
-use App\Facades\Mail;
-use App\Facades\Cache;
+use App\Support\Facades\Mail;
+use App\Support\Facades\Cache;
 
 class User extends Model
 {

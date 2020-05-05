@@ -3,7 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\History;
-use App\Facades\Request;
+use App\Support\Facades\Request;
 
 trait HasOperations
 {

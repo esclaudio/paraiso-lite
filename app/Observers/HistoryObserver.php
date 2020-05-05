@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\History;
-use App\Facades\Request;
-use App\Facades\Auth;
+use App\Support\Facades\Request;
+use App\Support\Facades\Auth;
 
 class HistoryObserver
 {

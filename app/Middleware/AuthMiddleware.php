@@ -7,7 +7,7 @@ use Slim\Http\Response;
 use Slim\Http\Request;
 use Slim\Container;
 use Dflydev\FigCookies\FigRequestCookies;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 
 class AuthMiddleware
 {

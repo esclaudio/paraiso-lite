@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Slim\Http\Request;
-use App\Facades\Translator;
+use App\Support\Facades\Translator;
 use App\Exceptions\ValidationException;
 
 abstract class Validator

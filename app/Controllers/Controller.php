@@ -8,8 +8,8 @@ use Slim\Http\Request;
 use Psr\Container\ContainerInterface;
 use App\Models\User;
 use App\Mailer\Contracts\MailableContract;
-use App\Facades\Storage;
-use App\Facades\Mail;
+use App\Support\Facades\Storage;
+use App\Support\Facades\Mail;
 
 abstract class Controller
 {

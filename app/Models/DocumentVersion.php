@@ -13,7 +13,7 @@ use App\Models\Traits\HasUuid;
 use App\Models\Traits\HasHistories;
 use App\Models\Traits\HasAudit;
 use App\Models\DocumentTransition;
-use App\Facades\Storage;
+use App\Support\Facades\Storage;
 
 class DocumentVersion extends Model implements StatefulContract
 {

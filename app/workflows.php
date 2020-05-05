@@ -4,7 +4,7 @@ use App\Support\Workflow\Workflow;
 use App\Support\Workflow\TransitionEvent;
 use App\Models\DocumentTransition;
 use App\Models\DocumentStatus;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 
 $container['document.workflow'] = function ($c) {
     $workflow = new Workflow;

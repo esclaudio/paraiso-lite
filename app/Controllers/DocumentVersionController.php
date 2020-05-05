@@ -8,7 +8,7 @@ use App\Validators\DocumentVersionValidator;
 use App\Models\DocumentVersion;
 use App\Models\DocumentStatus;
 use App\Models\Document;
-use App\Facades\Storage;
+use App\Support\Facades\Storage;
 
 class DocumentVersionController extends Controller
 {

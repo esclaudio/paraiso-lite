@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace App\Support\Facades;
 
 /**
  * @method static \App\Support\Filesystem\Filesystem disk(string $name)

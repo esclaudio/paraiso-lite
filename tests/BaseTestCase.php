@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Carbon\Carbon;
 use App\Services\EloquentServiceProvider;
 use App\Mailer\FakeMailer;
-use App\Facades\Facade;
+use App\Support\Facades\Facade;
 use App\Cache\ArrayAdapter;
 
 abstract class BaseTestCase extends TestCase

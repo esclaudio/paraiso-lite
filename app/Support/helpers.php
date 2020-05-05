@@ -156,7 +156,7 @@ if ( ! function_exists('trans')) {
      */
     function trans(string $key): string
     {
-        return App\Facades\Translator::trans($key);
+        return App\Support\Facades\Translator::trans($key);
     }
 }
 

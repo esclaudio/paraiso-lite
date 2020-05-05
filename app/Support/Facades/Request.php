@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Facades;
+namespace App\Support\Facades;
 
 class Request extends Facade
 {

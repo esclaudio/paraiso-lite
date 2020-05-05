@@ -1,7 +1,7 @@
 <?php
 
 use App\Middleware\AuthMiddleware;
-use App\Facades\Mail;
+use App\Support\Facades\Mail;
 use App\Controllers\HomeController;
 
 $app->get('/', HomeController::class . ':index')

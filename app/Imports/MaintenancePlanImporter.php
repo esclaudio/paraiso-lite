@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\MaintenancePlan;
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 use App\Excel\Importer\ModelImporter;
 
 class MaintenancePlanImporter extends ModelImporter

@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Facades\Auth;
+use App\Support\Facades\Auth;
 
 class AuditObserver
 {
