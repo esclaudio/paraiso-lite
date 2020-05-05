@@ -294,49 +294,13 @@ $container['queue'] = function ($c) {
 // Storage
 $container['storage'] = function ($c) {
     $settings = $c['settings']['disks'];
-    $disks = [];
+    $storage = new App\Support\Filesystem\FilesystemManager;
 
     foreach ($settings as $disk => $properties) {
-        if ($properties['driver'] == 'local') {
-            $adapter = new League\Flysystem\Adapter\Local($properties['root']);
-        }
-
-        if ($properties['driver'] == 's3') {
-            $client = new Aws\S3\S3Client([
-                'credentials' => [
-                    'key'    => $properties['key'],
-                    'secret' => $properties['secret'],
-                ],
-                'region' => $properties['region'],
-                'version' => 'latest',
-            ]);
-
-            $adapter = new League\Flysystem\AwsS3v3\AwsS3Adapter($client, $properties['bucket']);
-        }
-
-        $disks[$disk] = new App\Support\Filesystem\Filesystem($adapter);
+        $storage->add($disk, $properties);
     }
 
-    return new class($disks) {
-        private $disks;
-        private $defaultDisk;
-
-        public function __construct($disks, $defaultDisk = 'local')
-        {
-            $this->disks = $disks;
-            $this->defaultDisk = $defaultDisk;
-        }
-
-        public function disk(string $name): App\Support\Filesystem\Filesystem
-        {
-            return $this->disks[$name];
-        }
-
-        public function __call($method, $args)
-        {
-            return $this->disks[$this->defaultDisk]->$method(...$args);
-        }
-    };
+    return $storage;
 };
 
 $container->register(new \App\Services\EloquentServiceProvider);

@@ -224,8 +224,8 @@ abstract class Controller
             $rename = pathinfo($path, PATHINFO_BASENAME);
         }
 
-        $stream = Storage::readStream($path);
-        $mimetype = Storage::getMimetype($path);
+        // $stream = Storage::readStream($path);
+        // $mimetype = Storage::getMimetype($path);
 
         // $stream = new Stream(fopen($path, 'rb'));
 

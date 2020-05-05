@@ -67,8 +67,8 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getFileUrlAttribute(): string
     {
-        // return Storage::temporaryUrl($this->file_path, Carbon::now()->addMinutes(15));
-        return Storage::url($this->file_path);
+        // return Storage::disk('s3')->temporaryUrl($this->file_path, Carbon::now()->addMinutes(15));
+        return Storage::disk('s3')->url($this->file_path);
     }
 
     /**
@@ -167,7 +167,7 @@ class DocumentVersion extends Model implements StatefulContract
         $extension = pathinfo($upload->getClientFilename(), PATHINFO_EXTENSION);
         $path = sprintf('%s/%s.%s', self::DOCUMENTS_PATH,  Uuid::uuid4(), $extension);
 
-        if (Storage::writeStream($path, fopen($upload->file, 'r+'))) {
+        if (Storage::disk('s3')->writeStream($path, fopen($upload->file, 'r+'))) {
             $this->file_path = $path;
         }
     }
