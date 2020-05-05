@@ -115,6 +115,33 @@ class Filesystem
         return $this->driver->deleteDir($directory);
     }
 
+    public function temporaryUrl($path, $expiration, array $options = [])
+    {
+        $adapter = $this->driver->getAdapter();
+
+        if (method_exists($adapter, 'getTemporaryUrl')) {
+            return $adapter->getTemporaryUrl($path, $expiration, $options);
+        } elseif ($adapter instanceof AwsS3Adapter) {
+            return $this->getAwsTemporaryUrl($adapter, $path, $expiration, $options);
+        } else {
+            throw new RuntimeException('This driver does not support creating temporary URLs.');
+        }
+    }
+
+    public function getAwsTemporaryUrl($adapter, $path, $expiration, $options)
+    {
+        $client = $adapter->getClient();
+
+        $command = $client->getCommand('GetObject', array_merge([
+            'Bucket' => $adapter->getBucket(),
+            'Key' => $adapter->getPathPrefix().$path,
+        ], $options));
+
+        return (string) $client->createPresignedRequest(
+            $command, $expiration
+        )->getUri();
+    }
+
     public function __call(string $method, array $parameters)
     {
         return call_user_func_array([$this->driver, $method], $parameters);

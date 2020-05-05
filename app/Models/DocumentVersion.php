@@ -18,8 +18,7 @@ use App\Facades\Storage;
 class DocumentVersion extends Model implements StatefulContract
 {
     use HasAudit,
-        HasHistories,
-        HasUuid;
+        HasHistories;
 
     const DOCUMENTS_PATH = 'documents';
     const PREVIEWS_PATH = 'documents_previews';
@@ -37,10 +36,6 @@ class DocumentVersion extends Model implements StatefulContract
         'published_at',
         'next_periodic_review_date',
     ];
-
-    protected $keyType = 'string';
-
-    public $incrementing = false;
 
     /**
      * Document
@@ -72,6 +67,7 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function getFileUrlAttribute(): string
     {
+        // return Storage::temporaryUrl($this->file_path, Carbon::now()->addMinutes(15));
         return Storage::url($this->file_path);
     }
 
@@ -81,22 +77,6 @@ class DocumentVersion extends Model implements StatefulContract
     public function getHasFileAttribute(): bool
     {
         return $this->file_path !== null;
-    }
-
-    /**
-     * Preview URL
-     */
-    public function getPreviewUrlAttribute(): string
-    {
-        return Storage::url($this->preview_path);
-    }
-
-    /**
-     * Has preview file
-     */
-    public function getHasPreviewAttribute(): bool
-    {
-        return $this->preview_path !== null;
     }
 
     /**
@@ -184,35 +164,11 @@ class DocumentVersion extends Model implements StatefulContract
      */
     public function uploadFile(UploadedFile $upload)
     {
-        if ( ! $this->id) {
-            $this->id = Uuid::uuid4();
-        }
-
         $extension = pathinfo($upload->getClientFilename(), PATHINFO_EXTENSION);
-        $path = sprintf('%s/%s.%s', self::DOCUMENTS_PATH, $this->id, $extension);
+        $path = sprintf('%s/%s.%s', self::DOCUMENTS_PATH,  Uuid::uuid4(), $extension);
 
         if (Storage::writeStream($path, fopen($upload->file, 'r+'))) {
             $this->file_path = $path;
-        }
-    }
-
-    /**
-     * Upload preview file
-     */
-    public function uploadPreview(UploadedFile $upload)
-    {
-        if ($upload->getClientMediaType() !== 'application/pdf') {
-            throw new \Exception('Preview file must be a PDF file');
-        }
-
-        if ( ! $this->id) {
-            $this->id = Uuid::uuid4();
-        }
-
-        $path = sprintf('%s/%s.pdf', self::PREVIEWS_PATH, $this->id);
-
-        if (Storage::writeStream($path, fopen($upload->file, 'r+'))) {
-            $this->preview_path = $path;
         }
     }
 

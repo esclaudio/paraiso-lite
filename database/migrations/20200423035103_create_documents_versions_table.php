@@ -8,12 +8,11 @@ class CreateDocumentsVersionsTable extends Migration
     public function up()
     {
         $this->schema->create('documents_versions', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('document_id');
             $table->string('version');
             $table->text('changes');
             $table->string('file_path')->nullable();
-            $table->string('preview_path')->nullable();
             $table->enum('status', ['draft', 'toreview', 'toapprove', 'published', 'rejected', 'archived'])->default('draft');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

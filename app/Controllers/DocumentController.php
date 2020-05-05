@@ -4,13 +4,14 @@ namespace App\Controllers;
 
 use Slim\Http\Response;
 use Slim\Http\Request;
+use Carbon\Carbon;
 use App\Validators\DocumentValidator;
+use App\Support\Datatable\Datatable;
 use App\Models\User;
 use App\Models\System;
 use App\Models\Process;
 use App\Models\DocumentType;
 use App\Models\Document;
-use App\Support\Datatable\Datatable;
 
 class DocumentController extends Controller
 {
@@ -37,8 +38,6 @@ class DocumentController extends Controller
         /** @var \App\Support\Workflow\Workflow */
         $workflow = $this->get('document.workflow');
 
-        $latestVersion = $document->getLatestVersion();
-        
         return $this->render(
             $response,
             'documents.show',

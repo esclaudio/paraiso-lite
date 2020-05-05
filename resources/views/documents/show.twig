@@ -6,7 +6,15 @@
 {% block content %}
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            {{ document.full_name }}
+            <div>
+                {{ document.full_name }}
+    
+                {% if latest_version %}
+                    {{ __('(Version %s)')|format(latest_version.version) }}
+                    {{ latest_version.status_html|raw }}
+                {% endif %}
+            </div>
+            
             <div>
                 <a href="{{ path_for('documents.index') }}" class="btn btn-secondary">
                     <i class="fa fa-table"></i>
@@ -30,11 +38,8 @@
         </div>
         <div class="card-body">
             {% if latest_version %}
-                {{ __('Version %s')|format(latest_version.version) }}
-                {{ latest_version.status_html|raw }}
-                
-                {% if latest_version.has_preview %}
-                    <embed src="{{ path_for('documents_versions.preview', {document: document.id, version: latest_version.id}) }}" type="application/pdf" width="100%" height="600px">
+                {% if latest_version.has_file %}
+                    <iframe src="https://docs.google.com/viewer?url={{ latest_version.file_url }}&embedded=true" class="w-100 mb-3" style="height:500px;" frameborder="0"></iframe>
                 {% endif %}
 
                 {% for transition in workflow.allowedTransitions(latest_version) %}

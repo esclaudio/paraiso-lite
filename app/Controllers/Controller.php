@@ -8,6 +8,7 @@ use Slim\Http\Request;
 use Psr\Container\ContainerInterface;
 use App\Models\User;
 use App\Mailer\Contracts\MailableContract;
+use App\Facades\Storage;
 use App\Facades\Mail;
 
 abstract class Controller
@@ -215,21 +216,24 @@ abstract class Controller
      */
     protected function responseInline(Request $request, Response $response, string $path, string $rename = null): Response
     {
-        if (!file_exists($path)) {
-            return $this->notFound($request, $response);
-        }
+        // if (!file_exists($path)) {
+        //     return $this->notFound($request, $response);
+        // }
 
         if (!$rename) {
             $rename = pathinfo($path, PATHINFO_BASENAME);
         }
 
-        $stream = new Stream(fopen($path, 'rb'));
+        $stream = Storage::readStream($path);
+        $mimetype = Storage::getMimetype($path);
 
-        return $response->withHeader('Content-Type', mime_content_type($path))
+        // $stream = new Stream(fopen($path, 'rb'));
+
+        return $response->withHeader('Content-Type', $mimetype)
             ->withHeader('Content-Transfer-Encoding', 'binary')
             ->withHeader('Content-Disposition', 'inline; filename="' . $rename . '"')
             ->withHeader('Cache-Control', 'max-age=60, public')
-            ->withBody($stream);
+            ->withBody(new Stream($stream));
     }
 
     /**

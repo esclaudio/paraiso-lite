@@ -56,10 +56,6 @@ class DocumentVersionController extends Controller
             $version->uploadFile($uploads['file']);
         }
 
-        if (isset($uploads['preview'])) {
-            $version->uploadPreview($uploads['preview']);
-        }
-
         $document->versions()->save($version);
 
         return $this->redirect($request, $response, 'documents.show', ['document' => $document->id]);
