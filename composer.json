@@ -6,7 +6,6 @@
         "slim/flash": "^0.2.0",
         "mikehaertl/phpwkhtmltopdf": "^2.1",
         "ramsey/uuid": "^3.5",
-        "moontoast/math": "^1.1",
         "intervention/image": "^2.3",
         "illuminate/database": "^5.3",
         "illuminate/events": "^5.3",
