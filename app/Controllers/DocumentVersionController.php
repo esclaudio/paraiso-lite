@@ -117,7 +117,7 @@ class DocumentVersionController extends Controller
     }
 
     /**
-     * Delete
+     * Destroy
      *
      * @param  \Slim\Http\Request  $request
      * @param  \Slim\Http\Response $response
@@ -125,7 +125,7 @@ class DocumentVersionController extends Controller
      *
      * @return \Slim\Http\Response
      */
-    public function delete(Request $request, Response $response, array $args): Response
+    public function destroy(Request $request, Response $response, array $args): Response
     {
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
@@ -136,8 +136,6 @@ class DocumentVersionController extends Controller
         try {
             $version->document->unlock();
             $version->delete();
-            
-            $this->flash->addMessage('success', sprintf(MSG_UI_DOCUMENT_VERSION_DELETED, $version->version, $version->document->full_title));
         } catch (\Throwable $t) {
             $this->flash->addMessage('error', MSG_ERROR_DELETE);
         }
@@ -145,9 +143,9 @@ class DocumentVersionController extends Controller
         return $this->redirect(
             $request,
             $response,
-            'document.view',
+            'documents.show',
             [
-                'document' => $version->document->id
+                'document' => $version->document_id
             ]
         );
     }

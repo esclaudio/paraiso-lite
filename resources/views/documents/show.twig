@@ -53,6 +53,13 @@
                         </button>
                     </form>
                 {% endfor %}
+
+                {% if auth.user.can('delete', latest_version) %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-version-modal">
+                        <i class="fa fa-trash"></i>
+                        {{ __('Discard') }}
+                    </button>
+                {% endif %}
             {% else %}
                 <a href="{{ path_for('documents_versions.create', {document: document.id}) }}" class="btn btn-success">
                     {{ __('Create first version') }}
@@ -63,5 +70,9 @@
 
     {% if can_delete %}
         {% include 'documents/partials/modal_delete.twig' %}
+    {% endif %}
+
+    {% if latest_version and auth.user.can('delete', latest_version) %}
+        {% include 'documents/partials/modal_version_delete.twig' with {version: latest_version} %}
     {% endif %}
 {% endblock %}
