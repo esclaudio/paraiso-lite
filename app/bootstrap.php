@@ -10,7 +10,6 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
-require __DIR__ . '/../app/Support/helpers.php';
 require __DIR__ . '/../vendor/autoload.php';
 
 // Define root path

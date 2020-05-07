@@ -5,12 +5,13 @@ namespace App\Models;
 use Slim\Http\UploadedFile;
 use Intervention\Image\ImageManager;
 use Illuminate\Database\Eloquent\Model;
+use App\Support\Helper;
+use App\Support\Facades\Mail;
+use App\Support\Facades\Cache;
 use App\Policies\PolicyResolver;
 use App\Models\Traits\HasOperations;
 use App\Models\Traits\HasHistories;
 use App\Mailer\Contracts\MailableContract;
-use App\Support\Facades\Mail;
-use App\Support\Facades\Cache;
 
 class User extends Model
 {
@@ -35,26 +36,6 @@ class User extends Model
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id');
-    }
-
-    // Attributes
-
-    public function getAvatarPathAttribute()
-    {
-        if ($this->avatar) {
-            return storage_path(sprintf('%s/%s', self::AVATARS_PATH, $this->avatar));
-        }
-
-        return null;
-    }
-
-    public function getAvatarUrlAttribute()
-    {
-        if ($this->avatar) {
-            return sprintf('/%s/%s', self::AVATARS_URL, $this->avatar);
-        }
-
-        return self::EMPTY_AVATAR;
     }
 
     // Scopes
@@ -84,7 +65,7 @@ class User extends Model
 
     public function generateRememberToken()
     {
-        $this->remember_token = str_random(60);
+        $this->remember_token = random_string(60);
         $this->save();
     }
 
@@ -146,25 +127,25 @@ class User extends Model
     public function uploadAvatar(UploadedFile $uploadedFile, ImageManager $image)
     {
         // Unlink old avatar
-        if ($this->avatar) {
-            $path = $this->avatar_path;
+        // if ($this->avatar) {
+        //     $path = $this->avatar_path;
 
-            if (file_exists($path)) {
-                unlink($path);
-            }
-        }
+        //     if (file_exists($path)) {
+        //         unlink($path);
+        //     }
+        // }
         
-        $this->avatar = sprintf('%s.png', uniqid());
+        // $this->avatar = sprintf('%s.png', uniqid());
         
-        if (storage_make(self::AVATARS_PATH)) {
-            $image
-                ->make($uploadedFile->file)
-                ->encode('png')
-                ->fit(120, 120)
-                ->save($this->avatar_path);
+        // if (storage_make(self::AVATARS_PATH)) {
+        //     $image
+        //         ->make($uploadedFile->file)
+        //         ->encode('png')
+        //         ->fit(120, 120)
+        //         ->save($this->avatar_path);
             
-            $this->save();
-        }
+        //     $this->save();
+        // }
     }
 
     public function deleteAvatar()

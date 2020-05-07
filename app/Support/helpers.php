@@ -1,12 +1,10 @@
 <?php
 
-
 if ( ! function_exists('bcrypt')) {
     /**
-     * Hash a given value
-     * 
-     * @param  string $value
-     * 
+     * Hash a given value.
+     *
+     * @param string $value
      * @return string
      */
     function bcrypt(string $value): string
@@ -15,98 +13,14 @@ if ( ! function_exists('bcrypt')) {
     }
 }
 
-if ( ! function_exists('public_path')) {
+if ( ! function_exists('random_string')) {
     /**
-     * Get the path to the public folder
+     * Generate a "random" alpha-numeric string.
      *
-     * @param  string|null  $path
-     * 
+     * @param integer $length
      * @return string
      */
-    function public_path(string $path = null): string
-    {
-        return PUBLIC_PATH . ($path ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : $path);
-    }
-}
-
-if ( ! function_exists('storage_path')) {
-    /**
-     * Get the path to the storage folder
-     *
-     * @param  string|null  $path
-     * 
-     * @return string
-     */
-    function storage_path(string $path = null): string
-    {
-        return FILES_PATH . ($path ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : $path);
-    }
-}
-
-if ( ! function_exists('storage_make')) {
-    /**
-     * Create a directory inside the storage folder
-     *
-     * @param  string  $path
-     * 
-     * @return string|null
-     */
-    function storage_make(string $path)
-    {
-        $path = FILES_PATH . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
-        $oldmask = umask(0);
-
-        if (file_exists($path) || mkdir($path, 0770, true)) {
-            return $path;
-        }
-
-        umask($oldmask);
-        return null;
-    }
-}
-
-
-if ( ! function_exists('storage_put')) {
-    /**
-     * Puts a file inside the storage folder
-     *
-     * @param  string $path
-     * @param  Slim\Http\UploadedFile $upload
-     * 
-     * @return string
-     */
-    function storage_put(string $path, Slim\Http\UploadedFile $upload, string $extension = null)
-    {
-        $path = FILES_PATH . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
-        
-        if ( ! file_exists($path)) {
-            $oldmask = umask(0);
-            mkdir($path, 0770, true);
-            umask($oldmask);
-        }
-
-        if ($extension === null) {
-            $extension = pathinfo($upload->getClientFilename(), PATHINFO_EXTENSION);
-        }
-        
-        $filename = md5(uniqid());
-        $path = sprintf('%s/%s%s', $path, $filename, $extension);
-        
-        $upload->moveTo($path);
-
-        return $path;
-    }
-}
-
-if ( ! function_exists('str_random')) {
-    /**
-     * Generate a more truly "random" alpha-numeric string.
-     *
-     * @param  int  $length
-     * 
-     * @return string
-     */
-    function str_random($length = 16)
+    function random_string(int $length = 16): string
     {
         $string = '';
 
@@ -124,14 +38,13 @@ if ( ! function_exists('str_random')) {
 
 if ( ! function_exists('factory')) {
     /**
-     * Factory
+     * Generate a factory.
      *
-     * @param  string  $model
-     * @param  int $times
-     * 
+     * @param string $model
+     * @param integer $times
      * @return \Illuminate\Database\Eloquent\FactoryBuilder
      */
-    function factory(string $model, int $times = 0)
+    function factory(string $model, int $times = 0): \Illuminate\Database\Eloquent\FactoryBuilder
     {
         $faker = Faker\Factory::create();
         $factory = (new \Illuminate\Database\Eloquent\Factory($faker))
@@ -150,46 +63,43 @@ if ( ! function_exists('trans')) {
     /**
      * Translate the given message.
      *
-     * @param  string  $key
-     * 
+     * @param string $key
      * @return string|null
      */
-    function trans(string $key): string
+    function trans(string $key): ?string
     {
         return App\Support\Facades\Translator::trans($key);
     }
 }
 
-if ( ! function_exists('filterUploads')) {
+if ( ! function_exists('filter_uploads')) {
     /**
-     * Filter uploads
+     * Filter uploads.
      *
-     * @param  \Slim\Http\Request $request
-     * 
+     * @param \Slim\Http\Request $request
      * @return array
      */
-    function filterUploads(\Slim\Http\Request $request): array
+    function filter_uploads(\Slim\Http\Request $request): array
     {
-        $files = [];
+        $uploads = [];
 
         foreach($request->getUploadedFiles() as $name => $upload) {
             $error = $upload->getError();
 
             if ($error === UPLOAD_ERR_OK) {
-                $files[$name] = $upload;
+                $uploads[$name] = $upload;
             } else if($error === UPLOAD_ERR_NO_FILE) {
-                $files[$name] = null;
+                $uploads[$name] = null;
             } else {
                 throw new \Exception(sprintf('Upload error nro. %s', $error));
             }
         }
 
-        return $files;
+        return $uploads;
     }
 }
 
-
-if ( ! function_exists('env')) {
+if ( ! function_exists('genv')) {
     /**
      * Gets the value of an environment variable.
      *
@@ -197,7 +107,7 @@ if ( ! function_exists('env')) {
      * @param  mixed   $default
      * @return mixed
      */
-    function env(string $key, $default = null)
+    function genv(string $key, $default = null)
     {
         $value = $_ENV[$key] ?? null;
 
