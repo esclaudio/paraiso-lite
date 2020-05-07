@@ -13,6 +13,7 @@ class DocumentVersionValidator extends Validator
         return [
             'version'  => $this->request->getParam('version'),
             'changes'  => $this->request->getParam('changes'),
+            'file'     => get_upload('file', $this->request),
         ];
     }
 
@@ -37,6 +38,23 @@ class DocumentVersionValidator extends Validator
                     'where' => [
                         ['id', '<>', $versionId],
                         ['document_id', '=', $documentId],
+                    ],
+                ]),
+            ]),
+
+            'file' => new Assert\Required([
+                new MyAssert\Upload([
+                    'maxSize' => '2M',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                        'text/plain',
+                        'application/msword',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.oasis.opendocument.text',
+                        'application/vnd.oasis.opendocument.spreadsheet',
                     ],
                 ]),
             ]),

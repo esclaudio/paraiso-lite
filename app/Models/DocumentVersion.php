@@ -7,21 +7,15 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use App\Support\Workflow\Contracts\StatefulContract;
-use App\Models\Traits\HasUuid;
 use App\Models\Traits\HasHistories;
 use App\Models\Traits\HasAudit;
-use App\Models\DocumentTransition;
 use App\Support\Facades\Storage;
 
 class DocumentVersion extends Model implements StatefulContract
 {
     use HasAudit,
         HasHistories;
-
-    const DOCUMENTS_PATH = 'documents';
-    const PREVIEWS_PATH = 'documents_previews';
 
     protected $table = 'documents_versions';
 
@@ -160,20 +154,21 @@ class DocumentVersion extends Model implements StatefulContract
 
 
     /**
-     * Upload file
+     * Upload file.
      */
-    public function uploadFile(UploadedFile $upload)
+    public function uploadFile(UploadedFile $upload): void
     {
         $extension = pathinfo($upload->getClientFilename(), PATHINFO_EXTENSION);
-        $path = sprintf('%s/%s.%s', self::DOCUMENTS_PATH,  Uuid::uuid4(), $extension);
+        $path = sprintf('documents/%s.%s', Uuid::uuid4(), $extension);
 
-        if (Storage::disk('s3')->writeStream($path, fopen($upload->file, 'r+'))) {
+        if (Storage::disk('s3')->put($path, $upload, 'public')) {
             $this->file_path = $path;
+            $this->save();
         }
     }
 
     /**
-     * Get state
+     * Get state for workflow.
      */
     public function getState(): string
     {
@@ -181,7 +176,7 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Set state
+     * Set state for workflow.
      */
     public function setState(string $state): void
     {

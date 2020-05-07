@@ -72,34 +72,27 @@ if ( ! function_exists('trans')) {
     }
 }
 
-if ( ! function_exists('filter_uploads')) {
+if ( ! function_exists('get_upload')) {
     /**
-     * Filter uploads.
+     * Upload
      *
+     * @param string $name
      * @param \Slim\Http\Request $request
-     * @return array
+     * @return \Slim\Http\UploadedFile|null
      */
-    function filter_uploads(\Slim\Http\Request $request): array
+    function get_upload(string $name, \Slim\Http\Request $request): ?\Slim\Http\UploadedFile
     {
-        $uploads = [];
+        $upload = $request->getUploadedFiles()[$name] ?? null;
 
-        foreach($request->getUploadedFiles() as $name => $upload) {
-            $error = $upload->getError();
-
-            if ($error === UPLOAD_ERR_OK) {
-                $uploads[$name] = $upload;
-            } else if($error === UPLOAD_ERR_NO_FILE) {
-                $uploads[$name] = null;
-            } else {
-                throw new \Exception(sprintf('Upload error nro. %s', $error));
-            }
+        if ($upload && $upload->getError() === UPLOAD_ERR_NO_FILE) {
+            return null;
         }
 
-        return $uploads;
+        return $upload;
     }
 }
 
-if ( ! function_exists('genv')) {
+if ( ! function_exists('get_env')) {
     /**
      * Gets the value of an environment variable.
      *
@@ -107,7 +100,7 @@ if ( ! function_exists('genv')) {
      * @param  mixed   $default
      * @return mixed
      */
-    function genv(string $key, $default = null)
+    function get_env(string $key, $default = null)
     {
         $value = $_ENV[$key] ?? null;
 

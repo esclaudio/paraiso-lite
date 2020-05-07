@@ -8,56 +8,56 @@ if (file_exists(dirname(__DIR__) . '/.env')) {
 }
 
 return [
-    'app_name' => genv('APP_NAME'),
-    'app_url'  => genv('APP_URL'),
-    'app_env'  => genv('APP_ENV'),
-    'debug'    => genv('APP_DEBUG'),
-    'timezone' => genv('APP_TIMEZONE'),
-    'displayErrorDetails' => genv('APP_DEBUG'),
+    'app_name' => get_env('APP_NAME'),
+    'app_url'  => get_env('APP_URL'),
+    'app_env'  => get_env('APP_ENV'),
+    'debug'    => get_env('APP_DEBUG'),
+    'timezone' => get_env('APP_TIMEZONE'),
+    'displayErrorDetails' => get_env('APP_DEBUG'),
     'determineRouteBeforeAppMiddleware' => true,
 
     'view' => [
         'templates' => '../resources/views',
-        'cache'     => genv('APP_DEBUG')? false: '../storage/views',
-        'debug'     => genv('APP_DEBUG'),
+        'cache'     => get_env('APP_DEBUG')? false: '../storage/views',
+        'debug'     => get_env('APP_DEBUG'),
     ],
 
     'database' => [
-        'driver'    => genv('DB_CONNECTION'),
-        'host'      => genv('DB_HOST'),
-        'port'      => genv('DB_PORT'),
-        'database'  => genv('DB_DATABASE'),
-        'username'  => genv('DB_USERNAME'),
-        'password'  => genv('DB_PASSWORD'),
-        'charset'   => genv('DB_CHARSET'),
-        'collation' => genv('DB_COLLATION'),
-        'prefix'    => genv('DB_PREFIX'),
+        'driver'    => get_env('DB_CONNECTION'),
+        'host'      => get_env('DB_HOST'),
+        'port'      => get_env('DB_PORT'),
+        'database'  => get_env('DB_DATABASE'),
+        'username'  => get_env('DB_USERNAME'),
+        'password'  => get_env('DB_PASSWORD'),
+        'charset'   => get_env('DB_CHARSET'),
+        'collation' => get_env('DB_COLLATION'),
+        'prefix'    => get_env('DB_PREFIX'),
     ],
 
     'mail' => [
-        'host' => genv('MAIL_HOST'),
-        'port' => genv('MAIL_PORT'),
-        'security' => genv('MAIL_ENCRYPTION'),
+        'host' => get_env('MAIL_HOST'),
+        'port' => get_env('MAIL_PORT'),
+        'security' => get_env('MAIL_ENCRYPTION'),
         'from' => [
-            'name'    => genv('MAIL_FROM_NAME'),
-            'address' => genv('MAIL_FROM_ADDRESS'),
+            'name'    => get_env('MAIL_FROM_NAME'),
+            'address' => get_env('MAIL_FROM_ADDRESS'),
         ],
-        'username' => genv('MAIL_USERNAME'),
-        'password' => genv('MAIL_PASSWORD'),
+        'username' => get_env('MAIL_USERNAME'),
+        'password' => get_env('MAIL_PASSWORD'),
     ],
 
     'wkhtml' => [
-        'zoom' => genv('WKHTML_ZOOM', 1),
+        'zoom' => get_env('WKHTML_ZOOM', 1),
     ],
 
     'unoconv' => [
-        'bin' => genv('UNOCONV_BIN', 'unoconv'),
+        'bin' => get_env('UNOCONV_BIN', 'unoconv'),
     ],
 
     'redis' => [
-        'host'     => genv('REDIS_HOST', 'localhost'),
-        'password' => genv('REDIS_PASSWORD', null),
-        'port'     => genv('REDIS_PORT', 6379),
+        'host'     => get_env('REDIS_HOST', 'localhost'),
+        'password' => get_env('REDIS_PASSWORD', null),
+        'port'     => get_env('REDIS_PORT', 6379),
     ],
 
     'disks' => [
@@ -70,15 +70,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root'   => ROOT . '/storage/app/public',
-            'url'    => genv('APP_URL').'/storage',
+            'url'    => get_env('APP_URL').'/storage',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key'    => genv('AWS_ACCESS_KEY_ID'),
-            'secret' => genv('AWS_SECRET_ACCESS_KEY'),
-            'region' => genv('AWS_DEFAULT_REGION'),
-            'bucket' => genv('AWS_BUCKET'),
+            'key'    => get_env('AWS_ACCESS_KEY_ID'),
+            'secret' => get_env('AWS_SECRET_ACCESS_KEY'),
+            'region' => get_env('AWS_DEFAULT_REGION'),
+            'bucket' => get_env('AWS_BUCKET'),
         ],
 
     ],

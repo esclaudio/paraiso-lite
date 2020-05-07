@@ -46,17 +46,14 @@ class DocumentVersionController extends Controller
 
         $this->authorize('edit', $document);
 
-        $version = new DocumentVersion(
-            DocumentVersionValidator::validate($request)
-        );
-        
-        $uploads = filterUploads($request);
-        
-        if (isset($uploads['file'])) {
-            $version->uploadFile($uploads['file']);
-        }
+        $attributes = DocumentVersionValidator::validate($request);
 
+        $version = new DocumentVersion($attributes);
         $document->versions()->save($version);
+
+        if ($attributes['file']) {
+            $version->uploadFile($attributes['file']);
+        }
 
         return $this->redirect($request, $response, 'documents.show', ['document' => $document->id]);
     }
