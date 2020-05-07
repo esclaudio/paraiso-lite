@@ -160,7 +160,7 @@ if ( ! function_exists('trans')) {
     }
 }
 
-if ( ! function_exists('uploads')) {
+if ( ! function_exists('filterUploads')) {
     /**
      * Filter uploads
      *
@@ -188,27 +188,34 @@ if ( ! function_exists('uploads')) {
     }
 }
 
-if ( ! function_exists('array_input')) {
+
+if ( ! function_exists('env')) {
     /**
-     * Converts an array of inputs into an array
+     * Gets the value of an environment variable.
      *
-     * @param  array $form
-     * 
-     * @return array
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
      */
-    function array_input(array $inputs): array
+    function env(string $key, $default = null)
     {
-        $array = [];
+        $value = $_ENV[$key] ?? null;
 
-        foreach ($inputs as $field => $values) {
-            $i = 0;
-
-            foreach ($values as $value) {
-                $array[$i][$field] = $value;
-                $i++;
-            }
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
         }
 
-        return $array;
+        return $value ?? $default;
     }
 }

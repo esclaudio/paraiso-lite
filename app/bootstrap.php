@@ -10,8 +10,7 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
-date_default_timezone_set('America/Argentina/Buenos_Aires');
-
+require __DIR__ . '/../app/Support/helpers.php';
 require __DIR__ . '/../vendor/autoload.php';
 
 // Define root path
@@ -48,6 +47,10 @@ $sessionName = strtolower($sessionName);
 session_name($sessionName);
 session_cache_limiter(false); // NO delete
 session_start();
+
+// Timezone
+
+date_default_timezone_set($settings['timezone'] ?? 'UTC');
 
 // Instantiate the app
 

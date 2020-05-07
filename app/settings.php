@@ -1,61 +1,61 @@
 <?php
 
 if (file_exists(dirname(__DIR__) . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createMutable(dirname(__DIR__));
-    $dotenv->load();
+    $dotenv = new Symfony\Component\Dotenv\Dotenv();
+    $dotenv->load(dirname(__DIR__) . '/.env');
 }
 
 return [
-    'app_name' => getenv('APP_NAME'),
-    'app_url'  => getenv('APP_URL'),
-    'app_env'  => getenv('APP_ENV'),
-    'debug'    => getenv('APP_DEBUG'),
-    'help_url' => getenv('HELP_URL'),
-    'displayErrorDetails' => getenv('APP_DEBUG'),
+    'app_name' => env('APP_NAME'),
+    'app_url'  => env('APP_URL'),
+    'app_env'  => env('APP_ENV'),
+    'debug'    => env('APP_DEBUG'),
+    'timezone' => env('APP_TIMEZONE'),
+    'displayErrorDetails' => env('APP_DEBUG'),
     'determineRouteBeforeAppMiddleware' => true,
 
     'view' => [
         'templates' => '../resources/views',
-        'cache'     => getenv('APP_DEBUG')? false: '../storage/views',
-        'debug'     => getenv('APP_DEBUG'),
+        'cache'     => env('APP_DEBUG')? false: '../storage/views',
+        'debug'     => env('APP_DEBUG'),
     ],
 
     'database' => [
-        'driver'    => getenv('DB_CONNECTION'),
-        'host'      => getenv('DB_HOST'),
-        'port'      => getenv('DB_PORT'),
-        'database'  => getenv('DB_DATABASE'),
-        'username'  => getenv('DB_USERNAME'),
-        'password'  => getenv('DB_PASSWORD'),
-        'charset'   => getenv('DB_CHARSET'),
-        'collation' => getenv('DB_COLLATION'),
-        'prefix'    => getenv('DB_PREFIX'),
+        'driver'    => env('DB_CONNECTION'),
+        'host'      => env('DB_HOST'),
+        'port'      => env('DB_PORT'),
+        'database'  => env('DB_DATABASE'),
+        'username'  => env('DB_USERNAME'),
+        'password'  => env('DB_PASSWORD'),
+        'charset'   => env('DB_CHARSET'),
+        'collation' => env('DB_COLLATION'),
+        'prefix'    => env('DB_PREFIX'),
     ],
 
     'mail' => [
-        'host' => getenv('MAIL_HOST'),
-        'port' => getenv('MAIL_PORT'),
-        'security' => getenv('MAIL_ENCRYPTION'),
+        'host' => env('MAIL_HOST'),
+        'port' => env('MAIL_PORT'),
+        'security' => env('MAIL_ENCRYPTION'),
         'from' => [
-            'name'    => getenv('MAIL_FROM_NAME'),
-            'address' => getenv('MAIL_FROM_ADDRESS'),
+            'name'    => env('MAIL_FROM_NAME'),
+            'address' => env('MAIL_FROM_ADDRESS'),
         ],
-        'username' => getenv('MAIL_USERNAME'),
-        'password' => getenv('MAIL_PASSWORD'),
+        'username' => env('MAIL_USERNAME'),
+        'password' => env('MAIL_PASSWORD'),
     ],
 
     'wkhtml' => [
-        'zoom' => getenv('WKHTML_ZOOM', 1),
+        'zoom' => env('WKHTML_ZOOM', 1),
     ],
 
     'unoconv' => [
-        'bin' => getenv('UNOCONV_BIN', 'unoconv'),
+        'bin' => env('UNOCONV_BIN', 'unoconv'),
     ],
 
     'redis' => [
-        'host'     => getenv('REDIS_HOST', 'localhost'),
-        'password' => getenv('REDIS_PASSWORD', null),
-        'port'     => getenv('REDIS_PORT', 6379),
+        'host'     => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port'     => env('REDIS_PORT', 6379),
     ],
 
     'disks' => [
@@ -68,15 +68,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root'   => ROOT . '/storage/app/public',
-            'url'    => getenv('APP_URL').'/storage',
+            'url'    => env('APP_URL').'/storage',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key'    => getenv('AWS_ACCESS_KEY_ID'),
-            'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
-            'region' => getenv('AWS_DEFAULT_REGION'),
-            'bucket' => getenv('AWS_BUCKET'),
+            'key'    => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
         ],
 
     ],
