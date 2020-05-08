@@ -1,2 +1,12 @@
 <strong>{{ __('Name') }}</strong><br>
 <p>{{ role.name }}</p>
+
+<strong>{{ __('Permissions') }}</strong><br>
+<ul>
+    {% for module, permissions in role.permissions.groupBy('module') %}
+        <li>
+            {{ __(module) }}
+            <span class="text-muted">({{ permissions.pluck('description').join(', ') }})</span>
+        </li>
+    {% endfor %}
+</ul>

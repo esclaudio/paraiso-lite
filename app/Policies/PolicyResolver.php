@@ -4,22 +4,23 @@ namespace App\Policies;
 
 class PolicyResolver
 {
+    protected $namespace = 'App\Policies';
+
     /**
-     * Get a policy instance for the given class
-     * @param  mixed $model Object or model name
-     * @return mixed
+     * Get a policy instance for the given class.
+     *
+     * @param mixed $model
+     * @return Policy
      */
-    public static function for($model)
+    public static function for($model): Policy
     {
         $className = (new \ReflectionClass($model))->getShortName();
-        $policy = "App\Policies\\{$className}Policy";
+        $policy = sprintf('%s\%sPolicy', $this->namespace, $className);
 
         if ( ! is_object($model)) {
             $model = null;
         }
-        
-        return new $policy($model);
 
-        return null;
+        return new $policy($model);
     }
 }

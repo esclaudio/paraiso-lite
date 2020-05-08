@@ -5,6 +5,23 @@
     <input type="text" id="name" name="name" value="{{ role.name }}" class="form-control" required autofocus>
 </div>
 
+<div>
+    {% set role_permissions = role ? role.permissions.pluck('id') : null %}
+
+    {% for module, permissions in permissions_by_module %}
+        <div class="mb-2 p-3 rounded bg-light">
+            <div class="font-weight-bold mb-2">{{ __(module) }}</div>
+    
+            {% for permission in permissions %}
+                <div class="custom-control custom-control-inline custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="{{ permission.id }}" name="permissions[]" value="{{ permission.id }}" {{ permission.id in role_permissions ? 'checked' }}>
+                    <label class="custom-control-label" for="{{ permission.id }}">{{ __(permission.description) }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
 <button type="submit" class="btn btn-success">
     <i class="fa fa-check"></i>
     {{ role.id ? __('Update') : __('Save') }}

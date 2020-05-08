@@ -5,9 +5,10 @@ namespace App\Controllers;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use App\Validators\RoleValidator;
-use App\Models\Role;
 use App\Support\Facades\Cache;
 use App\Support\Datatable\Datatable;
+use App\Models\Role;
+use App\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -133,11 +134,17 @@ class RoleController extends Controller
      */
     private function createOrEdit(Request $request, Response $response, Role $role = null): Response
     {
+        $permissionsByModule = Permission::orderBy('module')
+            ->orderBy('id')
+            ->get()
+            ->groupBy('module');
+
         return $this->render(
             $response,
             'roles.'.($role? 'edit': 'create'),
             [
-                'role' => $role
+                'role' => $role,
+                'permissions_by_module' => $permissionsByModule
             ]
         );
     }
@@ -157,10 +164,9 @@ class RoleController extends Controller
 
         $role->save();
 
-        // TODO:
-        // $role->permissions()->sync(
-        //     (array)$request->getParam('permission_id')
-        // );
+        $role->permissions()->sync(
+            (array)$request->getParam('permissions')
+        );
 
         // Cache::forgetAll('user.*.permissions');
 

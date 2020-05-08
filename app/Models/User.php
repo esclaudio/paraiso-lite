@@ -84,7 +84,7 @@ class User extends Model
         if (is_null($model)) {
             return in_array($ability, $this->getPermissions());
         }
-        
+
         return PolicyResolver::for($model)->can($this, $ability);
     }
 

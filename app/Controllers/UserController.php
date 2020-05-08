@@ -5,12 +5,13 @@ namespace App\Controllers;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use App\Validators\UserValidator;
+use App\Support\Facades\Cache;
+use App\Support\Datatable\Datatable;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Process;
+use App\Models\Permission;
 use App\Models\Language;
-use App\Support\Facades\Cache;
-use App\Support\Datatable\Datatable;
 
 class UserController extends Controller
 {
