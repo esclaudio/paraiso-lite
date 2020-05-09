@@ -120,15 +120,23 @@
                             {% set version = document.currentVersion %}
 
                             <a class="list-group-item list-group-item-action" href="#" data-url="{{ version.file_url }}">
-                                {{ document.full_name }}
-
-                                {% if version.published_days < 7 %}
-                                    <span class="badge badge-warning">
-                                        {{ __('New') }}
-                                    </span>
-                                {% endif %}
-
-
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div>
+                                        <div>
+                                            {{ document.full_name }}
+                                        </div>
+        
+                                        {% if version.published_days < 7 %}
+                                            <span class="badge badge-warning">
+                                                {{ __('New') }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-right">
+                                        <div>v. {{ version.version }}</div>
+                                        <small>{{ version.approved_at|date() }}</small>
+                                    </div>
+                                </div>
                             </a>
                         {% endfor %}
                     </div>
