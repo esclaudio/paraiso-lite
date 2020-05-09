@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pagination;
+namespace App\Support\Pagination;
 
 use ArrayAccess;
 use Countable;

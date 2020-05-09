@@ -30,7 +30,7 @@ abstract class Controller
     /** 
      * View
      * 
-     * @var \Slim\Views\Twig 
+     * @var \Slim\Views\Twig
      */
     protected $view;
 

@@ -27,7 +27,7 @@ class DocumentVersion extends Model implements StatefulContract
     protected $dates = [
         'created_at',
         'updated_at',
-        'published_at',
+        'approved_at',
         'next_periodic_review_date',
     ];
 
@@ -59,10 +59,15 @@ class DocumentVersion extends Model implements StatefulContract
     /**
      * File URL
      */
-    public function getFileUrlAttribute(): string
+    public function getFileUrlAttribute(): ?string
     {
         // return Storage::disk('s3')->temporaryUrl($this->file_path, Carbon::now()->addMinutes(15));
-        return Storage::disk('s3')->url($this->file_path);
+
+        if ($this->file_path) {
+            return Storage::disk('s3')->url($this->file_path);
+        }
+
+        return null;
     }
 
     /**
@@ -83,10 +88,15 @@ class DocumentVersion extends Model implements StatefulContract
         return DocumentStatus::html($this->status);
     }
 
+    /**
+     * Get the number of days since the version was published.
+     *
+     * @return void
+     */
     public function getPublishedDaysAttribute()
     {
-        if ($this->published_at) {
-            return $this->published_at->diffInDays();
+        if ($this->approved_at) {
+            return $this->approved_at->diffInDays();
         }
 
         return null;

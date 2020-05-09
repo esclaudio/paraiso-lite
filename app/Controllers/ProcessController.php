@@ -5,8 +5,9 @@ namespace App\Controllers;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use App\Validators\ProcessValidator;
-use App\Models\Process;
 use App\Support\Datatable\Datatable;
+use App\Models\Process;
+use App\Filters\ProcessFilter;
 
 class ProcessController extends Controller
 {

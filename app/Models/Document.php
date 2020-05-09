@@ -25,6 +25,7 @@ class Document extends Model
         'document_type_id',
         'code',
         'name',
+        'responsible_id',
         'reviewer_id',
         'approver_id',
         'review_frequency',
@@ -102,6 +103,16 @@ class Document extends Model
     public function scopeUnlocked(Builder $query): void
     {
         $query->where('is_locked', false);
+    }
+
+    /**
+     * Scope published
+     */
+    public function scopePublished(Builder $query): void
+    {
+        $query->whereHas('versions', function (Builder $query) {
+            $query->where('status', DocumentStatus::PUBLISHED);
+        });
     }
 
     /**

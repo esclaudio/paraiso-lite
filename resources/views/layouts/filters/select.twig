@@ -1,0 +1,13 @@
+<div class="form-group">
+    <label for="filter-{{ name }}">
+        {{ label }}
+    </label>
+    <select id="filter-{{ name }}" name="{{ name }}" class="custom-select">
+        <option value=""></option>
+        {% for k, v in options %}
+            <option value="{{ k }}" {{ value == k ? 'selected' }}>
+                {{ v }}
+            </option>
+        {% endfor %}
+    </select>
+</div>

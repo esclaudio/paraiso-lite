@@ -14,6 +14,7 @@ class CreateDocumentsTable extends Migration
             $table->unsignedBigInteger('document_type_id');
             $table->string('code')->nullable()->unique('ux_documents_code');
             $table->string('name')->unique('ux_documents_name');
+            $table->unsignedBigInteger('responsible_id');
             $table->unsignedBigInteger('reviewer_id');
             $table->unsignedBigInteger('approver_id');
             $table->unsignedInteger('review_frequency');
@@ -22,6 +23,10 @@ class CreateDocumentsTable extends Migration
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
+
+            $table->foreign('responsible_id', 'fk_documents_responsible')
+                ->references('id')
+                ->on('users');
 
             $table->foreign('reviewer_id', 'fk_documents_reviewer')
                 ->references('id')

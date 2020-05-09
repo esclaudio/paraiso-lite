@@ -1,21 +1,39 @@
-{% extends 'layouts/app_title.twig' %}
-
-{% block css %}
-    <style>
-        .pdf-viewer {
-            border: none !important;
-        }
-    </style>
-{% endblock %}
-
-{% block scripts %}
-    <script src="{{ base_url() }}/vendor/pdfjs/pdf.worker.{{ constant('APP_VERSION') }}.min.js"></script>
-    <script src="{{ base_url() }}/vendor/pdfjs/pdf.{{ constant('APP_VERSION') }}.min.js"></script>
-{% endblock %}
+{% extends 'layouts/app.twig' %}
 
 {% block js %}
     <script type="text/javascript">
         $(function () {
+            var $preview = $('#preview');
+
+            function loadingPreview() {
+                $preview.html('\
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>\
+                    <span class="sr-only">Loading...</span>\
+                ');
+            }
+
+            function emptyPreview() {
+                $preview.html('\
+                    <div class="text-muted">\
+                        <i class="fa fa-eye-slash fa-3x fa-fw"></i>\
+                        <div>No preview available</div>\
+                    </div>\
+                ');
+            }
+
+            function preview(url) {
+                var $iframe = $('<iframe/>', {
+                    src: 'https://docs.google.com/viewer?url='+ url +'&embedded=true',
+                    style: 'display:none; border: none; width:100%;',
+                });
+
+                $iframe.on('load', function (e) {
+                    $(this).show();
+                });
+
+                $preview.empty().append($iframe);
+            }
+
             $('#btn-clear').click(function (e) {
                 var form = document.getElementById('filter-form');
 
@@ -28,21 +46,47 @@
                 form.submit();
             });
 
-            $('#preview-modal').on('show.bs.modal', function (e) {
-                var button = e.relatedTarget;
+            $('#documents-list a').on('click', function (e) {
+                var url = this.dataset.url;
 
-                $('#preview-title').html(button.dataset.title);
-
-                App.Preview.init('#preview', button.dataset.url, App.settings.lang);
-            });
-
-            $('#preview-modal').on('hide.bs.modal', function (e) {
-                $('#preview').html('');
-            });
-
-            $('.btn-print').click(function (e) {
+                e.preventDefault();
                 
+                loadingPreview();
+
+                if (url) {
+                    preview(url);
+                } else {
+                    emptyPreview();
+                }
+
+                $(this).tab('show');
             });
+
+            emptyPreview();
+            filterSummary();
+
+
+            // $('tr.document-row').click(function (e) {
+            //     var url = this.dataset.url;
+                
+            //     $('tr.document-row').removeClass('table-active');
+            //     $(this).addClass('table-active');
+
+            //     $preview.empty();
+
+            //     if (url) {
+            //         var iframe = document.createElement('iframe');
+            //         iframe.src = 'https://docs.google.com/viewer?url='+ url +'&embedded=true';
+            //         iframe.classList.add('w-100');
+            //         iframe.frameBorder = 0;
+
+            //         $preview.append(iframe);
+            //     } else {
+            //         $preview.append('\
+            //             No Preview\
+            //         ');
+            //     }
+            // });
         });
     </script>
 {% endblock %}
@@ -53,42 +97,53 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-3">
-            <div class="card mb-3">
-                <div class="card-body">
-                    {% include 'current_document/partials/filter.twig' %}
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body border-bottom">
+                    <form action="">
+                        <div class="input-group">
+                            <input type="text" id="search-code_or_name" name="code_or_name" class="form-control" placeholder="{{ __('Search') }}" value="{{ filter.value('code_or_name') }}" autofocus>
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#filter-modal">
+                                  <i class="fa fa-sliders"></i>
+                              </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-9">
-            {% if documents is empty %}
-                <div class="card mb-3">
-                    <div class="card-body text-center">
-                        {{ __('No data found') }}
+                {% if documents is empty %}
+                    {{ __('No data') }}
+                {% else %}
+                    <div id="documents-list" class="list-group list-group-flush">
+                        {% for document in documents %}
+                            {% set version = document.currentVersion %}
+
+                            <a class="list-group-item list-group-item-action" href="#" data-url="{{ version.file_url }}">
+                                {{ document.full_name }}
+
+                                {% if version.published_days < 7 %}
+                                    <span class="badge badge-warning">
+                                        {{ __('New') }}
+                                    </span>
+                                {% endif %}
+
+
+                            </a>
+                        {% endfor %}
                     </div>
-                </div>
-            {% else %}
-                {% include 'current_document/partials/table.twig' %}
-            {% endif %}
-
-            {% include 'layouts/helpers/links.twig' with {paginator: documents} %}
+                {% endif %}
+                {% include 'layouts/helpers/links.twig' with {paginator: documents} %}
+            </div>
         </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" id="preview-modal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="preview-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body p-0">
-                    <div id="preview"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body text-center" id="preview">
+                    
                 </div>
             </div>
         </div>
     </div>
+
+    {% include 'layouts/filters/modal.twig' %}
 {% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pagination;
+namespace App\Support\Pagination;
 
 class UrlWindow
 {

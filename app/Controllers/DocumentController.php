@@ -12,6 +12,7 @@ use App\Models\System;
 use App\Models\Process;
 use App\Models\DocumentType;
 use App\Models\Document;
+use App\Filters\DocumentFilter;
 
 class DocumentController extends Controller
 {
@@ -22,7 +23,13 @@ class DocumentController extends Controller
     {
         $this->authorize('documents.show');
 
-        return $this->render($response, 'documents.index');
+        return $this->render(
+            $response,
+            'documents.index',
+            [
+                // 'filter' => $filter,
+            ]
+        );
     }
 
     /**

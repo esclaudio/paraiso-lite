@@ -3,71 +3,30 @@
         <thead class="thead-light">
             <tr>
                 <th>{{ __('Document') }}</th>
-                <th>{{ __('System') }}</th>
-                <th>{{ __('Process') }}</th>
                 <th class="text-right">{{ __('Version') }}</th>
-                <th class="text-right">{{ __('Published') }}</th>
-                <th class="text-right"></th>
             </tr>
         </thead>
         <tbody>
             {% for document in documents %}
-                {% set version = document.published_version %}
+                {% set version = document.currentVersion %}
 
-                <tr>
+                <tr class="document-row" style="cursor: pointer;" data-url="{{ version.file_url }}">
                     <td>
-                        {% if version.published_days < constant('DOCUMENT_NEW_DAYS') %}
-                            <span class="badge badge-warning">¡Nuevo!</span>
+                        {{ document.full_name }}
+
+                        {% if version.published_days < 7 %}
+                            <span class="badge badge-warning">
+                                {{ __('New') }}
+                            </span>
                         {% endif %}
-
-                        {{ document.full_title }}
-
-                        <br>
-
+                    </td>
+                    <td class="text-right">
+                        <div>
+                            {{ version.version }}
+                        </div>
                         <small class="text-muted">
-                            {{ __('Responsible') }}: {{ document.responsible.name }}
+                            {{ version.published_at|date() }}
                         </small>
-                    </td>
-                    <td>{{ document.system.name }}</td>
-                    <td>{{ document.process.name }}</td>
-                    <td class="text-right">{{ version.version }}</td>
-                    <td class="text-right">
-                        {{ version.published_at|date() }}
-
-                        {% if version.next_periodic_review_date and version.next_periodic_review_date.isPast %}
-                            <div style="color:crimson">
-                                <i class="fa fa-warning"></i>
-                                {{ __('Expired') }}
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td class="text-right">
-                        {% if version.file_exists %}
-                            <div class="btn-group" role="group">
-                                {% if version.preview_exists %}
-                                    <button
-                                        class="btn btn-secondary btn-preview"
-                                        data-toggle="modal"
-                                        data-target="#preview-modal"
-                                        data-title="{{ document.full_title }} v{{ version.version }}"
-                                        data-url="{{ path_for('document_version.preview', {document: document.id, version: version.id}) }}" title="{{ __('Preview') }}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-
-                                    {% if auth.user.can('print', document) %}
-                                        <button class="btn btn-secondary btn-print" onclick="printJS('{{ path_for('document_version.preview', {document: document.id, version: version.id}) }}')" title="{{ __('Print') }}">
-                                            <i class="fa fa-print"></i>
-                                        </button>
-                                    {% endif %}
-                                {% endif %}
-
-                                {% if auth.user.can('download', document) %}
-                                    <a class="btn btn-secondary" href="{{ path_for('document_version.download', {document: document.id, version: version.id}) }}" title="{{ __('Download') }}">
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                {% endif %}
-                            </div><!-- btn-toolbar -->
-                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

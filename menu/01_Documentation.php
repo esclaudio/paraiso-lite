@@ -8,10 +8,6 @@ return [
                 'title' => trans('Current documents'),
                 'route' => 'current_documents.index',
             ],
-            [
-                'title' => trans('Pending documents'),
-                'route' => 'pending_documents.index',
-            ],
         ],
         [ 
             [
