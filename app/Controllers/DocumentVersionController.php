@@ -195,11 +195,7 @@ class DocumentVersionController extends Controller
             ->where('document_id', $args['document'])
             ->firstOrFail();
         
-        if ( ! $version->has_preview) {
-            return $this->notFound($request, $response);
-        }
-
-        return $this->responseInline($request, $response, $version->preview_path);
+        return $this->render($response, 'documents_versions.preview', ['version' => $version]);
     }
 
     /**

@@ -4,36 +4,7 @@
     <script type="text/javascript">
         $(function () {
             var $preview = $('#preview');
-
-            function loadingPreview() {
-                $preview.html('\
-                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>\
-                    <span class="sr-only">Loading...</span>\
-                ');
-            }
-
-            function emptyPreview() {
-                $preview.html('\
-                    <div class="text-muted">\
-                        <i class="fa fa-eye-slash fa-3x fa-fw"></i>\
-                        <div>No preview available</div>\
-                    </div>\
-                ');
-            }
-
-            function preview(url) {
-                var $iframe = $('<iframe/>', {
-                    src: 'https://docs.google.com/viewer?url='+ url +'&embedded=true',
-                    style: 'display:none; border: none; width:100%;',
-                });
-
-                $iframe.on('load', function (e) {
-                    $(this).show();
-                });
-
-                $preview.empty().append($iframe);
-            }
-
+            
             $('#btn-clear').click(function (e) {
                 var form = document.getElementById('filter-form');
 
@@ -47,46 +18,26 @@
             });
 
             $('#documents-list a').on('click', function (e) {
-                var url = this.dataset.url;
-
                 e.preventDefault();
-                
-                loadingPreview();
 
-                if (url) {
-                    preview(url);
-                } else {
-                    emptyPreview();
-                }
+                $preview.html('\
+                    <div>\
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>\
+                        <span class="sr-only">Loading...</span>\
+                    </div>\
+                ');
+                
+                $.ajax({
+                    url: this.href,
+                    data: App.csrf,
+                    type: 'post',
+                    dataType: 'html'
+                }).done(function (response) {
+                    $preview.html(response);
+                });
 
                 $(this).tab('show');
             });
-
-            emptyPreview();
-            filterSummary();
-
-
-            // $('tr.document-row').click(function (e) {
-            //     var url = this.dataset.url;
-                
-            //     $('tr.document-row').removeClass('table-active');
-            //     $(this).addClass('table-active');
-
-            //     $preview.empty();
-
-            //     if (url) {
-            //         var iframe = document.createElement('iframe');
-            //         iframe.src = 'https://docs.google.com/viewer?url='+ url +'&embedded=true';
-            //         iframe.classList.add('w-100');
-            //         iframe.frameBorder = 0;
-
-            //         $preview.append(iframe);
-            //     } else {
-            //         $preview.append('\
-            //             No Preview\
-            //         ');
-            //     }
-            // });
         });
     </script>
 {% endblock %}
@@ -96,7 +47,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="row h-100">
         <div class="col-sm-4">
             <div class="card">
                 <div class="card-body border-bottom">
@@ -119,7 +70,7 @@
                         {% for document in documents %}
                             {% set version = document.currentVersion %}
 
-                            <a class="list-group-item list-group-item-action" href="#" data-url="{{ version.file_url }}">
+                            <a class="list-group-item list-group-item-action" href="{{ path_for('documents_versions.preview', {document: document.id, version: version.id}) }}">
                                 <div class="d-flex w-100 justify-content-between">
                                     <div>
                                         <div>
@@ -144,12 +95,8 @@
                 {% include 'layouts/helpers/links.twig' with {paginator: documents} %}
             </div>
         </div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-body text-center" id="preview">
-                    
-                </div>
-            </div>
+        <div class="col-sm-8 h-100 text-muted text-center" id="preview">
+            {{ __('Select a Document') }}
         </div>
     </div>
 

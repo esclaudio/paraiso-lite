@@ -116,7 +116,7 @@ $app->group('/documents', function () {
                     ->setName('documents_versions.download');
 
                 // Preview
-                $this->get('/preview', DocumentVersionController::class . ':preview')
+                $this->post('/preview', DocumentVersionController::class . ':preview')
                     ->setName('documents_versions.preview');
 
                 // Transition

@@ -9,11 +9,13 @@
         {% include 'layouts/partials/js.twig' %}
     </head>
     <body class="bg-light">
-        {% include 'layouts/partials/navbar.twig' %}
+        <div class="vh-100 d-flex flex-column">
+            {% include 'layouts/partials/navbar.twig' %}
 
-        <div class="container my-3">
-            {% include 'layouts/partials/flash.twig' %}
-            {% block content %}{% endblock %}
+            <div class="container flex-grow-1 py-3">
+                {% include 'layouts/partials/flash.twig' %}
+                {% block content %}{% endblock %}
+            </div>
         </div>
 
         {% block js %} {% endblock %}

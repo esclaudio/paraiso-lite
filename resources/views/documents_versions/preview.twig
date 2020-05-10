@@ -1,0 +1,10 @@
+{% if version.has_file %}
+    <div class="w-100 h-100" style="background: #d1d1d1;">
+        <iframe src="https://docs.google.com/viewer?url={{ version.file_url }}&embedded=true&chrome=true" class="w-100 h-100" frameborder="0">
+            {{ __('Error') }}
+        </iframe>
+    </div>
+{% else %}
+    <i class="fa fa-eye-slash fa-3x fa-fw"></i>
+    <div>{{ __('No preview') }}</div>
+{% endif %}

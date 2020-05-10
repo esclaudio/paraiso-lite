@@ -6,6 +6,10 @@
 @import "_datepicker";
 @import "selectize/selectize.scss";
 
+.vh-100 {
+    min-height: 100vh;
+}
+
 .ribbon {
     position: absolute;
     white-space: nowrap;
