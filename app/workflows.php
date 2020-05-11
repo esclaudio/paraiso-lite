@@ -100,6 +100,11 @@ $container['document.workflow'] = function ($c) {
                 $document->versions()->published()->update(['status' => DocumentStatus::ARCHIVED]);
                 $document->unlock();
 
+                if ( ! $version->reviewed_by) {
+                    $version->reviewed_by = $user->id;
+                    $version->reviewed_at = Carbon::now();
+                }
+
                 $version->approved_by = $user->id;
                 $version->approved_at = Carbon::now();
             break;

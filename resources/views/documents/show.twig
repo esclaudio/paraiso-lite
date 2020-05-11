@@ -57,16 +57,16 @@
                     <div>
                         <p>{{ latest_version.changes|nl2br }}</p>
                         <small class="text-muted">
-                            {{ __('Created') }}: {{ latest_version.createdBy.name }} @ {{ latest_version.created_at|date() }}
+                            {{ __('Created by %s @ %s')|format(latest_version.createdBy.name, latest_version.created_at|date()) }}
                             <br>
 
                             {% if latest_version.reviewed_by %}
-                                {{ __('Reviewed') }}: {{ latest_version.reviewedBy.name }} @ {{ latest_version.reviewed_at|date() }}
+                                {{ __('Reviewed by %s @ %s')|format(latest_version.reviewedBy.name, latest_version.reviewed_at|date()) }}
                                 <br>
                             {% endif %}
 
                             {% if latest_version.approved_by %}
-                                {{ __('Approved') }}: {{ latest_version.approvedBy.name }} @ {{ latest_version.approved_at|date() }}
+                                {{ __('Approved by %s @ %s')|format(latest_version.approvedBy.name, latest_version.approved_at|date()) }}
                                 <br>
                             {% endif %}
                         </small>
