@@ -13,7 +13,7 @@ return [
             [
                 'title' => trans('Documents'),
                 'route' => 'documents.index',
-                'permission' => 'document.show',
+                'permission' => 'documents.show',
             ],
         ],
         [

@@ -2,14 +2,15 @@
 
 namespace App\Controllers;
 
-use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Models\DocumentVersion;
-use App\Models\DocumentVersionTransition;
-use App\Models\DocumentStatus;
-use App\Mails\DocumentVersionPendingMail;
-use App\Mails\DocumentVersionPublishedMail;
+use Slim\Http\Request;
+use Carbon\Carbon;
 use App\Validators\DocumentVersionTransitionValidator;
+use App\Models\DocumentVersionTransition;
+use App\Models\DocumentVersion;
+use App\Models\DocumentStatus;
+use App\Mails\DocumentVersionPublishedMail;
+use App\Mails\DocumentVersionPendingMail;
 
 class DocumentVersionTransitionController extends Controller
 {
@@ -18,12 +19,12 @@ class DocumentVersionTransitionController extends Controller
      */
     public function store(Request $request, Response $response, array $args): Response
     {
-        /** @var \App\Models\DocumentVersion */
+        /** @var \App\Models\DocumentVersion $version */
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
             ->firstOrFail();
         
-        /** @var \App\Workflow\Workflow */
+        /** @var \App\Support\Workflow\Workflow $workflow */
         $workflow = $this->get('document.workflow');
 
         /** @var \Illuminate\Database\Connection $db */
@@ -32,20 +33,6 @@ class DocumentVersionTransitionController extends Controller
 
         try {
             $workflow->apply($version, $request->getParam('transition'));
-
-            switch ($version->status) {
-                case DocumentStatus::PUBLISHED:
-                    $version->publish();
-                    break;
-
-                case DocumentStatus::ARCHIVED:
-                    $version->archive();
-                    break;
-
-                default:
-                    $version->save();
-            }
-
             $db->commit();
         } catch (\Throwable $t) {
             $db->rollBack();

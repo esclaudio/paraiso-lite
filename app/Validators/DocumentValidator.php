@@ -18,15 +18,14 @@ class DocumentValidator extends Validator
         $id = $this->request->getAttribute('document');
 
         $input = [
-            'code'             => $this->request->getParam('code'),
-            'name'             => $this->request->getParam('name'),
-            'system_id'        => $this->request->getParam('system_id'),
-            'process_id'       => $this->request->getParam('process_id'),
-            'responsible_id'   => $this->request->getParam('responsible_id'),
-            'reviewer_id'      => $this->request->getParam('reviewer_id'),
-            'approver_id'      => $this->request->getParam('approver_id'),
-            'observations'     => $this->request->getParam('observations'),
-            'review_frequency' => $this->request->getParam('review_frequency'),
+            'code'           => $this->request->getParam('code'),
+            'name'           => $this->request->getParam('name'),
+            'system_id'      => $this->request->getParam('system_id'),
+            'process_id'     => $this->request->getParam('process_id'),
+            'responsible_id' => $this->request->getParam('responsible_id'),
+            'reviewer_id'    => $this->request->getParam('reviewer_id'),
+            'approver_id'    => $this->request->getParam('approver_id'),
+            'observations'   => $this->request->getParam('observations'),
         ];
 
         // Store

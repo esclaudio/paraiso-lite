@@ -7,10 +7,11 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use App\Support\Workflow\Contracts\StatefulContract;
+use App\Support\Facades\Storage;
 use App\Models\Traits\HasHistories;
 use App\Models\Traits\HasAudit;
-use App\Support\Facades\Storage;
 
 class DocumentVersion extends Model implements StatefulContract
 {
@@ -27,8 +28,8 @@ class DocumentVersion extends Model implements StatefulContract
     protected $dates = [
         'created_at',
         'updated_at',
+        'reviewd_at',
         'approved_at',
-        'next_periodic_review_date',
     ];
 
     /**
@@ -40,29 +41,26 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Is archived
-     *
+     * Reviewed by
      */
-    public function getIsArchivedAttribute(): bool
+    public function reviewedBy(): BelongsTo
     {
-        return $this->status === DocumentStatus::ARCHIVED;
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     /**
-     * Is published
+     * Approved by
      */
-    public function getIsPublishedAttribute(): bool
+    public function approvedBy(): BelongsTo
     {
-        return $this->status === DocumentStatus::PUBLISHED;
+        return $this->belongsTo(User::class, 'approved_by');
     }
 
     /**
-     * File URL
+     * Get the URL of the file.
      */
     public function getFileUrlAttribute(): ?string
     {
-        // return Storage::disk('s3')->temporaryUrl($this->file_path, Carbon::now()->addMinutes(15));
-
         if ($this->file_path) {
             return Storage::disk('s3')->url($this->file_path);
         }
@@ -71,7 +69,7 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Has file
+     * Return if the model has a file.
      */
     public function getHasFileAttribute(): bool
     {
@@ -79,24 +77,20 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Get status html
-     *
-     * @return void
+     * Get the HTML of the model status.
      */
-    public function getStatusHtmlAttribute()
+    public function getStatusHtmlAttribute(): string
     {
         return DocumentStatus::html($this->status);
     }
 
     /**
      * Get the number of days since the version was published.
-     *
-     * @return void
      */
-    public function getPublishedDaysAttribute()
+    public function getPublishedDaysAttribute(): ?int
     {
         if ($this->approved_at) {
-            return $this->approved_at->diffInDays();
+            return (int)$this->approved_at->diffInDays();
         }
 
         return null;
@@ -114,8 +108,6 @@ class DocumentVersion extends Model implements StatefulContract
 
         return $this->document->responsible;
     }
-
-    // Scopes
 
     public function scopePendingOf($query, User $user)
     {
@@ -137,29 +129,12 @@ class DocumentVersion extends Model implements StatefulContract
         });
     }
 
-    public function scopePending($query)
-    {
-        $query->whereIn('status', [
-            DocumentStatus::DRAFT,
-            DocumentStatus::REJECTED,
-            DocumentStatus::TO_REVIEW,
-            DocumentStatus::TO_APPROVE
-        ]);
-    }
-
-    public function scopePublished($query)
+    /**
+     * Scope for published.
+     */
+    public function scopePublished(Builder $query): void
     {
         $query->where('status', DocumentStatus::PUBLISHED);
-    }
-
-    public function scopeArchived(Builder $query): void
-    {
-        $query->where('status', DocumentStatus::ARCHIVED);
-    }
-
-    public function scopeNotArchived(Builder $query): void
-    {
-        $query->where('status', '<>', DocumentStatus::ARCHIVED);
     }
 
 
@@ -178,7 +153,7 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Get state for workflow.
+     * Get the state for workflow.
      */
     public function getState(): string
     {
@@ -186,41 +161,11 @@ class DocumentVersion extends Model implements StatefulContract
     }
 
     /**
-     * Set state for workflow.
+     * Set the state for workflow.
      */
     public function setState(string $state): void
     {
         $this->status = $state;
-    }
-
-    /** 
-     * Publish 
-     */
-    public function publish(): void
-    {
-        $document = $this->document;
-
-        // Archive previous published version
-
-        $document->versions()->published()->get()->each->archive();
-
-        // Unlock document
-
-        $document->unlock();
-
-        // Publish new version
-
-        $this->status = DocumentStatus::PUBLISHED;
-        $this->save();
-    }
-
-    /**
-     * Archive
-     */
-    public function archive(): void
-    {
-        $this->status = DocumentStatus::ARCHIVED;
-        $this->save();
     }
 
     /**

@@ -1,8 +1,8 @@
-{% extends 'layouts/app_blank.twig' %}
+{% extends 'layouts/app.twig' %}
 
 {% block content %}
-    <h2>No tiene permisos para realizar esta acción</h2>
+    <h2>{{ __('Access Denied') }}</h2>
     <a href="{{ path_for('home') }}">
-        Ir al inicio
+        {{ __('Go Home') }}
     </a>
 {% endblock %}

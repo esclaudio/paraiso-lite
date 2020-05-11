@@ -17,7 +17,7 @@ class DocumentVersionController extends Controller
      */
     public function create(Request $request, Response $response, array $args): Response
     {
-        /** @var \App\Models\Document */
+        /** @var \App\Models\Document $document */
         $document = Document::unlocked()
             ->where('id', $args['document'])
             ->firstOrFail();
@@ -40,6 +40,7 @@ class DocumentVersionController extends Controller
      */
     public function store(Request $request, Response $response, array $args): Response
     {
+        /** @var \App\Models\Document $document */
         $document = Document::unlocked()
             ->where('id', $args['document'])
             ->firstOrFail();
@@ -60,15 +61,10 @@ class DocumentVersionController extends Controller
 
     /**
      * Edit
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function edit(Request $request, Response $response, array $args): Response
     {
+        /** @var \App\Models\DocumentVersion $version */
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
             ->firstOrFail();
@@ -77,9 +73,9 @@ class DocumentVersionController extends Controller
 
         return $this->render(
             $response,
-            'document_version/edit.twig',
+            'documents_versions.edit',
             [
-                'version' => $version,
+                'version'  => $version,
                 'document' => $version->document
             ]
         );
@@ -87,15 +83,10 @@ class DocumentVersionController extends Controller
 
     /**
      * Update
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function update(Request $request, Response $response, array $args): Response
     {
+        /** @var \App\Models\DocumentVersion $version */
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
             ->firstOrFail();
@@ -103,30 +94,23 @@ class DocumentVersionController extends Controller
         $this->authorize('edit', $version);
 
         $attributes = DocumentVersionValidator::validate($request);
-        
+
         $version->fill($attributes);
         $version->save();
-        
-        $uploads = uploads($request);
-        
-        if (isset($uploads['preview'])) {
-            $version->uploadPreview($uploads['preview']);
+
+        if ($attributes['file']) {
+            $version->uploadFile($attributes['file']);
         }
 
-        return $this->redirect($request, $response, 'document.view', ['document' => $version->document_id]);
+        return $this->redirect($request, $response, 'documents.show', ['document' => $version->document_id]);
     }
 
     /**
      * Destroy
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function destroy(Request $request, Response $response, array $args): Response
     {
+        /** @var \App\Models\DocumentVersion $version */
         $version = DocumentVersion::where('id', $args['version'])
             ->where('document_id', $args['document'])
             ->firstOrFail();
@@ -151,42 +135,7 @@ class DocumentVersionController extends Controller
     }
 
     /**
-     * Download
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
-     */
-    public function download(Request $request, Response $response, array $args): Response
-    {
-        $version = DocumentVersion::where('id', $args['version'])
-            ->where('document_id', $args['document'])
-            ->firstOrFail();
-
-        if ( ! $version->file_exists) {
-            return $this->notFound($request, $response);
-        }
-
-        $name = sprintf('%s v%s_%s.%s',
-            $version->document->full_title,
-            $version->version,
-            date('YmdHis'),
-            $version->extension
-        );
-
-        return $this->responseDownload($request, $response, $version->file_path, $name);
-    }
-
-    /**
      * Preview
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
      */
     public function preview(Request $request, Response $response, array $args): Response
     {
@@ -196,34 +145,5 @@ class DocumentVersionController extends Controller
             ->firstOrFail();
         
         return $this->render($response, 'documents_versions.preview', ['version' => $version]);
-    }
-
-    /**
-     * Periodic review
-     *
-     * @param  \Slim\Http\Request  $request
-     * @param  \Slim\Http\Response $response
-     * @param  array               $args
-     *
-     * @return \Slim\Http\Response
-     */
-    public function periodicReview(Request $request, Response $response, array $args): Response
-    {
-        $version = DocumentVersion::published()
-            ->where([
-                ['id', $args['version']],
-                ['document_id', $args['document']],
-            ])
-            ->firstOrFail();
-
-        $this->authorize('edit', $version->document);
-
-        if ((bool)$request->getParam('need-updating')) {
-            return $this->redirect($request, $response, 'document_version.create', ['document' => $version->document_id]);
-        }
-
-        $version->reviewed($this->user);
-
-        return $this->redirect($request, $response, 'document.view', ['document' => $version->document_id]);
     }
 }

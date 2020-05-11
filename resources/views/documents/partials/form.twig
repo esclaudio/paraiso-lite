@@ -82,33 +82,6 @@
 </div>
 
 <div class="form-group">
-    <label for="involved_processes">
-        {{ __('Involved processes') }}
-    </label>
-    <select id="involved_processes" name="involved_processes[]" class="form-control selectize" placeholder="{{ __('None') }}" multiple>
-        {% for k, v in processes %}
-            <option value="{{ k }}" {{ k in involved_processes ? 'selected' }}>
-                {{ v }}
-            </option>
-        {% endfor %}
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="review_frequency">
-        {{ __('Review frequency') }}
-    </label>
-    <div class="input-group">
-        <input type="text" id="review_frequency" name="review_frequency" value="{{ document.review_frequency }}" class="form-control text-right" required>
-        <div class="input-group-append">
-            <div class="input-group-text">
-                {{ __('Month(s)') }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
     <label for="reviewer_id">
         {{ __('Reviewer') }}
     </label>

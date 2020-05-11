@@ -66,7 +66,7 @@ abstract class DocumentTransition
                 'to'    => DocumentStatus::TO_APPROVE,
             ],
             self::PUBLISH => [
-                'title' => trans('Public'),
+                'title' => trans('Publish'),
                 'class' => 'success',
                 'from'  => DocumentStatus::TO_APPROVE,
                 'to'    => DocumentStatus::PUBLISHED,

@@ -1,10 +1,11 @@
 <?php
 
+use Carbon\Carbon;
 use App\Support\Workflow\Workflow;
 use App\Support\Workflow\TransitionEvent;
+use App\Support\Facades\Auth;
 use App\Models\DocumentTransition;
 use App\Models\DocumentStatus;
-use App\Support\Facades\Auth;
 
 $container['document.workflow'] = function ($c) {
     $workflow = new Workflow;
@@ -77,6 +78,34 @@ $container['document.workflow'] = function ($c) {
         }
 
         $event->setBlocked(!$allowed);
+    });
+
+    $workflow->listen('after', function (TransitionEvent $event) {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        /** @var \App\Models\DocumentVersion $version */
+        $version = $event->getSubject();
+
+        switch ($version->status) {
+            case DocumentStatus::TO_APPROVE:
+                $version->reviewed_by = $user->id;
+                $version->reviewed_at = Carbon::now();
+            break;
+
+            case DocumentStatus::PUBLISHED:
+                /** @var \App\Models\Document $document */
+                $document = $version->document;
+
+                $document->versions()->published()->update(['status' => DocumentStatus::ARCHIVED]);
+                $document->unlock();
+
+                $version->approved_by = $user->id;
+                $version->approved_at = Carbon::now();
+            break;
+        }
+
+        $version->save();
     });
 
     return $workflow;

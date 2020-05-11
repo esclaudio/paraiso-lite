@@ -17,7 +17,6 @@ class CreateDocumentsTable extends Migration
             $table->unsignedBigInteger('responsible_id');
             $table->unsignedBigInteger('reviewer_id');
             $table->unsignedBigInteger('approver_id');
-            $table->unsignedInteger('review_frequency');
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by');
