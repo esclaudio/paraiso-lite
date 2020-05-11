@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Paraiso\n"
-"POT-Creation-Date: 2020-05-11 13:55-0300\n"
-"PO-Revision-Date: 2020-05-11 13:56-0300\n"
+"POT-Creation-Date: 2020-05-11 14:20-0300\n"
+"PO-Revision-Date: 2020-05-11 14:21-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_AR\n"
@@ -1317,12 +1317,12 @@ msgid "Login"
 msgstr "Iniciar sesión"
 
 #: resources/views/login.twig:101
-msgid "Login as Admin"
-msgstr "Iniciar como Admin"
+msgid "Login as Administrator"
+msgstr "Ingresar como Administrador"
 
 #: resources/views/login.twig:104
 msgid "Login as User"
-msgstr "Iniciar como User"
+msgstr "Ingresar como Usuario"
 
 #: resources/views/nonconformities/create.twig:15
 msgid "Creating Non Conformity"
@@ -1579,6 +1579,9 @@ msgstr "Mostrando usuario"
 #: resources/views/users/show.twig:65
 msgid "All Users"
 msgstr "Todos los usuarios"
+
+#~ msgid "Login as Admin"
+#~ msgstr "Iniciar como Admin"
 
 #~ msgid "Documents types"
 #~ msgstr "Tipos de documentos"
