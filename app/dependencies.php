@@ -32,7 +32,10 @@ $container['view'] = function ($c) {
     
     $env->getExtension(\Twig\Extension\CoreExtension::class)->setDateFormat(DATE_FORMAT, '%d days');
 
-    $env->addGlobal('app_name', $settings['app_name']);
+    $env->addGlobal('app', [
+        'name' => $settings['app_name'],
+        'is_demo' => $settings['demo'],
+    ]);
     $env->addGlobal('flash', $c->get('flash'));
     $env->addGlobal('menu', $c->get('menu'));
     $env->addGlobal('csrf', $c->get('csrf'));

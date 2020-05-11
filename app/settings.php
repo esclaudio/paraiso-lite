@@ -13,6 +13,7 @@ return [
     'app_env'  => get_env('APP_ENV'),
     'debug'    => get_env('APP_DEBUG'),
     'timezone' => get_env('APP_TIMEZONE'),
+    'demo'     => get_env('APP_DEMO'),
     'displayErrorDetails' => get_env('APP_DEBUG'),
     'determineRouteBeforeAppMiddleware' => true,
 

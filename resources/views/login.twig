@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ app_name }}</title>
+        <title>{{ app.name }}</title>
         {% include 'layouts/partials/js.twig' %}
         {% include 'layouts/partials/css.twig' %}
         <style>
@@ -42,6 +42,16 @@
                 border-top-right-radius: 0;
             }
         </style>
+
+        <script>
+            $(function() {  
+                $('.login-as').click(function (e) {
+                    $('#username').val(this.dataset.username);
+                    $('#password').val(this.dataset.password);
+                    $('#login-form').submit();
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="container-fluid">
@@ -58,7 +68,7 @@
                                     
                                     {% include 'layouts/partials/flash.twig' %}
 
-                                    <form action="{{ path_for('login') }}" method="post" class="form-signin">
+                                    <form action="{{ path_for('login') }}" method="post" class="form-signin" id="login-form">
                                         {{ csrf_field() }}
 
                                         <label class="sr-only" for="username">
@@ -85,8 +95,19 @@
                                         </button>
                                     </form>
 
-                                    <p class="mt-5 mb-3 text-muted">
-                                        {{ app_name|upper }} &copy; {{ 'now'|date('Y') }}
+                                    {% if app.is_demo %}
+                                        <div class="my-5">
+                                            <button type="button" class="btn btn-secondary rounded-pill login-as" data-username="admin" data-password="admin">
+                                                {{ __('Login as Admin') }}
+                                            </button>
+                                            <button type="button" class="btn btn-secondary rounded-pill login-as" data-username="user" data-password="user">
+                                                {{ __('Login as User') }}
+                                            </button>
+                                        </div>
+                                    {% endif %}
+
+                                    <p class="mt-5 text-muted">
+                                        {{ app.name|upper }} &copy; {{ 'now'|date('Y') }}
                                     </p>
                                 </div>
                             </div>
