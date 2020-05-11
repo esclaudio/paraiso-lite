@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use Predis\Client;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container as Pimple;
+use App\Cache\RedisAdapter;
+use App\Cache\ArrayAdapter;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
@@ -17,17 +20,23 @@ class CacheServiceProvider implements ServiceProviderInterface
      */
     public function register(Pimple $pimple)
     {
-        $pimple['cache'] = function ($c) {
-            $settings = $c['settings']['redis'];
+        $driver = $pimple['settings']['cache_driver'];
 
-            $client = new \Predis\Client([
-                'scheme' => 'tcp',
-                'host' => $settings['host'],
-                'port' => $settings['port'],
-                'password' => $settings['password'],
-            ]);
+        $pimple['cache'] = function ($c) use ($driver) {
+            if ($driver === 'redis') {
+                $settings = $c['settings']['redis'];
+    
+                $client = new Client([
+                    'scheme' => 'tcp',
+                    'host' => $settings['host'],
+                    'port' => $settings['port'],
+                    'password' => $settings['password'],
+                ]);
+    
+                return new RedisAdapter($client);
+            }
 
-            return new \App\Cache\RedisAdapter($client);
+            return new ArrayAdapter();
         };
     }
 }

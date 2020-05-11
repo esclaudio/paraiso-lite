@@ -2,6 +2,7 @@
 
 use Phinx\Seed\AbstractSeed;
 use Carbon\Carbon;
+use App\Models\Language;
 
 class TestSeeder extends AbstractSeed
 {
@@ -21,6 +22,7 @@ class TestSeeder extends AbstractSeed
                 'username' => 'admin',
                 'password' => bcrypt('admin'),
                 'name'     => 'Administrator',
+                'language' => Language::EN,
                 'is_admin' => true,
             ],
             [
@@ -28,6 +30,7 @@ class TestSeeder extends AbstractSeed
                 'username' => 'user',
                 'password' => bcrypt('user'),
                 'name'     => 'John Doe',
+                'language' => Language::EN,
             ],
         ];
 

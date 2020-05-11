@@ -16,6 +16,7 @@ return [
     'demo'     => get_env('APP_DEMO'),
     'displayErrorDetails' => get_env('APP_DEBUG'),
     'determineRouteBeforeAppMiddleware' => true,
+    'cache_driver' => get_env('CACHE_DRIVER', 'array'),
 
     'view' => [
         'templates' => '../resources/views',

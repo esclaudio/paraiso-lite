@@ -13,6 +13,12 @@ class ArrayAdapter implements CacheInterface
         }
     }
 
+    public function getAll(string $pattern)
+    {
+        //TODO: Implement
+        return $this->storage;
+    }
+
     public function put(string $key, string $value, int $minutes = null)
     {
         $this->storage[$key] = $value;
@@ -39,6 +45,13 @@ class ArrayAdapter implements CacheInterface
     public function forget(string $key)
     {
         unset($this->storage[$key]);
+        return true;
+    }
+
+    public function forgetAll(string $pattern)
+    {
+        //TODO: Implement
+        $this->storage = [];
         return true;
     }
 }
