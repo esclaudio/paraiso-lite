@@ -1,25 +1,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Paraiso\n"
-"POT-Creation-Date: 2020-04-25 01:46-0300\n"
-"PO-Revision-Date: 2020-04-25 01:47-0300\n"
+"POT-Creation-Date: 2020-05-11 13:55-0300\n"
+"PO-Revision-Date: 2020-05-11 13:56-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_AR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;trans\n"
 "X-Poedit-SearchPath-0: resources/views\n"
 "X-Poedit-SearchPath-1: app\n"
 "X-Poedit-SearchPath-2: menu\n"
-
-#: app/Controllers/DocumentVersionController.php:99
-msgid "File is required."
-msgstr "Se requiere un archivo."
 
 #: app/Controllers/ImportController.php:148
 #: app/Controllers/ImportController.php:196
@@ -31,12 +27,12 @@ msgstr "Archivo no encontrado."
 msgid "%1$s records were imported in %2$s seconds."
 msgstr "Se importaron %1$s registros en %2$s segundos."
 
-#: app/Controllers/IndicatorController.php:156 app/Models/Document.php:114
-#: resources/views/documents/partials/form.twig:87
+#: app/Controllers/IndicatorController.php:156 app/Models/Document.php:172
+#: resources/views/documents_versions/partials/form.twig:88
 msgid "None"
 msgstr "Ninguno"
 
-#: app/Controllers/UserController.php:100
+#: app/Controllers/UserController.php:101
 #, php-format
 msgid "The password was reset to \"%s\". User must login and change it."
 msgstr ""
@@ -59,6 +55,8 @@ msgstr "Acciones"
 #: resources/views/current_document/partials/filter.twig:4
 #: resources/views/customers/index.twig:56
 #: resources/views/customers/partials/form.twig:3
+#: resources/views/documents/partials/form.twig:62
+#: resources/views/documents_versions/partials/form.twig:62
 #: resources/views/nonconformities/partials/details.twig:7
 #: resources/views/products/index.twig:56
 #: resources/views/products/partials/form.twig:3
@@ -78,9 +76,10 @@ msgstr "Creado el"
 
 #: app/Exports/ActionExporter.php:110 app/Exports/ComplaintExporter.php:92
 #: app/Exports/NonconformityExporter.php:82 app/Exports/RiskExporter.php:92
+#: app/Filters/Fields/SystemField.php:13
 #: resources/views/current_document/partials/filter.twig:18
-#: resources/views/current_document/partials/table.twig:6
 #: resources/views/documents/partials/form.twig:3
+#: resources/views/documents_versions/partials/form.twig:3
 #: resources/views/indicators/partials/form.twig:3
 #: resources/views/nonconformities/partials/details.twig:1
 #: resources/views/nonconformities/partials/form.twig:3
@@ -90,10 +89,10 @@ msgstr "Sistema"
 
 #: app/Exports/ActionExporter.php:111 app/Exports/ComplaintExporter.php:93
 #: app/Exports/NonconformityExporter.php:83 app/Exports/RiskExporter.php:93
-#: app/Imports/UserImporter.php:54
+#: app/Filters/Fields/ProcessField.php:13 app/Imports/UserImporter.php:54
 #: resources/views/current_document/partials/filter.twig:32
-#: resources/views/current_document/partials/table.twig:7
 #: resources/views/documents/partials/form.twig:19
+#: resources/views/documents_versions/partials/form.twig:19
 #: resources/views/indicators/partials/form.twig:19
 #: resources/views/nonconformities/partials/details.twig:4
 #: resources/views/nonconformities/partials/form.twig:19
@@ -103,9 +102,10 @@ msgstr "Proceso"
 #: app/Exports/ActionExporter.php:112 app/Exports/EquipmentExporter.php:63
 #: app/Exports/NonconformityExporter.php:84
 #: app/Exports/NonconformityExporter.php:95 app/Exports/RiskExporter.php:91
-#: app/Imports/EquipmentImporter.php:38
+#: app/Filters/DocumentFilter.php:22 app/Imports/EquipmentImporter.php:38
 #: resources/views/current_document/partials/filter.twig:46
-#: resources/views/documents/partials/form.twig:35
+#: resources/views/documents/partials/form.twig:43
+#: resources/views/documents_versions/partials/form.twig:43
 msgid "Type"
 msgstr "Tipo"
 
@@ -137,8 +137,8 @@ msgstr "Descripción"
 #: app/Exports/ActionExporter.php:116 app/Exports/ActionExporter.php:130
 #: app/Exports/ComplaintExporter.php:97 app/Exports/EquipmentExporter.php:66
 #: app/Exports/NonconformityExporter.php:87 app/Exports/RiskExporter.php:97
-#: resources/views/current_document/partials/table.twig:28
-#: resources/views/documents/partials/form.twig:69
+#: resources/views/documents/partials/form.twig:70
+#: resources/views/documents_versions/partials/form.twig:70
 #: resources/views/indicators/partials/form.twig:42
 msgid "Responsible"
 msgstr "Responsable"
@@ -162,10 +162,13 @@ msgstr "Cliente"
 #: resources/views/customers/partials/form.twig:10
 #: resources/views/documents/index.twig:52
 #: resources/views/documents/partials/details.twig:1
-#: resources/views/documents/partials/form.twig:55
+#: resources/views/documents/partials/form.twig:35
 #: resources/views/documents_types/index.twig:74
 #: resources/views/documents_types/partials/details.twig:1
 #: resources/views/documents_types/partials/form.twig:3
+#: resources/views/documents_versions/index.twig:52
+#: resources/views/documents_versions/partials/details.twig:1
+#: resources/views/documents_versions/partials/form.twig:35
 #: resources/views/indicators/index.twig:52
 #: resources/views/indicators/partials/details.twig:1
 #: resources/views/indicators/partials/form.twig:35
@@ -433,6 +436,14 @@ msgstr "Valoración"
 msgid "Sources"
 msgstr "Origenes"
 
+#: app/Filters/Fields/CodeOrNameField.php:13
+msgid "Code or Name"
+msgstr "Código o Nombre"
+
+#: app/Filters/Fields/DocumentOnlyNewField.php:16
+msgid "Only New"
+msgstr "Sólo nuevos"
+
 #: app/Imports/MaintenancePlanImporter.php:13
 msgid "Maintenance plans"
 msgstr "Planes de mantenimiento"
@@ -474,14 +485,14 @@ msgstr "Productos"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/Imports/UserImporter.php:24 resources/views/login.twig:65
-#: resources/views/login.twig:67 resources/views/users/partials/details.twig:4
+#: app/Imports/UserImporter.php:24 resources/views/login.twig:75
+#: resources/views/login.twig:77 resources/views/users/partials/details.twig:4
 #: resources/views/users/partials/form.twig:10
 msgid "Username"
 msgstr "Usuario"
 
-#: app/Imports/UserImporter.php:29 resources/views/login.twig:70
-#: resources/views/login.twig:72
+#: app/Imports/UserImporter.php:29 resources/views/login.twig:80
+#: resources/views/login.twig:82
 msgid "Password"
 msgstr "Contraseña"
 
@@ -515,6 +526,52 @@ msgstr "Roles"
 #: app/Imports/UserImporter.php:64
 msgid "Is administrator?"
 msgstr "¿Es administrador?"
+
+#: app/Models/DocumentStatus.php:17
+msgid "Draft"
+msgstr "Borrador"
+
+#: app/Models/DocumentStatus.php:18
+msgid "To Review"
+msgstr "Para revisar"
+
+#: app/Models/DocumentStatus.php:19
+msgid "To Approve"
+msgstr "Para aprobar"
+
+#: app/Models/DocumentStatus.php:20
+msgid "Published"
+msgstr "Publicado"
+
+#: app/Models/DocumentStatus.php:21
+msgid "Archived"
+msgstr "Archivado"
+
+#: app/Models/DocumentStatus.php:22
+msgid "Rejected"
+msgstr "Rechazado"
+
+#: app/Models/DocumentTransition.php:27 app/Models/DocumentTransition.php:57
+msgid "Send to review"
+msgstr "Enviar a revisión"
+
+#: app/Models/DocumentTransition.php:33 app/Models/DocumentTransition.php:39
+#: app/Models/DocumentTransition.php:63
+msgid "Send to approve"
+msgstr "Enviar a aprobación"
+
+#: app/Models/DocumentTransition.php:45 app/Models/DocumentTransition.php:51
+msgid "Reject"
+msgstr "Rechazar"
+
+#: app/Models/DocumentTransition.php:69 app/Models/DocumentTransition.php:75
+#: app/Models/DocumentTransition.php:81
+msgid "Publish"
+msgstr "Publicar"
+
+#: app/Models/DocumentTransition.php:87
+msgid "Archive"
+msgstr "Archivar"
 
 #: app/Models/FrequencyType.php:14
 msgid "Day"
@@ -603,8 +660,9 @@ msgstr "Vence en %s días"
 msgid "%s days expired"
 msgstr "%s días vencido"
 
-#: app/Support/Dashboard/DocumentWidget.php:10 menu/01_Documentation.php:18
+#: app/Support/Dashboard/DocumentWidget.php:10 menu/01_Documentation.php:14
 #: resources/views/documents/index.twig:38
+#: resources/views/documents_versions/index.twig:38
 msgid "Documents"
 msgstr "Documentos"
 
@@ -651,17 +709,13 @@ msgstr "<strong>%s</strong> se eliminó!"
 msgid "Documentation"
 msgstr "Documentación"
 
-#: menu/01_Documentation.php:8 resources/views/current_document/index.twig:51
-msgid "Current documents"
+#: menu/01_Documentation.php:8
+msgid "Current Documents"
 msgstr "Documentos vigentes"
 
-#: menu/01_Documentation.php:12 resources/views/pending_document/index.twig:4
-msgid "Pending documents"
-msgstr "Documentos pendientes"
-
-#: menu/01_Documentation.php:25
-msgid "Documents types"
-msgstr ""
+#: menu/01_Documentation.php:21 resources/views/documents_types/index.twig:60
+msgid "Documents Types"
+msgstr "Tipos de documentos"
 
 #: menu/02_Improvement.php:4
 msgid "Improvement"
@@ -669,7 +723,7 @@ msgstr "Mejora"
 
 #: menu/02_Improvement.php:8 resources/views/nonconformities/index.twig:38
 msgid "Non Conformities"
-msgstr ""
+msgstr "No conformidades"
 
 #: menu/03_Monitoring.php:4
 msgid "Monitoring"
@@ -683,8 +737,8 @@ msgstr "Indicadores"
 msgid "Risks"
 msgstr "Riesgos"
 
-#: menu/05_Risks.php:8 resources/views/risks_types/index.twig:38
-msgid "Risks types"
+#: menu/05_Risks.php:8
+msgid "Risks Types"
 msgstr "Tipos de riesgos"
 
 #: menu/99_Settings.php:4
@@ -727,62 +781,58 @@ msgstr "Sin comentarios"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: resources/views/current_document/index.twig:68
-msgid "No data found"
-msgstr "No se encontraron datos"
+#: resources/views/current_document/index.twig:46
+msgid "Current documents"
+msgstr "Documentos vigentes"
+
+#: resources/views/current_document/index.twig:56
+#: resources/views/current_document/partials/filter.twig:75
+msgid "Search"
+msgstr "Buscar"
+
+#: resources/views/current_document/index.twig:67
+msgid "No data"
+msgstr "Sin datos"
+
+#: resources/views/current_document/index.twig:82
+#: resources/views/current_document/partials/table.twig:19
+msgid "New"
+msgstr "Nuevo"
+
+#: resources/views/current_document/index.twig:99
+msgid "Select a Document"
+msgstr "Seleccionar un documento"
 
 #: resources/views/current_document/partials/filter.twig:62
 msgid "Only new"
 msgstr "Sólo nuevos"
 
 #: resources/views/current_document/partials/filter.twig:70
+#: resources/views/layouts/filters/modal.twig:16
 msgid "Clear"
 msgstr "Limpiar"
-
-#: resources/views/current_document/partials/filter.twig:75
-msgid "Search"
-msgstr "Buscar"
 
 #: resources/views/current_document/partials/table.twig:5
 #: resources/views/pending_document/index.twig:13
 msgid "Document"
 msgstr "Documento"
 
-#: resources/views/current_document/partials/table.twig:8
+#: resources/views/current_document/partials/table.twig:6
 msgid "Version"
 msgstr "Versión"
 
-#: resources/views/current_document/partials/table.twig:9
-msgid "Published"
-msgstr "Publicado"
-
-#: resources/views/current_document/partials/table.twig:40
-msgid "Expired"
-msgstr "Vencido"
-
-#: resources/views/current_document/partials/table.twig:53
-msgid "Preview"
-msgstr "Vista previa"
-
-#: resources/views/current_document/partials/table.twig:58
-msgid "Print"
-msgstr "Imprimir"
-
-#: resources/views/current_document/partials/table.twig:65
-msgid "Download"
-msgstr "Descargar"
-
 #: resources/views/customers/create.twig:14
 msgid "Creating Customer"
-msgstr ""
+msgstr "Creando cliente"
 
 #: resources/views/customers/edit.twig:14
 msgid "Modifying Customer"
-msgstr ""
+msgstr "Modificando cliente"
 
 #: resources/views/customers/index.twig:27
 #: resources/views/documents/index.twig:23
 #: resources/views/documents_types/index.twig:45
+#: resources/views/documents_versions/index.twig:23
 #: resources/views/indicators/index.twig:23
 #: resources/views/nonconformities/index.twig:23
 #: resources/views/processes/index.twig:37
@@ -791,11 +841,12 @@ msgstr ""
 #: resources/views/roles/index.twig:23 resources/views/systems/index.twig:23
 #: resources/views/users/index.twig:23
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: resources/views/customers/index.twig:47
 #: resources/views/documents/index.twig:43
 #: resources/views/documents_types/index.twig:65
+#: resources/views/documents_versions/index.twig:43
 #: resources/views/indicators/index.twig:43
 #: resources/views/nonconformities/index.twig:43
 #: resources/views/processes/index.twig:57
@@ -807,28 +858,31 @@ msgid "Create"
 msgstr "Crear"
 
 #: resources/views/customers/partials/form.twig:17
-#: resources/views/documents/partials/form.twig:144
+#: resources/views/documents/partials/form.twig:118
 #: resources/views/documents_types/partials/form.twig:24
+#: resources/views/documents_versions/partials/form.twig:145
 #: resources/views/indicators/partials/form.twig:111
 #: resources/views/nonconformities/partials/form.twig:58
 #: resources/views/processes/partials/form.twig:19
 #: resources/views/products/partials/form.twig:17
 #: resources/views/risks_types/partials/form.twig:10
-#: resources/views/roles/partials/form.twig:10
+#: resources/views/roles/partials/form.twig:27
 #: resources/views/systems/partials/form.twig:10
 #: resources/views/users/partials/form.twig:73
 msgid "Update"
 msgstr "Actualizar"
 
 #: resources/views/customers/partials/form.twig:17
-#: resources/views/documents/partials/form.twig:144
+#: resources/views/documents/partials/form.twig:118
 #: resources/views/documents_types/partials/form.twig:24
+#: resources/views/documents_versions/create.twig:63
+#: resources/views/documents_versions/partials/form.twig:145
 #: resources/views/indicators/partials/form.twig:111
 #: resources/views/nonconformities/partials/form.twig:58
 #: resources/views/processes/partials/form.twig:19
 #: resources/views/products/partials/form.twig:17
 #: resources/views/risks_types/partials/form.twig:10
-#: resources/views/roles/partials/form.twig:10
+#: resources/views/roles/partials/form.twig:27
 #: resources/views/systems/partials/form.twig:10
 #: resources/views/users/partials/form.twig:73
 msgid "Save"
@@ -837,12 +891,17 @@ msgstr "Guardar"
 #: resources/views/customers/partials/form.twig:22
 #: resources/views/customers/partials/form.twig:26
 #: resources/views/customers/partials/modal_delete.twig:22
-#: resources/views/documents/partials/form.twig:149
-#: resources/views/documents/partials/form.twig:153
+#: resources/views/documents/partials/form.twig:123
+#: resources/views/documents/partials/form.twig:127
 #: resources/views/documents/partials/modal_delete.twig:22
+#: resources/views/documents/partials/modal_version_delete.twig:22
 #: resources/views/documents_types/partials/form.twig:29
 #: resources/views/documents_types/partials/form.twig:33
 #: resources/views/documents_types/partials/modal_delete.twig:22
+#: resources/views/documents_versions/create.twig:67
+#: resources/views/documents_versions/partials/form.twig:150
+#: resources/views/documents_versions/partials/form.twig:154
+#: resources/views/documents_versions/partials/modal_delete.twig:22
 #: resources/views/indicators/partials/form.twig:116
 #: resources/views/indicators/partials/form.twig:120
 #: resources/views/indicators/partials/modal_delete.twig:22
@@ -858,8 +917,8 @@ msgstr "Guardar"
 #: resources/views/risks_types/partials/form.twig:15
 #: resources/views/risks_types/partials/form.twig:19
 #: resources/views/risks_types/partials/modal_delete.twig:22
-#: resources/views/roles/partials/form.twig:15
-#: resources/views/roles/partials/form.twig:19
+#: resources/views/roles/partials/form.twig:32
+#: resources/views/roles/partials/form.twig:36
 #: resources/views/roles/partials/modal_delete.twig:22
 #: resources/views/systems/partials/form.twig:15
 #: resources/views/systems/partials/form.twig:19
@@ -873,7 +932,7 @@ msgstr "Cancelar"
 
 #: resources/views/customers/partials/modal_delete.twig:6
 msgid "Delete Customer"
-msgstr ""
+msgstr "Eliminar cliente"
 
 #: resources/views/customers/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this customer?"
@@ -881,7 +940,9 @@ msgstr "¿Está seguro que desea eliminar este cliente?"
 
 #: resources/views/customers/partials/modal_delete.twig:16
 #: resources/views/documents/partials/modal_delete.twig:16
+#: resources/views/documents/partials/modal_version_delete.twig:16
 #: resources/views/documents_types/partials/modal_delete.twig:16
+#: resources/views/documents_versions/partials/modal_delete.twig:16
 #: resources/views/indicators/partials/modal_delete.twig:16
 #: resources/views/nonconformities/partials/modal_delete.twig:16
 #: resources/views/processes/partials/modal_delete.twig:16
@@ -896,9 +957,11 @@ msgstr "Esta acción no se puede deshacer."
 #: resources/views/customers/partials/modal_delete.twig:32
 #: resources/views/customers/show.twig:26
 #: resources/views/documents/partials/modal_delete.twig:32
-#: resources/views/documents/show.twig:26
+#: resources/views/documents/show.twig:34
 #: resources/views/documents_types/partials/modal_delete.twig:32
 #: resources/views/documents_types/show.twig:26
+#: resources/views/documents_versions/partials/modal_delete.twig:32
+#: resources/views/documents_versions/show.twig:26
 #: resources/views/indicators/partials/modal_delete.twig:32
 #: resources/views/indicators/show.twig:26
 #: resources/views/nonconformities/partials/modal_delete.twig:32
@@ -920,15 +983,16 @@ msgstr "Eliminar"
 
 #: resources/views/customers/show.twig:9
 msgid "Showing Customer"
-msgstr ""
+msgstr "Mostrando cliente"
 
 #: resources/views/customers/show.twig:13
 msgid "All Customers"
-msgstr ""
+msgstr "Todos los clientes"
 
 #: resources/views/customers/show.twig:19
-#: resources/views/documents/show.twig:19
+#: resources/views/documents/show.twig:27
 #: resources/views/documents_types/show.twig:19
+#: resources/views/documents_versions/show.twig:19
 #: resources/views/indicators/show.twig:19
 #: resources/views/nonconformities/show.twig:19
 #: resources/views/processes/show.twig:19 resources/views/products/show.twig:19
@@ -937,20 +1001,27 @@ msgstr ""
 msgid "Edit"
 msgstr "Modificar"
 
-#: resources/views/documents/create.twig:14
+#: resources/views/documents/create.twig:22
 msgid "Creating Document"
-msgstr ""
+msgstr "Creando documento"
 
 #: resources/views/documents/edit.twig:14
+#: resources/views/documents_versions/edit.twig:14
 msgid "Modifying Document"
-msgstr ""
+msgstr "Modificando documento"
 
 #: resources/views/documents/partials/form.twig:7
 #: resources/views/documents/partials/form.twig:23
-#: resources/views/documents/partials/form.twig:40
-#: resources/views/documents/partials/form.twig:73
-#: resources/views/documents/partials/form.twig:116
-#: resources/views/documents/partials/form.twig:132
+#: resources/views/documents/partials/form.twig:48
+#: resources/views/documents/partials/form.twig:74
+#: resources/views/documents/partials/form.twig:90
+#: resources/views/documents/partials/form.twig:106
+#: resources/views/documents_versions/partials/form.twig:7
+#: resources/views/documents_versions/partials/form.twig:23
+#: resources/views/documents_versions/partials/form.twig:48
+#: resources/views/documents_versions/partials/form.twig:74
+#: resources/views/documents_versions/partials/form.twig:117
+#: resources/views/documents_versions/partials/form.twig:133
 #: resources/views/indicators/partials/form.twig:7
 #: resources/views/indicators/partials/form.twig:23
 #: resources/views/indicators/partials/form.twig:46
@@ -962,54 +1033,75 @@ msgstr ""
 msgid "Select an option"
 msgstr "Seleccione una opción"
 
-#: resources/views/documents/partials/form.twig:85
-msgid "Involved processes"
-msgstr "Procesos involucrados"
-
-#: resources/views/documents/partials/form.twig:98
-msgid "Review frequency"
-msgstr "Frecuencia de revisión"
-
-#: resources/views/documents/partials/form.twig:104
-#: resources/views/indicators/partials/form.twig:64
-msgid "Month(s)"
-msgstr "Mes(es)"
-
-#: resources/views/documents/partials/form.twig:112
+#: resources/views/documents/partials/form.twig:86
+#: resources/views/documents_versions/partials/form.twig:113
 msgid "Reviewer"
 msgstr "Revisor"
 
-#: resources/views/documents/partials/form.twig:128
+#: resources/views/documents/partials/form.twig:102
+#: resources/views/documents_versions/partials/form.twig:129
 msgid "Approver"
 msgstr "Aprobador"
 
 #: resources/views/documents/partials/modal_delete.twig:6
+#: resources/views/documents_versions/partials/modal_delete.twig:6
 msgid "Delete Document"
-msgstr ""
+msgstr "Eliminar documento"
 
 #: resources/views/documents/partials/modal_delete.twig:14
+#: resources/views/documents_versions/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this document?"
 msgstr "¿Está seguro que desea eliminar este documento?"
 
-#: resources/views/documents/show.twig:9
-msgid "Showing Document"
-msgstr ""
+#: resources/views/documents/partials/modal_version_delete.twig:6
+msgid "Discard Document Version"
+msgstr "Descartar versión del documento"
+
+#: resources/views/documents/partials/modal_version_delete.twig:14
+msgid "Are you sure you want to discard this document version?"
+msgstr "¿Está seguro de que desea descartar esta versión del documento?"
+
+#: resources/views/documents/partials/modal_version_delete.twig:32
+#: resources/views/documents/show.twig:90
+msgid "Discard"
+msgstr "Descartar"
 
 #: resources/views/documents/show.twig:13
+#, php-format
+msgid "(Version %s)"
+msgstr "(Versión %s)"
+
+#: resources/views/documents/show.twig:21
+#: resources/views/documents_versions/show.twig:13
 msgid "All Documents"
-msgstr ""
+msgstr "Todos los documentos"
+
+#: resources/views/documents/show.twig:44
+msgid "Create First Version"
+msgstr "Crear la primera versión"
+
+#: resources/views/documents/show.twig:60
+#, php-format
+msgid "Created by %s @ %s"
+msgstr "Creado por %s @ %s"
+
+#: resources/views/documents/show.twig:64
+#, php-format
+msgid "Reviewed by %s @ %s"
+msgstr "Revisado por %s á %s"
+
+#: resources/views/documents/show.twig:69
+#, php-format
+msgid "Approved by %s @ %s"
+msgstr "Aprobado por %s @ %s"
 
 #: resources/views/documents_types/create.twig:14
 msgid "Creating Document Type"
-msgstr ""
+msgstr "Creando tipo de documento"
 
 #: resources/views/documents_types/edit.twig:14
 msgid "Modifying Document Type"
-msgstr ""
-
-#: resources/views/documents_types/index.twig:60
-msgid "Documents Types"
-msgstr ""
+msgstr "Modificando tipo de documento"
 
 #: resources/views/documents_types/index.twig:75
 #: resources/views/documents_types/partials/details.twig:4
@@ -1025,20 +1117,71 @@ msgstr "Próximo número"
 
 #: resources/views/documents_types/partials/modal_delete.twig:6
 msgid "Delete Document Type"
-msgstr ""
+msgstr "Eliminar tipo de documento"
 
 #: resources/views/documents_types/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this document type?"
 msgstr "¿Está seguro que desea eliminar este tipo de documento?"
 
 #: resources/views/documents_types/show.twig:9
-msgid "Showing Documents Types"
-msgstr ""
+msgid "Showing Document Types"
+msgstr "Mostrando tipo de documento"
 
 #: resources/views/documents_types/show.twig:13
 #: resources/views/systems/show.twig:13
 msgid "All Systems"
-msgstr ""
+msgstr "Todos los sistemas"
+
+#: resources/views/documents_versions/create.twig:14
+#, php-format
+msgid "New Version Of %s"
+msgstr "Nueva versión de %s"
+
+#: resources/views/documents_versions/create.twig:22
+msgid "Current Version"
+msgstr "Versión vigente"
+
+#: resources/views/documents_versions/create.twig:37
+msgid "New Version"
+msgstr "Nueva versión"
+
+#: resources/views/documents_versions/create.twig:45
+msgid "File"
+msgstr "Archivo"
+
+#: resources/views/documents_versions/create.twig:53
+#: resources/views/pending_document/index.twig:15
+msgid "Changes"
+msgstr "Cambios"
+
+#: resources/views/documents_versions/create.twig:58
+msgid "First version"
+msgstr "Primera versión"
+
+#: resources/views/documents_versions/partials/form.twig:86
+msgid "Involved processes"
+msgstr "Procesos involucrados"
+
+#: resources/views/documents_versions/partials/form.twig:99
+msgid "Review frequency"
+msgstr "Frecuencia de revisión"
+
+#: resources/views/documents_versions/partials/form.twig:105
+#: resources/views/indicators/partials/form.twig:64
+msgid "Month(s)"
+msgstr "Mes(es)"
+
+#: resources/views/documents_versions/preview.twig:4
+msgid "Error"
+msgstr "Error"
+
+#: resources/views/documents_versions/preview.twig:9
+msgid "No preview"
+msgstr "Sin vista previa"
+
+#: resources/views/documents_versions/show.twig:36
+msgid "Create first version"
+msgstr "Crear primera versión"
 
 #: resources/views/import/create.twig:4 resources/views/import/view.twig:27
 #: resources/views/import/view.twig:90
@@ -1088,11 +1231,11 @@ msgstr "Importar archivo"
 
 #: resources/views/indicators/create.twig:15
 msgid "Creating Indicator"
-msgstr ""
+msgstr "Creando indicador"
 
 #: resources/views/indicators/edit.twig:15
 msgid "Modifying Indicator"
-msgstr ""
+msgstr "Modificando indicador"
 
 #: resources/views/indicators/partials/form.twig:58
 msgid "Frequency"
@@ -1112,7 +1255,7 @@ msgstr "Fecha de inicio"
 
 #: resources/views/indicators/partials/modal_delete.twig:6
 msgid "Delete Indicator"
-msgstr ""
+msgstr "Eliminar indicador"
 
 #: resources/views/indicators/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this indicator?"
@@ -1120,11 +1263,24 @@ msgstr "¿Está seguro que desea eliminar este indicador?"
 
 #: resources/views/indicators/show.twig:9
 msgid "Showing Indicator"
-msgstr ""
+msgstr "Mostrando indicador"
 
 #: resources/views/indicators/show.twig:13
 msgid "All Indicators"
-msgstr ""
+msgstr "Todos los indicadores"
+
+#: resources/views/layouts/access_denied.twig:4
+msgid "Access Denied"
+msgstr "Acceso denegado"
+
+#: resources/views/layouts/access_denied.twig:6
+msgid "Go Home"
+msgstr "Ir al inicio"
+
+#: resources/views/layouts/filters/modal.twig:6
+#: resources/views/layouts/filters/modal.twig:20
+msgid "Filter"
+msgstr "Filtrar"
 
 #: resources/views/layouts/helpers/audit.twig:1
 #: resources/views/users/partials/details.twig:37
@@ -1134,7 +1290,7 @@ msgstr "Creado"
 #: resources/views/layouts/helpers/audit.twig:5
 #: resources/views/users/partials/details.twig:40
 msgid "Updated"
-msgstr ""
+msgstr "Actualizado"
 
 #: resources/views/layouts/not_found.twig:4
 msgid "Sorry, the page you are looking for could not be found."
@@ -1152,30 +1308,38 @@ msgstr "Nada que hacer. ¡Disfruta el día!"
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: resources/views/login.twig:78
+#: resources/views/login.twig:88
 msgid "Remember Me"
 msgstr "Recuérdame"
 
-#: resources/views/login.twig:84
+#: resources/views/login.twig:94
 msgid "Login"
 msgstr "Iniciar sesión"
 
+#: resources/views/login.twig:101
+msgid "Login as Admin"
+msgstr "Iniciar como Admin"
+
+#: resources/views/login.twig:104
+msgid "Login as User"
+msgstr "Iniciar como User"
+
 #: resources/views/nonconformities/create.twig:15
 msgid "Creating Non Conformity"
-msgstr ""
+msgstr "Creando no conformidad"
 
 #: resources/views/nonconformities/edit.twig:15
 msgid "Modifying Non Conformity"
-msgstr ""
+msgstr "Modificando no conformidad"
 
 #: resources/views/nonconformities/partials/details.twig:13
 #: resources/views/nonconformities/partials/form.twig:44
 msgid "Occurrence date"
-msgstr ""
+msgstr "Fecha de ocurrencia"
 
 #: resources/views/nonconformities/partials/modal_delete.twig:6
 msgid "Delete Non Conformity"
-msgstr ""
+msgstr "Eliminar no conformidad"
 
 #: resources/views/nonconformities/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this nonconformity?"
@@ -1183,19 +1347,19 @@ msgstr "¿Está seguro de que desea eliminar esta salida no conforme?"
 
 #: resources/views/nonconformities/show.twig:9
 msgid "Showing Nonconformity"
-msgstr ""
+msgstr "Mostrando no conformidad"
 
 #: resources/views/nonconformities/show.twig:13
 msgid "All Nonconformities"
-msgstr ""
+msgstr "Todas las no conformidades"
+
+#: resources/views/pending_document/index.twig:4
+msgid "Pending documents"
+msgstr "Documentos pendientes"
 
 #: resources/views/pending_document/index.twig:14
 msgid "New version"
 msgstr "Nueva versión"
-
-#: resources/views/pending_document/index.twig:15
-msgid "Changes"
-msgstr "Cambios"
 
 #: resources/views/pending_document/index.twig:16
 msgid "Last transition"
@@ -1211,11 +1375,11 @@ msgstr "No hay documentos pendientes."
 
 #: resources/views/processes/create.twig:14
 msgid "Creating Process"
-msgstr ""
+msgstr "Creando proceso"
 
 #: resources/views/processes/edit.twig:14
 msgid "Modifying Process"
-msgstr ""
+msgstr "Modificando proceso"
 
 #: resources/views/processes/index.twig:22
 #: resources/views/processes/partials/details.twig:8
@@ -1239,7 +1403,7 @@ msgstr "Estado"
 
 #: resources/views/processes/partials/modal_delete.twig:6
 msgid "Delete Process"
-msgstr ""
+msgstr "Eliminar proceso"
 
 #: resources/views/processes/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this process?"
@@ -1247,23 +1411,23 @@ msgstr "¿Está seguro de que desea eliminar este proceso?"
 
 #: resources/views/processes/show.twig:9
 msgid "Showing Process"
-msgstr ""
+msgstr "Mostrando proceso"
 
 #: resources/views/processes/show.twig:13
 msgid "All Processes"
-msgstr ""
+msgstr "Todos los procesos"
 
 #: resources/views/products/create.twig:14
 msgid "Creating Product/Service"
-msgstr ""
+msgstr "Creando producto/servicio"
 
 #: resources/views/products/edit.twig:14
 msgid "Modifying Product/Service"
-msgstr ""
+msgstr "Modificando producto/servicio"
 
 #: resources/views/products/partials/modal_delete.twig:6
 msgid "Delete Product/Service"
-msgstr ""
+msgstr "Eliminar producto/servicio"
 
 #: resources/views/products/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this product?"
@@ -1271,47 +1435,55 @@ msgstr "¿Está seguro de que desea eliminar este producto?"
 
 #: resources/views/products/show.twig:9
 msgid "Showing Product/Service"
-msgstr ""
+msgstr "Mostrando producto/servicio"
 
 #: resources/views/products/show.twig:13
 msgid "All Products/Services"
-msgstr ""
+msgstr "Todos los productos/servicios"
 
 #: resources/views/risks_types/create.twig:14
 msgid "Creating Risk Type"
-msgstr ""
+msgstr "Creando tipo de riesgo"
 
 #: resources/views/risks_types/edit.twig:14
 msgid "Modifying Risk Type"
-msgstr ""
+msgstr "Modificando tipo de riesgo"
+
+#: resources/views/risks_types/index.twig:38
+msgid "Risks types"
+msgstr "Tipos de riesgos"
 
 #: resources/views/risks_types/partials/modal_delete.twig:6
 msgid "Delete Risk Type"
-msgstr ""
+msgstr "Eliminar tipo de riesgo"
 
 #: resources/views/risks_types/partials/modal_delete.twig:14
-msgid "Are you sure you want to delete this risk_type?"
-msgstr ""
+msgid "Are you sure you want to delete this risk type?"
+msgstr "¿Está seguro de que desea eliminar este tipo de riesgo?"
 
 #: resources/views/risks_types/show.twig:9
 msgid "Showing Risks Type"
-msgstr ""
+msgstr "Mostrando tipo de riesgo"
 
 #: resources/views/risks_types/show.twig:13
 msgid "All Risks Types"
-msgstr ""
+msgstr "Todos los tipos de riesgos"
 
 #: resources/views/roles/create.twig:14
 msgid "Creating Role"
-msgstr ""
+msgstr "Creando rol"
 
 #: resources/views/roles/edit.twig:14
 msgid "Modifying Role"
-msgstr ""
+msgstr "Modificando rol"
+
+#: resources/views/roles/partials/details.twig:4
+msgid "Permissions"
+msgstr "Permisos"
 
 #: resources/views/roles/partials/modal_delete.twig:6
 msgid "Delete Role"
-msgstr ""
+msgstr "Eliminar rol"
 
 #: resources/views/roles/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this role?"
@@ -1319,23 +1491,23 @@ msgstr "¿Está seguro de que desea eliminar este rol?"
 
 #: resources/views/roles/show.twig:9
 msgid "Showing Role"
-msgstr ""
+msgstr "Mostrando rol"
 
 #: resources/views/roles/show.twig:13
 msgid "All Roles"
-msgstr ""
+msgstr "Todos los roles"
 
 #: resources/views/systems/create.twig:14
 msgid "Creating System"
-msgstr ""
+msgstr "Creando sistema"
 
 #: resources/views/systems/edit.twig:14
 msgid "Modifying System"
-msgstr ""
+msgstr "Modificando sistema"
 
 #: resources/views/systems/partials/modal_delete.twig:6
 msgid "Delete System"
-msgstr ""
+msgstr "Eliminar sistema"
 
 #: resources/views/systems/partials/modal_delete.twig:14
 msgid "Are you sure you want to delete this system?"
@@ -1343,7 +1515,7 @@ msgstr "¿Está seguro de que desea eliminar este sistema?"
 
 #: resources/views/systems/show.twig:9
 msgid "Showing System"
-msgstr ""
+msgstr "Mostrando sistema"
 
 #: resources/views/users/change_password.twig:19
 msgid ""
@@ -1367,11 +1539,11 @@ msgstr "Confirmar contraseña nueva"
 
 #: resources/views/users/create.twig:19
 msgid "Creating User"
-msgstr ""
+msgstr "Creando usuario"
 
 #: resources/views/users/edit.twig:19
 msgid "Modifying User"
-msgstr ""
+msgstr "Modificando usuario"
 
 #: resources/views/users/partials/details.twig:10
 #: resources/views/users/partials/form.twig:24
@@ -1402,8 +1574,14 @@ msgstr "¿Está seguro de que desea restablecer la contraseña de este usuario?"
 
 #: resources/views/users/show.twig:61
 msgid "Showing User"
-msgstr ""
+msgstr "Mostrando usuario"
 
 #: resources/views/users/show.twig:65
 msgid "All Users"
-msgstr ""
+msgstr "Todos los usuarios"
+
+#~ msgid "Documents types"
+#~ msgstr "Tipos de documentos"
+
+#~ msgid "Showing Documents Types"
+#~ msgstr "Mostrando tipo de documento"

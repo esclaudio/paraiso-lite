@@ -5,7 +5,7 @@ return [
     'groups' => [
         [
             [
-                'title' => trans('Current documents'),
+                'title' => trans('Current Documents'),
                 'route' => 'current_documents.index',
             ],
         ],
@@ -18,7 +18,7 @@ return [
         ],
         [
             [
-                'title' => trans('Documents types'),
+                'title' => trans('Documents Types'),
                 'route' => 'documents_types.index',
                 'permission' => 'documents_types.show',
             ],

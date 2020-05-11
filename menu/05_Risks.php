@@ -5,7 +5,7 @@ return [
     'groups' => [
         [
             [
-                'title' => trans('Risks types'),
+                'title' => trans('Risks Types'),
                 'route' => 'risks_types.index',
                 'permission' => 'risks_types.show'
             ],
