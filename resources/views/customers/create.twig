@@ -2,23 +2,29 @@
 
 {% block js %}
     <script>
-        $(function() {
-            $('#form').ajaxForm();
-        });
+        function config() {
+            return {
+                url: '{{ path_for('customers.store') }}',
+                model: {
+                    code: '',
+                    name: '',
+                },
+            }
+        }
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            {{ __('Creating Customer') }}
-        </div>
-        <div class="card-body">
-            <form id="form" action="{{ path_for('customers.store') }}" method="post" autocomplete="off">
-                {{ csrf_field() }}
-                
-                {% include 'customers/partials/form.twig' %}
-            </form>
+    <div id="app" x-data="{ ...form(), ...config() }">
+        <div class="card">
+            <div class="card-header">
+                {{ __('New Customer') }}
+            </div>
+            <div class="card-body">
+                <form @submit.prevent="submit()" autocomplete="off">
+                    {% include 'customers/partials/form.twig' %}
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -5,8 +5,9 @@ namespace App\Controllers;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use App\Validators\CustomerValidator;
-use App\Models\Customer;
 use App\Support\Datatable\Datatable;
+use App\Models\Customer;
+use App\Datatable\CustomerDatatable;
 
 class CustomerController extends Controller
 {
@@ -111,21 +112,7 @@ class CustomerController extends Controller
     {
         $this->authorize('customers.show');
 
-        /** @var \Slim\Router */
-        $router = $this->get('router');
-
-        /** @var \Illuminate\Database\Query\Builder */
-        $query = Customer::select([
-            'customers.id',
-            'customers.code',
-            'customers.name',
-        ])->getQuery();
-
-        return (new Datatable($query, $request, $response)) 
-            ->addColumn('show_url', function ($row) use ($router) {
-                return $router->pathFor('customers.show', ['customer' => $row->id]);
-            })
-            ->response();
+        return (new CustomerDatatable($request, $response))->response();
     }
 
     /**

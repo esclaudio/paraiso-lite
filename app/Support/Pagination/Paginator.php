@@ -2,10 +2,11 @@
 
 namespace App\Support\Pagination;
 
-use ArrayAccess;
-use Countable;
 use IteratorAggregate;
 use Illuminate\Support\Collection;
+use Countable;
+use ArrayIterator;
+use ArrayAccess;
 
 class Paginator implements ArrayAccess, Countable, IteratorAggregate
 {
@@ -53,13 +54,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Create a new paginator instance.
-     *
-     * @param  mixed  $items       Items
-     * @param  int    $total       Total
-     * @param  int    $currentPage Current pag
-     * @param  int    $perPage     Items per page
-     * 
-     * @return void
      */
     public function __construct($items, int $total, int $perPage, int $currentPage, string $pageName = 'page', int $onEachSide = 3)
     {
@@ -76,23 +70,14 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Set the current page for the request.
-     *
-     * @param  Slim\Http\Request  $request Request
-     * 
-     * @return void
      */
-    protected function setCurrentPage(int $currentPage)
+    protected function setCurrentPage(int $currentPage): void
     {
         $this->currentPage = abs($currentPage) > 0? $currentPage: 1;
     }
 
     /**
      * Add a set of params string values to the paginator.
-     *
-     * @param  array|string  $key
-     * @param  string|null  $value
-     * 
-     * @return $this
      */
     public function appends($key, $value = null)
     {
@@ -105,10 +90,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Add an array of params string values.
-     *
-     * @param  array  $keys
-     * 
-     * @return $this
      */
     protected function appendArray(array $keys)
     {
@@ -121,11 +102,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Add a param string value to the paginator.
-     *
-     * @param  string  $key
-     * @param  string  $value
-     * 
-     * @return $this
      */
     protected function addParam($key, $value)
     {
@@ -137,9 +113,7 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
-     * Get params
-     *
-     * @return array
+     * Get params.
      */
     public function params(): array
     {
@@ -148,8 +122,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the slice of items being paginated.
-     *
-     * @return array
      */
     public function items(): array
     {
@@ -158,8 +130,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the number of the first item in the slice.
-     *
-     * @return int
      */
     public function firstItem(): int
     {
@@ -168,8 +138,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the number of the last item in the slice.
-     *
-     * @return int
      */
     public function lastItem(): int
     {
@@ -178,8 +146,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the number of items shown per page.
-     *
-     * @return int
      */
     public function perPage(): int
     {
@@ -188,8 +154,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Determine if there are enough items to split into multiple pages.
-     *
-     * @return bool
      */
     public function hasPages(): bool
     {
@@ -198,8 +162,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Determine if the paginator is on the first page.
-     *
-     * @return bool
      */
     public function onFirstPage(): bool
     {
@@ -208,8 +170,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the current page.
-     *
-     * @return int
      */
     public function currentPage(): int
     {
@@ -218,18 +178,14 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get an iterator for the items.
-     *
-     * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return $this->items->getIterator();
     }
 
     /**
      * Determine if the list of items is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -238,8 +194,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Determine if the list of items is not empty.
-     *
-     * @return bool
      */
     public function isNotEmpty(): bool
     {
@@ -248,8 +202,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the number of items for the current page.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -258,8 +210,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the paginator's underlying collection.
-     *
-     * @return \Illuminate\Support\Collection
      */
     public function getCollection(): Collection
     {
@@ -268,10 +218,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Set the paginator's underlying collection.
-     *
-     * @param  \Illuminate\Support\Collection  $collection
-     * 
-     * @return $this
      */
     public function setCollection(Collection $collection)
     {
@@ -282,10 +228,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Determine if the given item exists.
-     *
-     * @param  mixed  $key
-     * 
-     * @return bool
      */
     public function offsetExists($key): bool
     {
@@ -294,10 +236,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the item at the given offset.
-     *
-     * @param  mixed  $key
-     * 
-     * @return mixed
      */
     public function offsetGet($key): bool
     {
@@ -306,53 +244,38 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Set the item at the given offset.
-     *
-     * @param  mixed  $key
-     * @param  mixed  $value
-     * 
-     * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         $this->items->put($key, $value);
     }
 
     /**
      * Unset the item at the given key.
-     *
-     * @param  mixed  $key
-     * 
-     * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $this->items->forget($key);
     }
 
     /**
      * Determine if there are more items in the data source.
-     *
-     * @return bool
      */
-    public function hasMorePages()
+    public function hasMorePages():bool
     {
         return $this->currentPage() < $this->lastPage();
     }
 
     /**
      * Get the last page.
-     *
-     * @return int
      */
-    public function lastPage()
+    public function lastPage(): int
     {
         return $this->lastPage;
     }
 
     /**
      * Get the array of elements to pass to the view.
-     *
-     * @return array
      */
     public function elements(): array
     {
@@ -369,37 +292,32 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the previous page.
-     *
-     * @return int
      */
-    public function previousPageUrl(): string
+    public function previousPageUrl(): ?string
     {
         if ($this->currentPage() > 1) {
             return $this->url($this->currentPage() - 1);
         }
+
+        return null;
     }
 
     /**
      * Get the next page.
-     *
-     * @return int
      */
-    public function nextPageUrl(): string
+    public function nextPageUrl(): ?string
     {
         if ($this->lastPage() > $this->currentPage()) {
             return $this->url($this->currentPage() + 1);
         }
+
+        return null;
     }
 
     /**
      * Create a range of pagination URLs.
-     *
-     * @param  int  $start
-     * @param  int  $end
-     * 
-     * @return array
      */
-    public function getUrlRange($start, $end): array
+    public function getUrlRange(int $start, int $end): array
     {
         $urls = [];
 
@@ -412,10 +330,6 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate
 
     /**
      * Get the URL for a given page number.
-     *
-     * @param  int  $page
-     * 
-     * @return string
      */
     public function url(int $page): string
     {

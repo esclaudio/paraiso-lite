@@ -2,27 +2,24 @@
     <label for="code">
         {{ __('Code') }}
     </label>
-    <input type="text" id="code" name="code" value="{{ customer.code }}" class="form-control" required autofocus>
+    <input type="text" id="code" x-model="model.code" class="form-control" :class="{ 'is-invalid': errors.code }" required autofocus>
+    <div class="invalid-feedback" x-text="errors.code"></div>
 </div>
 
 <div class="form-group">
     <label for="name">
         {{ __('Name') }}
     </label>
-    <input type="text" id="name" name="name" value="{{ customer.name }}" class="form-control" required>
+    <input type="text" id="name" x-model="model.name" class="form-control" :class="{ 'is-invalid': errors.name }" required>
+    <div class="invalid-feedback" x-text="errors.name"></div>
 </div>
 
-<button type="submit" class="btn btn-success">
-    <i class="fa fa-check"></i>
+<button type="submit" class="btn btn-success" :disabled="submitting">
+    <i class="fa fa-fw fa-check" x-show="!submitting"></i>
+    <i class="fa fa-fw fa-circle-o-notch fa-spin" x-show="submitting"></i>
     {{ customer.id ? __('Update') : __('Save') }}
 </button>
 
-{% if customer.id %}
-    <a href="{{ path_for('customers.show', {customer: customer.id}) }}" class="btn btn-link">
-        {{ __('Cancel') }}
-    </a>
-{% else %}
-    <a href="{{ path_for('customers.index') }}" class="btn btn-link">
-        {{ __('Cancel') }}
-    </a>
-{% endif %}
+<a href="{{ customer.id ? path_for('customers.show', {customer: customer.id}) : path_for('customers.index') }}" class="btn btn-link">
+    {{ __('Cancel') }}
+</a>

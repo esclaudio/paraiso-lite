@@ -70,3 +70,104 @@
 </script>
 
 <script src="{{ base_url() }}/js/{{ version('app.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+
+    function form() {
+        return {
+            method: 'post',
+            url: '',
+            submitting: false,
+            model: {},
+            errors: {},
+            submit() {
+                this.submitting = true
+                this.errors = {}
+
+                axios({
+                    method: this.method,
+                    url: this.url, 
+                    data: {...this.model, ...App.csrf},
+                }).then(
+                    response => window.location.replace(response.data.redirect)
+                ).catch(
+                    (error) => {
+                        this.submitting = false
+                        this.errors = error.response.data
+                    }
+                )
+            },
+        }
+    }
+
+    function datatable() {
+        return {
+            isLoading: true,
+            items: [],
+            url: '',
+            total: 0,
+            currentPage: 1,
+            lastPage: 1,
+            perPage: 10,
+            search: '',
+            
+            firstItem() {
+                return this.perPage * this.currentPage - this.perPage + 1
+            },
+
+            lastItem() {
+                let lastItem = this.perPage * this.currentPage
+                
+                if (lastItem > this.total) {
+                    return this.total;
+                }
+
+                return this.perPage * this.currentPage
+            },
+
+            changePage(page) {
+                if (this.currentPage === page) {
+                    return
+                }
+                
+                if (page < 1) {
+                    this.currentPage = 1
+                } else if (page > this.lastPage) {
+                    this.currentPage = this.lastPage
+                } else {
+                    this.currentPage = page
+                }
+
+                this.loadData()
+            },
+
+            filter() {
+                this.currentPage = 1
+                this.loadData()
+            },
+
+            loadData() {
+                this.isLoading = true
+
+                let options = {
+                    params: {
+                        per_page: this.perPage,
+                        page: this.currentPage,
+                        search: this.search,
+                        // orderBy: this.orderBy.column,
+                        // orderDirection: this.orderBy.direction,
+                    }
+                }
+
+                axios.get(this.url, options).then((response) => {
+                    this.isLoading = false
+                    this.items = response.data.items
+                    this.total = response.data.total
+                    this.lastPage = Math.max(Math.ceil(this.total / this.perPage), 1)
+                })
+            }
+        }
+    }
+</script>

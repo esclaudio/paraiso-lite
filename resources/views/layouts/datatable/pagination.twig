@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-between align-items-center">
+    <p class="text-muted m-0">
+        {{ __('Showing') }}
+        <span x-text="firstItem()" class="font-weight-bolder"></span>
+        {{ __('to') }}
+        <span x-text="lastItem()" class="font-weight-bolder"></span>
+        {{ __('of') }}
+        <span x-text="total" class="font-weight-bolder"></span>
+        {{ __('entries') }}
+    </p>
+
+    <ul class="pagination m-0" role="navigation">
+        <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
+            <a class="page-link" href="#" @click="changePage(1)">
+                {{ __('First') }}
+            </a>
+        </li>
+        <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
+            <a class="page-link" href="#" @click="changePage(currentPage - 1)">
+                {{ __('Previous') }}
+            </a>
+        </li>
+        <li class="page-item" :class="{ 'disabled': currentPage == lastPage }">
+            <a class="page-link" href="#" @click="changePage(currentPage + 1)">
+                {{ __('Next') }}
+            </a>
+        </li>
+        <li class="page-item" :class="{ 'disabled': currentPage == lastPage }">
+            <a class="page-link" href="#" @click="changePage(lastPage)">
+                {{ __('Last') }}
+            </a>
+        </li>
+    </ul>
+</div>
